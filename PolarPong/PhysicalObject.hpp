@@ -13,13 +13,15 @@
 
 class PhysicalObject {
 private:
-    PhysicalObject(); // makes sure it can't be instantiated
+    PhysicalObject() {} // makes sure it can't be instantiated
     
 protected:
     sf::Shape * bounds;
     
 public:
     virtual ~PhysicalObject() = 0;
+    
+    virtual sf::Shape * getBounds();
     bool isCollided(PhysicalObject *other);
 };
 

@@ -9,6 +9,34 @@
 #ifndef PolarPong_Viewable_hpp
 #define PolarPong_Viewable_hpp
 
+#include <SFML/System.hpp>
 
+class Viewable {
+private:
+    int opacity;
+    bool hidden;
+    
+protected:
+    // for subclass instantiation
+    Viewable() : opacity(100), hidden(true) {}
+    
+public:
+    virtual ~Viewable();
+    
+    // Getters & setters
+    int getOpacity() {return this->opacity;}
+    void setOpacity(int opacity) {
+        if(opacity > 100) opacity = 100;
+        if(opacity < 0) opacity = 0;
+        this->opacity = opacity;
+    }
+    void setVisible(bool visible) {visible ? this->hidden=false : this->hidden=true;}
+    bool isVisible() {return !(this->hidden);}
+    
+    // virtual methods
+    virtual void update();
+    virtual void draw(sf::RenderWindow *window);
+    virtual void handleEvent(sf::Event *event);
+};
 
 #endif

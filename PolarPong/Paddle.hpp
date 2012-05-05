@@ -13,13 +13,22 @@
 #include <SFML/System.hpp>
 
 class Paddle : public PhysicalObject {
-    
+private:
     sf::Vector2f position;
+    float speed;
     
 public:
+    Paddle();
+    ~Paddle();
     
     sf::Vector2f getPosition();
     void setPosition(float r, float theta);
+    
+    float getSpeed() {return this->speed;}
+    void setSpeed(float speed) {this->speed = speed;}
+    
+    bool isCollided(PhysicalObject *other);
+    
 };
 
 #endif
