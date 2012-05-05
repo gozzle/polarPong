@@ -10,9 +10,9 @@
 		F236B52415558B0B002BCA31 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F236B52315558B0B002BCA31 /* Foundation.framework */; };
 		F236B52715558B0C002BCA31 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B52615558B0C002BCA31 /* main.cpp */; };
 		F236B52915558B0C002BCA31 /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = F236B52815558B0C002BCA31 /* ResourcePath.mm */; };
-		F236B52D15558B0C002BCA31 /* sansation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F236B52C15558B0C002BCA31 /* sansation.ttf */; };
-		F236B52F15558B0C002BCA31 /* cute_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F236B52E15558B0C002BCA31 /* cute_image.jpg */; };
 		F236B53415558B0C002BCA31 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F236B53215558B0C002BCA31 /* InfoPlist.strings */; };
+		F236B54415558E9F002BCA31 /* PhysicalObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B54315558E9F002BCA31 /* PhysicalObject.cpp */; };
+		F236B54615558F39002BCA31 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B54515558F39002BCA31 /* Engine.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,11 +20,19 @@
 		F236B52315558B0B002BCA31 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F236B52615558B0C002BCA31 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		F236B52815558B0C002BCA31 /* ResourcePath.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourcePath.mm; sourceTree = "<group>"; };
-		F236B52A15558B0C002BCA31 /* ResourcePath.hpp */ = {isa = PBXFileReference; path = ResourcePath.hpp; sourceTree = "<group>"; };
-		F236B52C15558B0C002BCA31 /* sansation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sansation.ttf; sourceTree = "<group>"; };
-		F236B52E15558B0C002BCA31 /* cute_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cute_image.jpg; sourceTree = "<group>"; };
-		F236B53115558B0C002BCA31 /* PolarPong-Info.plist */ = {isa = PBXFileReference; path = "PolarPong-Info.plist"; sourceTree = "<group>"; };
+		F236B52A15558B0C002BCA31 /* ResourcePath.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ResourcePath.hpp; sourceTree = "<group>"; };
+		F236B53115558B0C002BCA31 /* PolarPong-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PolarPong-Info.plist"; sourceTree = "<group>"; };
 		F236B53315558B0C002BCA31 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F236B53B15558B82002BCA31 /* Engine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Engine.hpp; sourceTree = "<group>"; };
+		F236B53C15558B9B002BCA31 /* PhysicalObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PhysicalObject.hpp; sourceTree = "<group>"; };
+		F236B53D15558BB7002BCA31 /* Viewable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Viewable.hpp; sourceTree = "<group>"; };
+		F236B53E15558BE4002BCA31 /* Level.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Level.hpp; sourceTree = "<group>"; };
+		F236B53F15558BF4002BCA31 /* Splash.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Splash.hpp; sourceTree = "<group>"; };
+		F236B54015558C01002BCA31 /* Settings.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Settings.hpp; sourceTree = "<group>"; };
+		F236B54115558C10002BCA31 /* Paddle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Paddle.hpp; sourceTree = "<group>"; };
+		F236B54215558C1D002BCA31 /* Ball.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Ball.hpp; sourceTree = "<group>"; };
+		F236B54315558E9F002BCA31 /* PhysicalObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicalObject.cpp; sourceTree = "<group>"; };
+		F236B54515558F39002BCA31 /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Engine.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +75,16 @@
 		F236B52515558B0B002BCA31 /* PolarPong */ = {
 			isa = PBXGroup;
 			children = (
+				F236B53B15558B82002BCA31 /* Engine.hpp */,
+				F236B54515558F39002BCA31 /* Engine.cpp */,
+				F236B53C15558B9B002BCA31 /* PhysicalObject.hpp */,
+				F236B54315558E9F002BCA31 /* PhysicalObject.cpp */,
+				F236B53D15558BB7002BCA31 /* Viewable.hpp */,
+				F236B53E15558BE4002BCA31 /* Level.hpp */,
+				F236B53F15558BF4002BCA31 /* Splash.hpp */,
+				F236B54115558C10002BCA31 /* Paddle.hpp */,
+				F236B54215558C1D002BCA31 /* Ball.hpp */,
+				F236B54015558C01002BCA31 /* Settings.hpp */,
 				F236B52615558B0C002BCA31 /* main.cpp */,
 				F236B52815558B0C002BCA31 /* ResourcePath.mm */,
 				F236B52A15558B0C002BCA31 /* ResourcePath.hpp */,
@@ -79,8 +97,6 @@
 		F236B52B15558B0C002BCA31 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F236B52C15558B0C002BCA31 /* sansation.ttf */,
-				F236B52E15558B0C002BCA31 /* cute_image.jpg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -145,8 +161,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F236B52D15558B0C002BCA31 /* sansation.ttf in Resources */,
-				F236B52F15558B0C002BCA31 /* cute_image.jpg in Resources */,
 				F236B53415558B0C002BCA31 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -176,6 +190,8 @@
 			files = (
 				F236B52715558B0C002BCA31 /* main.cpp in Sources */,
 				F236B52915558B0C002BCA31 /* ResourcePath.mm in Sources */,
+				F236B54415558E9F002BCA31 /* PhysicalObject.cpp in Sources */,
+				F236B54615558F39002BCA31 /* Engine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
