@@ -9,7 +9,7 @@
 #ifndef PolarPong_Viewable_hpp
 #define PolarPong_Viewable_hpp
 
-#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 
 class Viewable {
 private:
@@ -21,7 +21,7 @@ protected:
     Viewable() : opacity(100), hidden(true) {}
     
 public:
-    virtual ~Viewable();
+    virtual ~Viewable() {};
     
     // Getters & setters
     int getOpacity() {return this->opacity;}
@@ -34,9 +34,11 @@ public:
     bool isVisible() {return !(this->hidden);}
     
     // virtual methods
-    virtual void update();
-    virtual void draw(sf::RenderWindow *window);
-    virtual void handleEvent(sf::Event *event);
+    virtual void update() = 0;
+    virtual void draw(sf::RenderWindow *window) =0;
+    
+    // return false if game should exit
+    virtual bool handleEvent(sf::Event *event) =0;
 };
 
 #endif

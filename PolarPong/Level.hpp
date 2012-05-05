@@ -9,6 +9,27 @@
 #ifndef PolarPong_Level_hpp
 #define PolarPong_Level_hpp
 
+#include "Viewable.hpp"
 
+class Level : public Viewable {
+private:
+    // Paddles
+    // Ball(s?)
+    // Scores
+    
+    
+public:
+    
+    Level();
+    ~Level();
+    
+    // inherited methods
+    
+    // return false if game should exit
+    bool handleEvent(sf::Event *event);
+    void update();
+    void draw(sf::RenderWindow *window);
+    
+};
 
 #endif

@@ -13,6 +13,8 @@
 		F236B53415558B0C002BCA31 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F236B53215558B0C002BCA31 /* InfoPlist.strings */; };
 		F236B54415558E9F002BCA31 /* PhysicalObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B54315558E9F002BCA31 /* PhysicalObject.cpp */; };
 		F236B54615558F39002BCA31 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B54515558F39002BCA31 /* Engine.cpp */; };
+		F236B57315559D6A002BCA31 /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B57215559D6A002BCA31 /* Level.cpp */; };
+		F236B57615559E3A002BCA31 /* Splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B57515559E3A002BCA31 /* Splash.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +35,8 @@
 		F236B54215558C1D002BCA31 /* Ball.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Ball.hpp; sourceTree = "<group>"; };
 		F236B54315558E9F002BCA31 /* PhysicalObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicalObject.cpp; sourceTree = "<group>"; };
 		F236B54515558F39002BCA31 /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Engine.cpp; sourceTree = "<group>"; };
+		F236B57215559D6A002BCA31 /* Level.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Level.cpp; sourceTree = "<group>"; };
+		F236B57515559E3A002BCA31 /* Splash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Splash.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +85,9 @@
 				F236B54315558E9F002BCA31 /* PhysicalObject.cpp */,
 				F236B53D15558BB7002BCA31 /* Viewable.hpp */,
 				F236B53E15558BE4002BCA31 /* Level.hpp */,
+				F236B57215559D6A002BCA31 /* Level.cpp */,
 				F236B53F15558BF4002BCA31 /* Splash.hpp */,
+				F236B57515559E3A002BCA31 /* Splash.cpp */,
 				F236B54115558C10002BCA31 /* Paddle.hpp */,
 				F236B54215558C1D002BCA31 /* Ball.hpp */,
 				F236B54015558C01002BCA31 /* Settings.hpp */,
@@ -192,6 +198,8 @@
 				F236B52915558B0C002BCA31 /* ResourcePath.mm in Sources */,
 				F236B54415558E9F002BCA31 /* PhysicalObject.cpp in Sources */,
 				F236B54615558F39002BCA31 /* Engine.cpp in Sources */,
+				F236B57315559D6A002BCA31 /* Level.cpp in Sources */,
+				F236B57615559E3A002BCA31 /* Splash.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +360,7 @@
 				F236B53915558B0C002BCA31 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -9,6 +9,23 @@
 #ifndef PolarPong_Splash_hpp
 #define PolarPong_Splash_hpp
 
+#include "Viewable.hpp"
 
+class Splash : public Viewable {
+private:
+    
+public:
+    
+    Splash();
+    ~Splash();
+    
+    // inherited methods
+    
+    // return false if game should exit
+    bool handleEvent(sf::Event *event);
+    void update();
+    void draw(sf::RenderWindow *window); 
+    
+};
 
 #endif
