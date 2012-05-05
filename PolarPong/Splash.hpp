@@ -11,8 +11,19 @@
 
 #include "Viewable.hpp"
 
-class Splash : public Viewable {
+#include "MenuItem.hpp"
+#include "MenuController.hpp"
+#include <SFML/Graphics.hpp>
+
+class Splash : public Viewable, public MenuController {
 private:
+    
+    sf::Text difficultyLabel;
+    sf::Text playersLabel;
+    
+    MenuItem newGame;
+    MenuItem difficulty;
+    MenuItem players;
     
 public:
     
@@ -25,6 +36,8 @@ public:
     bool handleEvent(sf::Event *event);
     void update();
     void draw(sf::RenderWindow *window); 
+    
+    void doSelectedItem(std::string id);
     
 };
 

@@ -8,7 +8,11 @@
 
 #include "Splash.hpp"
 
-Splash::Splash() : Viewable() {
+Splash::Splash() : Viewable(), MenuController(),
+                   newGame(this, "newGame"),
+                   difficulty(this, "difficulty"),
+                   players(this, "difficulty")
+{
     
 }
 
@@ -27,5 +31,9 @@ void Splash::update() {
 }
 
 void Splash::draw(sf::RenderWindow *window) {
+    
+}
+
+void Splash::doSelectedItem(std::string id) {
     
 }

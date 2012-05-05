@@ -15,6 +15,8 @@
 		F236B54615558F39002BCA31 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B54515558F39002BCA31 /* Engine.cpp */; };
 		F236B57315559D6A002BCA31 /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B57215559D6A002BCA31 /* Level.cpp */; };
 		F236B57615559E3A002BCA31 /* Splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B57515559E3A002BCA31 /* Splash.cpp */; };
+		F236B5791555A625002BCA31 /* MenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B5781555A625002BCA31 /* MenuItem.cpp */; };
+		F236B5A41555B9AA002BCA31 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = F236B5A31555B9AA002BCA31 /* fonts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,10 @@
 		F236B54515558F39002BCA31 /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Engine.cpp; sourceTree = "<group>"; };
 		F236B57215559D6A002BCA31 /* Level.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Level.cpp; sourceTree = "<group>"; };
 		F236B57515559E3A002BCA31 /* Splash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Splash.cpp; sourceTree = "<group>"; };
+		F236B5771555A293002BCA31 /* MenuItem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MenuItem.hpp; sourceTree = "<group>"; };
+		F236B5781555A625002BCA31 /* MenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuItem.cpp; sourceTree = "<group>"; };
+		F236B57B1555A69E002BCA31 /* MenuController.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MenuController.hpp; sourceTree = "<group>"; };
+		F236B5A31555B9AA002BCA31 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,10 +90,13 @@
 				F236B53C15558B9B002BCA31 /* PhysicalObject.hpp */,
 				F236B54315558E9F002BCA31 /* PhysicalObject.cpp */,
 				F236B53D15558BB7002BCA31 /* Viewable.hpp */,
+				F236B57B1555A69E002BCA31 /* MenuController.hpp */,
 				F236B53E15558BE4002BCA31 /* Level.hpp */,
 				F236B57215559D6A002BCA31 /* Level.cpp */,
 				F236B53F15558BF4002BCA31 /* Splash.hpp */,
 				F236B57515559E3A002BCA31 /* Splash.cpp */,
+				F236B5771555A293002BCA31 /* MenuItem.hpp */,
+				F236B5781555A625002BCA31 /* MenuItem.cpp */,
 				F236B54115558C10002BCA31 /* Paddle.hpp */,
 				F236B54215558C1D002BCA31 /* Ball.hpp */,
 				F236B54015558C01002BCA31 /* Settings.hpp */,
@@ -103,6 +112,7 @@
 		F236B52B15558B0C002BCA31 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F236B5A31555B9AA002BCA31 /* fonts */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -168,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F236B53415558B0C002BCA31 /* InfoPlist.strings in Resources */,
+				F236B5A41555B9AA002BCA31 /* fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +211,7 @@
 				F236B54615558F39002BCA31 /* Engine.cpp in Sources */,
 				F236B57315559D6A002BCA31 /* Level.cpp in Sources */,
 				F236B57615559E3A002BCA31 /* Splash.cpp in Sources */,
+				F236B5791555A625002BCA31 /* MenuItem.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
