@@ -70,6 +70,12 @@ bool Engine::run() {
     
     sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), "Polar Pong");
     window.setActive();
+    window.setFramerateLimit(60);
+    
+    sf::RectangleShape background;
+    background.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
+    background.setFillColor(sf::Color::Blue);
+    background.setPosition(0, 0);
     
     // Start game loop
     while (window.isOpen()) {
@@ -89,6 +95,7 @@ bool Engine::run() {
         
         // Displaying
         window.clear();
+        window.draw(background);
         this->activeView->draw(&window);
         window.display();
         

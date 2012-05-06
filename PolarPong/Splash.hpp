@@ -25,6 +25,8 @@ private:
     MenuItem *difficulty;
     MenuItem *players;
     
+    void setPositions();
+    
 public:
     
     Splash(Engine *controller);

@@ -27,12 +27,7 @@ Splash::Splash(Engine *controller) : Viewable(), MenuController() {
     difficultyLabel->setText("Difficulty:");
     playersLabel->setText("No. Players:");
     
-    // position
-    newGame->setPosition(25,25);
-    difficultyLabel->setPosition(25,35);
-    difficulty->setPosition(50,35);
-    playersLabel->setPosition(25,45);
-    players->setPosition(50, 45);
+    setPositions();
     
     // highlightable
     difficultyLabel->setHighlightable(false);
@@ -48,6 +43,18 @@ Splash::~Splash() {
     delete playersLabel;
 }
 
+void Splash::setPositions() {
+    // position
+    float kx = Settings::getScreenResolution().x / 100.f;
+    float ky = Settings::getScreenResolution().y / 100.f;
+    
+    newGame->setPosition(25*kx, 25*ky);
+    difficultyLabel->setPosition(25*kx, 35*ky);
+    difficulty->setPosition(50*kx, 35*ky);
+    playersLabel->setPosition(25*kx, 45*ky);
+    players->setPosition(50*kx, 45*ky);
+}
+
 // return false if game should exit
 bool Splash::handleEvent(sf::Event *event) {
     
@@ -56,23 +63,21 @@ bool Splash::handleEvent(sf::Event *event) {
     
     // mouseMoved for highlighting
     if (event->type == sf::Event::MouseMoved) {
-        sf::Vector2i mousePos = sf::Mouse::getPosition();
-        sf::Vector2i res = Settings::getScreenResolution();
-        sf::Vector2f vMousePos = sf::Vector2f(((float)mousePos.x) / res.x *100.f,
-                                         ((float)mousePos.y) / res.y * 100.f);
-        if (newGame->contains(vMousePos)) {
+        sf::Vector2i mousePos = sf::Vector2i(event->mouseMove.x, event->mouseMove.y);
+        
+        if (newGame->contains(mousePos.x, mousePos.y)) {
             newGame->setHighlighted(true);
             highlighted = newGame;
             
             difficulty->setHighlighted(false);
             players->setHighlighted(false);
-        } else if (difficulty->contains(vMousePos)) {
+        } else if (difficulty->contains(mousePos.x, mousePos.y)) {
             difficulty->setHighlighted(true);
             highlighted = difficulty;
             
             newGame->setHighlighted(false);
             players->setHighlighted(false);
-        } else if (players->contains(vMousePos)) {
+        } else if (players->contains(mousePos.x, mousePos.y)) {
             players->setHighlighted(true);
             highlighted = players;
             
@@ -99,6 +104,10 @@ bool Splash::handleEvent(sf::Event *event) {
 
 void Splash::update() {
     
+    // make sure things are in the right place
+    setPositions();
+    
+    // update children
     newGame->update();
     difficulty->update();
     players->update();

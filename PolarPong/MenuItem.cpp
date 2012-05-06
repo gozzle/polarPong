@@ -11,6 +11,8 @@
 #include "ResourcePath.hpp"
 #include "Settings.hpp"
 
+#include <iostream>
+
 MenuItem::MenuItem(MenuController *controller, std::string id)
 {
     this->controller = controller;
@@ -18,8 +20,8 @@ MenuItem::MenuItem(MenuController *controller, std::string id)
     
     props.font = sf::Font::getDefaultFont();
     props.normalColor = sf::Color::White;
-    props.highlightColor = sf::Color::Yellow;
-    props.fontSize = 20;
+    props.highlightColor = sf::Color::Red;
+    props.fontSize = 30;
     
     this->text.setFont(props.font);
     this->text.setCharacterSize(props.fontSize);
@@ -47,6 +49,14 @@ void MenuItem::setPosition(float x, float y) {
 
 bool MenuItem::contains(float x, float y) {    
     sf::FloatRect bounds = this->text.getGlobalBounds();
+    
+    sf::FloatRect old = bounds;
+    // make minimum buffer to bounds
+    bounds.width += Settings::getScreenResolution().x / 20;
+    bounds.height += Settings::getScreenResolution().y / 50;
+    // center new box
+    bounds.left -= (bounds.width - old.width) / 2;
+    bounds.top -= (bounds.height - old.height) / 2;
     return bounds.contains(x, y);
 }
 
@@ -75,13 +85,6 @@ void MenuItem::update() {
 }
 
 void MenuItem::draw(sf::RenderWindow *window) {
-    sf::Vector2f originalPos = this->text.getPosition();
-    sf::Vector2i resolution = Settings::getScreenResolution();
-    sf::Vector2f newPos = sf::Vector2f(originalPos.x * resolution.x / 100,
-                                       originalPos.y * resolution.y / 100);
-    this->text.setPosition(newPos);
     window->draw(this->text);
-    this->text.setPosition(originalPos);
-    
 }
 
