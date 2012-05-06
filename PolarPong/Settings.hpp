@@ -13,12 +13,27 @@
 
 class Settings {
     
-    static sf::Vector2i resolution;
-    
 public:
+    enum Difficulty {
+        EASY =0,
+        MEDIUM = 1,
+        HARD = 2
+    };
     
-    static sf::Vector2i getScreenResolution() {return resolution;}
-    static void setScreenResolution(sf::Vector2i resolution) {resolution = resolution;}
+private:
+    Settings(){}
+    
+    static sf::Vector2i resolution;
+    static Difficulty diff;
+    static int players;
+    
+public:    
+    static sf::Vector2i getScreenResolution();
+    static void setScreenResolution(sf::Vector2i resolution);
+    static Difficulty getDifficulty();
+    static void changeDifficulty();
+    static int getPlayers();
+    static void changePlayers();
     
 };
 

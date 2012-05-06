@@ -8,8 +8,8 @@
 
 #include "Level.hpp"
 
-Level::Level() : Viewable() {
-    
+Level::Level(Engine *controller) : Viewable() {
+    this->controller = controller;
 }
 
 Level::~Level() {

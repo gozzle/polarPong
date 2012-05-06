@@ -11,6 +11,7 @@
 #include <SFML/Graphics.hpp>
 #include "Splash.hpp"
 #include "Level.hpp"
+#include "Settings.hpp"
 
 Engine::Engine() : activeView(NULL){
     setState(SPLASH);
@@ -26,10 +27,10 @@ void Engine::setState(Engine::GameState state) {
     Viewable *newView;
     switch (state) {
         case SPLASH:
-            newView = new Splash();
+            newView = new Splash(this);
             break;
         case GAME:
-            newView = new Level();
+            newView = new Level(this);
             break;
             
         default:
@@ -64,7 +65,10 @@ void Engine::changeState() {
 bool Engine::run() {
     bool success = true;
     
-    sf::RenderWindow window(sf::VideoMode(800,600), "Polar Pong");
+    sf::Vector2i resolution = sf::Vector2i(800, 600);
+    Settings::setScreenResolution(resolution);
+    
+    sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), "Polar Pong");
     window.setActive();
     
     // Start game loop

@@ -18,16 +18,16 @@
 class Splash : public Viewable, public MenuController {
 private:
     
-    sf::Text difficultyLabel;
-    sf::Text playersLabel;
+    MenuItem *difficultyLabel;
+    MenuItem *playersLabel;
     
-    MenuItem newGame;
-    MenuItem difficulty;
-    MenuItem players;
+    MenuItem *newGame;
+    MenuItem *difficulty;
+    MenuItem *players;
     
 public:
     
-    Splash();
+    Splash(Engine *controller);
     ~Splash();
     
     // inherited methods
@@ -37,7 +37,7 @@ public:
     void update();
     void draw(sf::RenderWindow *window); 
     
-    void doSelectedItem(std::string id);
+    bool doSelectedItem(std::string id);
     
 };
 

@@ -16,9 +16,16 @@ MenuItem::MenuItem(MenuController *controller, std::string id)
     this->controller = controller;
     this->id = id;
     
-    props.font.loadFromFile(resourcePath() + "fontfile");
+    props.font = sf::Font::getDefaultFont();
     props.normalColor = sf::Color::White;
     props.highlightColor = sf::Color::Yellow;
+    props.fontSize = 20;
+    
+    this->text.setFont(props.font);
+    this->text.setCharacterSize(props.fontSize);
+    
+    highlighted = false;
+    highlightable = true;
     
 }
 
@@ -48,12 +55,17 @@ bool MenuItem::contains(sf::Vector2f position) {
 }
 
 void MenuItem::setHighlighted(bool highlighted) {
-    this->highlighted = highlighted;
+    if (highlightable) {
+        this->highlighted = highlighted;
+    }
+}
+
+void MenuItem::setHighlightable(bool highlightable) {
+    this->highlightable = highlightable;
 }
 
 bool MenuItem::handleEvent(sf::Event *event) {
-    // Should never be called. Do event handling in MenuController
-    return true;
+    return controller->doSelectedItem(this->id);
 }
 
 void MenuItem::update() {

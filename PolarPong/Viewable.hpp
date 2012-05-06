@@ -11,6 +11,8 @@
 
 #include <SFML/Graphics.hpp>
 
+class Engine;
+
 class Viewable {
 private:
     int opacity;
@@ -18,6 +20,7 @@ private:
     
 protected:
     // for subclass instantiation
+    Engine *controller;
     Viewable() : opacity(100), hidden(true) {}
     
 public:

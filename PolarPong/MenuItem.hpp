@@ -20,12 +20,14 @@ private:
         sf::Font font;
         sf::Color normalColor;
         sf::Color highlightColor;
+        int fontSize;
     } props;
     
     MenuController *controller;
     std::string id;
     sf::Text text;
     
+    bool highlightable;
     bool highlighted;
     
 public:
@@ -38,6 +40,7 @@ public:
     bool contains(float x, float y);
     bool contains(sf::Vector2f position);
     void setHighlighted(bool highlighted);
+    void setHighlightable(bool highlightable);
     
     // viewable methods
     bool handleEvent(sf::Event *event);
