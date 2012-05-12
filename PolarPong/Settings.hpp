@@ -35,6 +35,12 @@ public:
     static int getPlayers();
     static void changePlayers();
     
+    
+    // return two delimiting angles in degrees for the given player
+    static int* getZoneBoundaries(int player);
+    // return court radius
+    static int getZoneRadius();
+    
 };
 
 #endif

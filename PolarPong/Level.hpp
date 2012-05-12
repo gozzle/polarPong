@@ -10,6 +10,8 @@
 #define PolarPong_Level_hpp
 
 #include "Viewable.hpp"
+#include <vector>
+#include "DashedLine.hpp"
 
 class Level : public Viewable {
 private:
@@ -18,6 +20,9 @@ private:
     // Scores
     
     // State (eg. in play, or countdown)
+    
+    // background: division lines and score text
+    std::vector<DashedLine> divisions;
     
     
 public:

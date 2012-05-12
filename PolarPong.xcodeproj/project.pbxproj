@@ -18,6 +18,7 @@
 		F236B57615559E3A002BCA31 /* Splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B57515559E3A002BCA31 /* Splash.cpp */; };
 		F236B5791555A625002BCA31 /* MenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B5781555A625002BCA31 /* MenuItem.cpp */; };
 		F236B5A41555B9AA002BCA31 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = F236B5A31555B9AA002BCA31 /* fonts */; };
+		F2771154155EA2CB00DEBAC1 /* DashedLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2771153155EA2CB00DEBAC1 /* DashedLine.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,8 @@
 		F236B5781555A625002BCA31 /* MenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuItem.cpp; sourceTree = "<group>"; };
 		F236B57B1555A69E002BCA31 /* MenuController.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MenuController.hpp; sourceTree = "<group>"; };
 		F236B5A31555B9AA002BCA31 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		F2771152155E9CE300DEBAC1 /* DashedLine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DashedLine.hpp; sourceTree = "<group>"; };
+		F2771153155EA2CB00DEBAC1 /* DashedLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DashedLine.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,8 @@
 				F236B5781555A625002BCA31 /* MenuItem.cpp */,
 				F236B54115558C10002BCA31 /* Paddle.hpp */,
 				F236B54215558C1D002BCA31 /* Ball.hpp */,
+				F2771152155E9CE300DEBAC1 /* DashedLine.hpp */,
+				F2771153155EA2CB00DEBAC1 /* DashedLine.cpp */,
 				F236B54015558C01002BCA31 /* Settings.hpp */,
 				F218F7491555EE25007B3232 /* Settings.cpp */,
 				F236B52615558B0C002BCA31 /* main.cpp */,
@@ -216,6 +221,7 @@
 				F236B57615559E3A002BCA31 /* Splash.cpp in Sources */,
 				F236B5791555A625002BCA31 /* MenuItem.cpp in Sources */,
 				F218F74A1555EE25007B3232 /* Settings.cpp in Sources */,
+				F2771154155EA2CB00DEBAC1 /* DashedLine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

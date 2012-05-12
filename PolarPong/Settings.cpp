@@ -10,7 +10,7 @@
 
 sf::Vector2i Settings::resolution = sf::Vector2i(0,0);
 Settings::Difficulty Settings::diff = Settings::MEDIUM;
-int Settings::players = 1;
+int Settings::players = 2;
 
 sf::Vector2i Settings::getScreenResolution() {
     return Settings::resolution;
@@ -48,4 +48,34 @@ int Settings::getPlayers() {
 void Settings::changePlayers() {
     // Max 4 players
     Settings::players = (Settings::players % 4) + 1;
+}
+
+int* Settings::getZoneBoundaries(int player) {
+    int *angles = new int[2];
+    
+    int numPlayers = Settings::getPlayers();
+    
+    if (player > numPlayers) {
+        throw "Error: cannot have boundaries for more players than are playing";
+    }
+    
+    if (player == 1 && numPlayers == 1) {
+        // no borders
+        angles = NULL;
+    } else {
+        angles[0] = ((player-1) * 360/numPlayers) % 360;
+        angles[1] = (player   * 360/numPlayers) % 360;
+    }
+    
+    return angles;
+}
+
+int Settings::getZoneRadius() {
+    sf::Vector2i resolution = Settings::getScreenResolution();
+    
+    int radius = (resolution.x < resolution.y) ?
+    resolution.x/2.f - (resolution.x * 5.f / 100.f) :
+    resolution.y/2.f - (resolution.y * 5.f / 100.f);
+    
+    return radius;
 }

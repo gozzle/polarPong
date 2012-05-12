@@ -28,6 +28,9 @@ private:
     
     void setPositions();
     
+    std::string getDifficultyStr();
+    std::string getPlayersStr();
+    
 public:
     
     Splash(Engine *controller);

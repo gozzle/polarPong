@@ -24,8 +24,8 @@ Splash::Splash(Engine *controller) : Viewable(), MenuController() {
     
     // text
     newGame->setText("New Game");
-    difficulty->setText("Medium");
-    players->setText("1");
+    difficulty->setText(getDifficultyStr());
+    players->setText(getPlayersStr());
     difficultyLabel->setText("Difficulty:");
     playersLabel->setText("No. Players:");
     
@@ -151,26 +151,34 @@ bool Splash::doSelectedItem(std::string id) {
     } else if (id == "difficulty") {
         // change difficulty
         Settings::changeDifficulty();
-        
-        switch (Settings::getDifficulty()) {
-            case Settings::EASY:
-                difficulty->setText("Easy");
-                break;
-            case Settings::MEDIUM:
-                difficulty->setText("Medium");
-                break;
-            case Settings::HARD:
-                difficulty->setText("Hard");
-                break;
-        }
+        difficulty->setText(getDifficultyStr());
     } else if (id == "players") {
         // change number of players
         Settings::changePlayers();
-        char str[5];
-        std::sprintf(str, "%d", Settings::getPlayers());
-        players->setText(str);
-        
+        players->setText(getPlayersStr());
     }
     
     return keepGoing;
+}
+
+std::string Splash::getDifficultyStr() {
+    std::string str;
+    switch (Settings::getDifficulty()) {
+        case Settings::EASY:
+            str ="Easy";
+            break;
+        case Settings::MEDIUM:
+            str = "Medium";
+            break;
+        case Settings::HARD:
+            str = "Hard";
+            break;
+    }
+    return str;
+}
+
+std::string Splash::getPlayersStr() {
+    char str[2];
+    std::sprintf(str, "%d", Settings::getPlayers());
+    return str;
 }
