@@ -14,10 +14,10 @@
 
 class DashedLine : public sf::Transformable, public sf::Drawable {
 private:
-    int length;
+    float length;
     int numDashes;
-    int dashSpacing;
-    int width;
+    float dashSpacing;
+    float width;
     sf::Color color;
     
     std::vector<sf::RectangleShape> dashes;
@@ -25,20 +25,20 @@ private:
     void updateDashes();
     
 public:
-    DashedLine(int length, int numDashes, int dashSpacing=1, int width=1);
+    DashedLine(float length, int numDashes, float dashSpacing=1.f, float width=1.f);
     ~DashedLine();
     
-    void setLength(int length);
-    void setWidth(int width);
+    void setLength(float length);
+    void setWidth(float width);
     void setNumDashes(int numDashes);
-    void setDashSpacing(int spacing);
+    void setDashSpacing(float spacing);
     void setColor(const sf::Color &color);
     
-    int getLength()     {return this->length;}
-    int getNumDashes()  {return this->numDashes;}
-    int getWidth()      {return this->width;}
-    int getDashSpacing(){return this->dashSpacing;}
-    int getDashLength();
+    float getLength()     {return this->length;}
+    int   getNumDashes()  {return this->numDashes;}
+    float getWidth()      {return this->width;}
+    float getDashSpacing(){return this->dashSpacing;}
+    float getDashLength();
     
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     

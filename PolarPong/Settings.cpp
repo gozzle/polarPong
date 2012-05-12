@@ -8,9 +8,9 @@
 
 #include "Settings.hpp"
 
-sf::Vector2i Settings::resolution = sf::Vector2i(0,0);
-Settings::Difficulty Settings::diff = Settings::MEDIUM;
-int Settings::players = 2;
+sf::Vector2i Settings::resolution = DEFAULT_RES;
+Settings::Difficulty Settings::diff = DEFAULT_DIFF;
+int Settings::players = DEFAULT_PLAYERS;
 
 sf::Vector2i Settings::getScreenResolution() {
     return Settings::resolution;
@@ -74,8 +74,8 @@ int Settings::getZoneRadius() {
     sf::Vector2i resolution = Settings::getScreenResolution();
     
     int radius = (resolution.x < resolution.y) ?
-    resolution.x/2.f - (resolution.x * 5.f / 100.f) :
-    resolution.y/2.f - (resolution.y * 5.f / 100.f);
+    resolution.x/2.f - (resolution.x * 2.f / 100.f) :
+    resolution.y/2.f - (resolution.y * 2.f / 100.f);
     
     return radius;
 }

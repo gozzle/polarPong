@@ -14,6 +14,9 @@
 Splash::Splash(Engine *controller) : Viewable(), MenuController() {
     this->controller = controller;
     
+    background.setOutlineThickness(2);
+    background.setFillColor(sf::Color(0,0,0,127));
+    
     newGame = new MenuItem(this, "newGame");
     difficulty = new MenuItem(this, "difficulty");
     players = new MenuItem(this, "players");
@@ -53,16 +56,26 @@ Splash::~Splash() {
 
 void Splash::setPositions() {
     // position
-    float kx = Settings::getScreenResolution().x / 100.f;
-    float ky = Settings::getScreenResolution().y / 100.f;
+    sf::Vector2i res = Settings::getScreenResolution();
+    float kx = res.x / 100.f;
+    float ky = res.y / 100.f;
     
-    newGame->setPosition(25*kx, 25*ky);
-    difficultyLabel->setPosition(25*kx, 35*ky);
-    difficulty->setPosition(50*kx, 35*ky);
-    playersLabel->setPosition(25*kx, 45*ky);
-    players->setPosition(50*kx, 45*ky);
+    sf::Vector2i center = res/2;
+    sf::Vector2i baseline = sf::Vector2i(center.x - 18*kx,
+                                         center.y - 20*ky);
     
-    newItem->setPosition(25*kx, 65*ky);
+    // background box
+    background.setPosition(baseline.x - 2*kx, baseline.y - 2*ky);
+    background.setSize(sf::Vector2f((center.x - baseline.x + 2*kx)*2,
+                       (center.y - baseline.y + 2*ky)*2));
+    
+    newGame->setPosition(baseline.x, baseline.y);
+    difficultyLabel->setPosition(baseline.x, baseline.y + 10*ky);
+    difficulty->setPosition(baseline.x + 25*kx, baseline.y + 10*ky);
+    playersLabel->setPosition(baseline.x, baseline.y + 20*ky);
+    players->setPosition(baseline.x + 25*kx, baseline.y + 20*ky);
+    
+    newItem->setPosition(baseline.x, baseline.y +40*ky);
 }
 
 // return false if game should exit
@@ -129,6 +142,8 @@ void Splash::update() {
 }
 
 void Splash::draw(sf::RenderWindow *window) {
+    
+    window->draw(background);
     
     newGame->draw(window);
     difficulty->draw(window);

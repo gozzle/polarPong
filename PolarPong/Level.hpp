@@ -22,6 +22,7 @@ private:
     // State (eg. in play, or countdown)
     
     // background: division lines and score text
+    sf::CircleShape courtCircle;
     std::vector<DashedLine> divisions;
     
     

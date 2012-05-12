@@ -67,16 +67,14 @@ void Engine::changeState() {
 bool Engine::run() {
     bool success = true;
     
-    sf::Vector2i resolution = sf::Vector2i(800, 600);
-    Settings::setScreenResolution(resolution);
-    
+    sf::Vector2i resolution = Settings::getScreenResolution();
     sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), "Polar Pong");
     window.setActive();
     window.setFramerateLimit(60);
     
     sf::RectangleShape background;
     background.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
-    background.setFillColor(sf::Color::Blue);
+    background.setFillColor(sf::Color(24,100,150));
     background.setPosition(0, 0);
     
     // Start game loop

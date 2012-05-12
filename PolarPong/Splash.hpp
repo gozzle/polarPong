@@ -18,6 +18,8 @@
 class Splash : public Viewable, public MenuController {
 private:
     
+    sf::RectangleShape background;
+    
     MenuItem *difficultyLabel;
     MenuItem *playersLabel;
     
