@@ -20,6 +20,8 @@ Splash::Splash(Engine *controller) : Viewable(), MenuController() {
     difficultyLabel = new MenuItem(this, "diffLabel");
     playersLabel = new MenuItem(this, "playersLabel");
     
+    newItem = new MenuItem(this, "newItem");
+    
     // text
     newGame->setText("New Game");
     difficulty->setText("Medium");
@@ -27,11 +29,15 @@ Splash::Splash(Engine *controller) : Viewable(), MenuController() {
     difficultyLabel->setText("Difficulty:");
     playersLabel->setText("No. Players:");
     
+    newItem->setText(" "); //weird hacked workaround to bug
+    
     setPositions();
     
     // highlightable
     difficultyLabel->setHighlightable(false);
     playersLabel->setHighlightable(false);
+    
+    newItem->setHighlightable(false);
     
 }
 
@@ -41,6 +47,8 @@ Splash::~Splash() {
     delete players;
     delete difficultyLabel;
     delete playersLabel;
+    
+    delete newItem;
 }
 
 void Splash::setPositions() {
@@ -53,6 +61,8 @@ void Splash::setPositions() {
     difficulty->setPosition(50*kx, 35*ky);
     playersLabel->setPosition(25*kx, 45*ky);
     players->setPosition(50*kx, 45*ky);
+    
+    newItem->setPosition(25*kx, 65*ky);
 }
 
 // return false if game should exit
@@ -114,6 +124,8 @@ void Splash::update() {
     difficultyLabel->update();
     playersLabel->update();
     
+    newItem->update();
+    
 }
 
 void Splash::draw(sf::RenderWindow *window) {
@@ -123,6 +135,8 @@ void Splash::draw(sf::RenderWindow *window) {
     players->draw(window);
     difficultyLabel->draw(window);
     playersLabel->draw(window);
+    
+    newItem->draw(window);
     
 }
 

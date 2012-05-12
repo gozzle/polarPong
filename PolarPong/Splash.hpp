@@ -24,6 +24,7 @@ private:
     MenuItem *newGame;
     MenuItem *difficulty;
     MenuItem *players;
+    MenuItem *newItem;
     
     void setPositions();
     

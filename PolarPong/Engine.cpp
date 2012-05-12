@@ -27,9 +27,11 @@ void Engine::setState(Engine::GameState state) {
     Viewable *newView;
     switch (state) {
         case SPLASH:
+            this->state = SPLASH;
             newView = new Splash(this);
             break;
         case GAME:
+            this->state = GAME;
             newView = new Level(this);
             break;
             

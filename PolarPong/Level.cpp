@@ -7,6 +7,7 @@
 //
 
 #include "Level.hpp"
+#include "Engine.hpp"
 
 Level::Level(Engine *controller) : Viewable() {
     this->controller = controller;
@@ -18,8 +19,15 @@ Level::~Level() {
 
 // return false if game should exit
 bool Level::handleEvent(sf::Event *event) {
+    bool keepGoing = true;
     
-    return true;
+    if (event->type == sf::Event::KeyReleased) {
+        if (event->key.code == sf::Keyboard::Escape) {
+            this->controller->changeState();
+        }
+    }
+    
+    return keepGoing;
 }
 
 void Level::update() {

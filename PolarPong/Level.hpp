@@ -17,6 +17,8 @@ private:
     // Ball(s?)
     // Scores
     
+    // State (eg. in play, or countdown)
+    
     
 public:
     
