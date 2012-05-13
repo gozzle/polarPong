@@ -12,19 +12,38 @@
 #include "Viewable.hpp"
 #include <vector>
 #include "DashedLine.hpp"
+#include "Paddle.hpp"
+#include "Ball.hpp"
 
 class Level : public Viewable {
 private:
-    // Paddles
-    // Ball(s?)
-    // Scores
-    
     // State (eg. in play, or countdown)
+    enum State {
+        WAITING,
+        COUNTDOWN,
+        PLAYING,
+        PAUSED
+    } state;
+    
+    // Paddles
+    std::vector<Paddle> paddles;
+    Paddle *lastHitPaddle;
+    // Ball(s?)
+    Ball *ball;
+    
+    // Scores
+    std::vector<int> scores;
     
     // background: division lines and score text
     sf::CircleShape courtCircle;
+    std::vector<sf::Text> scoreTexts;
     std::vector<DashedLine> divisions;
     
+    void updateScoreTexts();
+    void reset();
+    void restart();
+    
+    int getPlayerForCoords(sf::Vector2f coords);
     
 public:
     

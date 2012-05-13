@@ -11,17 +11,18 @@
 
 #include <SFML/Graphics.hpp>
 
-class PhysicalObject {
+class PhysicalObject  {
 private:
-    PhysicalObject() {} // makes sure it can't be instantiated
+    
     
 protected:
+    PhysicalObject() {} // makes sure it can't be instantiated
     sf::Shape * bounds;
     
 public:
-    virtual ~PhysicalObject() = 0;
+    virtual ~PhysicalObject() {};
     
-    virtual sf::Shape * getBounds();
+    virtual sf::Shape * getBounds() =0;
     bool isCollided(PhysicalObject *other);
 };
 

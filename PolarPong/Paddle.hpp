@@ -14,21 +14,22 @@
 
 class Paddle : public PhysicalObject {
 private:
-    sf::Vector2f position;
+    int velocity;
     float speed;
+    
+    int player;
     
 public:
     Paddle();
     ~Paddle();
     
-    sf::Vector2f getPosition();
-    void setPosition(float r, float theta);
-    
-    float getSpeed() {return this->speed;}
+    sf::Shape* getBounds() {return this->bounds;}
     void setSpeed(float speed) {this->speed = speed;}
+    int getPlayer() {return this->player;}
+    void setPlayer(int player) {this->player = player;}
     
-    bool isCollided(PhysicalObject *other);
-    
+    void updatePosition();
+    void draw(sf::RenderWindow *window);
 };
 
 #endif

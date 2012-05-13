@@ -63,8 +63,8 @@ int* Settings::getZoneBoundaries(int player) {
         // no borders
         angles = NULL;
     } else {
-        angles[0] = ((player-1) * 360/numPlayers) % 360;
-        angles[1] = (player   * 360/numPlayers) % 360;
+        angles[0] = (player-1) * 360/numPlayers;
+        angles[1] = player   * 360/numPlayers;
     }
     
     return angles;

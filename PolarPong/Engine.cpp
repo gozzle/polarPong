@@ -9,11 +9,13 @@
 #include "Engine.hpp"
 
 #include <SFML/Graphics.hpp>
+#include <ctime>
 #include "Splash.hpp"
 #include "Level.hpp"
 #include "Settings.hpp"
 
 Engine::Engine() : activeView(NULL){
+    srand((unsigned)time(0));
     setState(SPLASH);
 }
 

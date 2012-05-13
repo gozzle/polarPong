@@ -30,9 +30,9 @@ inline sf::Vector2f toPolar(const sf::Vector2<T>& cart) {
     float r = sqrtf(x*x + y*y);
     float t = atan2f(x, y) * 180/M_PI;
     
-    t += (t < 0) ? 360 : 0;
+    t += (t <= 0) ? 360 : 0;
     
-    return sf::Vector2f(r,t);
+    return sf::Vector2f(r,360-t);
 }
 
 #endif

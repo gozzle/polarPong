@@ -3,8 +3,7 @@
 
 #include "Engine.hpp"
 
-int main (int argc, const char * argv[])
-{
+int main (int argc, const char * argv[]) {
     
     Engine *engine = new Engine();
     
