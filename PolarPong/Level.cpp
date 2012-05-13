@@ -189,6 +189,17 @@ bool Level::handleEvent(sf::Event *event) {
                 default:
                     break;
             }
+        } else if (event->key.code == sf::Keyboard::Up ||
+                   event->key.code == sf::Keyboard::Down) {
+            paddles.at(0)->setVelocity(0);
+        }
+    } else if (event->type == sf::Event::KeyPressed) {
+        if (event->key.code == sf::Keyboard::Up &&
+            this->state == PLAYING) {
+            paddles.at(0)->setVelocity(1);
+        } else if (event->key.code == sf::Keyboard::Down &&
+                   this->state == PLAYING) {
+            paddles.at(0)->setVelocity(-1);
         }
     } else if (event->type == sf::Event::MouseButtonReleased) {
         switch (this->state) {
@@ -214,6 +225,12 @@ void Level::update() {
     updateScoreTexts();
     ball->updatePosition();
     
+    // update paddles
+    std::vector<Paddle*>::iterator it;
+    for (it = paddles.begin(); it < paddles.end(); it++) {
+        (*it)->updatePosition();
+    }
+    
     // scoring
     if (state == PLAYING && ball->hasScored()) {
         if (lastHitPaddle != NULL) {
@@ -226,8 +243,14 @@ void Level::update() {
             scores.at(player -1) -= 1;
         }
         
-        // stop ball
+        // stop ball & paddles
         ball->stop();
+        std::vector<Paddle*>::iterator it;
+        for (it = paddles.begin(); it < paddles.end(); it++) {
+            (*it)->setVelocity(0);
+        }
+        
+        
         state = PAUSED;
     }
 }

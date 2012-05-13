@@ -32,6 +32,11 @@ Paddle::~Paddle() {
     delete bounds;
 }
 
+void Paddle::setVelocity(int vel) {
+    vel = (vel > 1) ? 1 : (vel < -1) ? -1 : vel;
+    this->velocity = vel;
+}
+
 
 void Paddle::setInitialPosition() {
     int numPlayers = Settings::getPlayers();
@@ -50,7 +55,17 @@ void Paddle::setInitialPosition() {
 }
 
 void Paddle::updatePosition() {
-    // to implement (by rotating bounds)
+    // check boundaries, and only move if it's within
+    int *boundaries = Settings::getZoneBoundaries(this->player);
+    float newRotation = bounds->getRotation() + velocity * speed;
+    float paddlelength = ((ArcShape*)bounds)->getAngularLength();
+    
+    if (boundaries[0] >= (newRotation)) {
+        newRotation = boundaries[0];
+    } else if (boundaries[1] <= (newRotation+paddlelength)) {
+        newRotation = boundaries[1] - paddlelength;
+    }
+    bounds->setRotation(newRotation);
 }
 
 void Paddle::draw(sf::RenderWindow *window) const{

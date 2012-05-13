@@ -25,6 +25,7 @@ public:
     
     sf::Transformable* getBounds() {return this->bounds;}
     void setSpeed(float speed) {this->speed = speed;}
+    void setVelocity(int vel);
     int getPlayer() {return this->player;}
     void setPlayer(int player) {this->player = player;}
     
