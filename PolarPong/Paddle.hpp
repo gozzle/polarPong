@@ -20,16 +20,17 @@ private:
     int player;
     
 public:
-    Paddle();
+    Paddle(int player=1);
     ~Paddle();
     
-    sf::Shape* getBounds() {return this->bounds;}
+    sf::Transformable* getBounds() {return this->bounds;}
     void setSpeed(float speed) {this->speed = speed;}
     int getPlayer() {return this->player;}
     void setPlayer(int player) {this->player = player;}
     
+    void setInitialPosition();
     void updatePosition();
-    void draw(sf::RenderWindow *window);
+    void draw(sf::RenderWindow *window) const;
 };
 
 #endif

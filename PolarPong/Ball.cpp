@@ -21,7 +21,7 @@ Ball::Ball() {
     int numPoints = 50;
     float radius = Settings::getZoneRadius() * 2.f/100;
     this->bounds = new sf::CircleShape(radius, numPoints);
-    bounds->setFillColor(sf::Color::White);
+    ((sf::CircleShape*)bounds)->setFillColor(sf::Color::White);
     bounds->setOrigin(radius,radius);
     sf::Vector2i res = Settings::getScreenResolution();
     bounds->setPosition(res.x/2, res.y/2);
@@ -57,5 +57,5 @@ void Ball::updatePosition() {
 }
 
 void Ball::draw(sf::RenderWindow *window) {
-    window->draw(*bounds);
+    window->draw(*((sf::CircleShape*)bounds));
 }

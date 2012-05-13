@@ -35,4 +35,15 @@ inline sf::Vector2f toPolar(const sf::Vector2<T>& cart) {
     return sf::Vector2f(r,360-t);
 }
 
+template <class T>
+inline sf::Vector2f toCartesian(const sf::Vector2<T>& polar) {
+    float r = polar.x;
+    float t = polar.y * M_PI/180;
+    
+    float x = r * sinf(-t);
+    float y = r * cosf(-t);
+    
+    return sf::Vector2f(x,y);
+}
+
 #endif

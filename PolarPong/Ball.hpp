@@ -21,7 +21,7 @@ public:
     Ball();
     ~Ball();
     
-    sf::Shape* getBounds() {return this->bounds;}
+    sf::Transformable* getBounds() {return this->bounds;}
     void setSpeed(float speed) {this->speed = speed;}
     
     // return true if ball has crossed the edge of the court

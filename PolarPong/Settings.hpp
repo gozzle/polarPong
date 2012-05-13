@@ -43,7 +43,7 @@ public:
     
 };
 
-const sf::Vector2i DEFAULT_RES(1152,720);
+const sf::Vector2i DEFAULT_RES(1152,700);
 const Settings::Difficulty DEFAULT_DIFF = Settings::MEDIUM;
 const int DEFAULT_PLAYERS = 2;
 

@@ -26,7 +26,7 @@ private:
     } state;
     
     // Paddles
-    std::vector<Paddle> paddles;
+    std::vector<Paddle*> paddles;
     Paddle *lastHitPaddle;
     // Ball(s?)
     Ball *ball;

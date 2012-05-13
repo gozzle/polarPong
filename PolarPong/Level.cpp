@@ -20,6 +20,7 @@ Level::Level(Engine *controller) : Viewable() {
 
 Level::~Level() {
     delete ball;
+    paddles.erase(paddles.begin(), paddles.end());
 }
 
 void Level::reset() {
@@ -69,7 +70,7 @@ void Level::reset() {
         sf::FloatRect bounds = scoreText.getGlobalBounds();
         bounds.width *= 0.54;
         bounds.height *= 0.9;
-        scoreText.setOrigin(bounds.width, 2*bounds.height - RADIUS);
+        scoreText.setOrigin(bounds.width, bounds.height);
         scoreText.setPosition(SCREEN_CENTER);
         
         if (numPlayers > 1) {
@@ -79,7 +80,7 @@ void Level::reset() {
             }
             float rotation = angles[0] + (angles[1] - angles[0])/2;
             
-            scoreText.rotate(rotation);
+            scoreText.move(toCartesian(sf::Vector2f(RADIUS/2,rotation)));
         }
         
         scoreTexts.push_back(scoreText);
@@ -116,6 +117,15 @@ void Level::restart() {
     // paddles
     paddles.erase(paddles.begin(), paddles.end());
     lastHitPaddle = NULL;
+    int numPlayers = Settings::getPlayers();
+    for (int i = 1; i<=numPlayers; i++) {
+        Paddle *paddle = new Paddle();
+        paddle->setPlayer(i);
+        paddle->setInitialPosition();
+        paddle->setSpeed(5);
+        
+        paddles.push_back(paddle);
+    }
     
     // ball
     ball = new Ball();
@@ -141,13 +151,17 @@ int Level::getPlayerForCoords(sf::Vector2f coords) {
     sf::Vector2f polarCoords = toPolar(coords);
     int numPlayers = Settings::getPlayers();
     int player =0;
-    for (int i =1; i<=numPlayers; i++) {
-        int * angles = Settings::getZoneBoundaries(i);
-        
-        if (angles[0] <= polarCoords.y &&
-            angles[1] > polarCoords.y) {
-            player = i;
-            break;
+    if (numPlayers == 1) {
+        player =1;
+    } else {
+        for (int i =1; i<=numPlayers; i++) {
+            int * angles = Settings::getZoneBoundaries(i);
+            
+            if (angles[0] <= polarCoords.y &&
+                angles[1] > polarCoords.y) {
+                player = i;
+                break;
+            }
         }
     }
     if (player == 0) {
@@ -237,5 +251,11 @@ void Level::draw(sf::RenderWindow *window) {
     }
     
     // foreground
+    {
+        std::vector<Paddle*>::const_iterator it;
+        for (it = paddles.begin(); it < paddles.end(); it++) {
+            (*it)->draw(window);
+        }
+    }
     ball->draw(window);
 }

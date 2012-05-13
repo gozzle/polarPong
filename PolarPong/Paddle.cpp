@@ -7,20 +7,52 @@
 //
 
 #include "Paddle.hpp"
+#include "ArcShape.hpp"
+#include "Settings.hpp"
+#include "utils.hpp"
 
-Paddle::Paddle() {
+Paddle::Paddle(int player) {
+    this->velocity = 0;
+    this->speed = 0;
+    this->player = player;
+    
+    // bounds
+    float courtRadius = Settings::getZoneRadius();
+    float outerRadius = 0.98 * courtRadius;
+    float angularLength = 15;
+    float width = 0.02 * courtRadius;
+    int numBlocks = 20;
+    this->bounds = new ArcShape(outerRadius, angularLength, width, numBlocks);
+    ((ArcShape*)bounds)->setFillColor(sf::Color::White);
+    bounds->setPosition(sf::Vector2f(Settings::getScreenResolution()/2));
     
 }
 
 Paddle::~Paddle() {
-    
+    delete bounds;
 }
 
+
+void Paddle::setInitialPosition() {
+    int numPlayers = Settings::getPlayers();
+    
+    float rotation = 90;
+    if (numPlayers > 1) {
+        int* angles = Settings::getZoneBoundaries(this->player);
+        if (angles[1] == 0) {
+            angles[1] = 360;
+        }
+        rotation = angles[0] + (angles[1] - angles[0])/2;
+    }
+    
+    rotation -= ((ArcShape*)bounds)->getAngularLength()/2;
+    bounds->setRotation(rotation);
+}
 
 void Paddle::updatePosition() {
-    // to implement
+    // to implement (by rotating bounds)
 }
 
-void Paddle::draw(sf::RenderWindow *window) {
-    window->draw(*bounds);
+void Paddle::draw(sf::RenderWindow *window) const{
+    window->draw(*((ArcShape*)bounds));
 }

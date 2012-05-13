@@ -17,12 +17,12 @@ private:
     
 protected:
     PhysicalObject() {} // makes sure it can't be instantiated
-    sf::Shape * bounds;
+    sf::Transformable * bounds;
     
 public:
     virtual ~PhysicalObject() {};
     
-    virtual sf::Shape * getBounds() =0;
+    virtual sf::Transformable * getBounds() =0;
     bool isCollided(PhysicalObject *other);
 };
 

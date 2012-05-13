@@ -21,6 +21,7 @@
 		F2771154155EA2CB00DEBAC1 /* DashedLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2771153155EA2CB00DEBAC1 /* DashedLine.cpp */; };
 		F277115F155F10A700DEBAC1 /* Ball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F277115E155F10A700DEBAC1 /* Ball.cpp */; };
 		F2771161155F267300DEBAC1 /* Paddle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2771160155F267300DEBAC1 /* Paddle.cpp */; };
+		F2771164155F433600DEBAC1 /* ArcShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2771163155F433500DEBAC1 /* ArcShape.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,8 @@
 		F2771155155EDD5D00DEBAC1 /* utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = utils.hpp; sourceTree = "<group>"; };
 		F277115E155F10A700DEBAC1 /* Ball.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ball.cpp; sourceTree = "<group>"; };
 		F2771160155F267300DEBAC1 /* Paddle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Paddle.cpp; sourceTree = "<group>"; };
+		F2771162155F423400DEBAC1 /* ArcShape.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ArcShape.hpp; sourceTree = "<group>"; };
+		F2771163155F433500DEBAC1 /* ArcShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArcShape.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +112,8 @@
 				F236B5781555A625002BCA31 /* MenuItem.cpp */,
 				F236B54115558C10002BCA31 /* Paddle.hpp */,
 				F2771160155F267300DEBAC1 /* Paddle.cpp */,
+				F2771162155F423400DEBAC1 /* ArcShape.hpp */,
+				F2771163155F433500DEBAC1 /* ArcShape.cpp */,
 				F236B54215558C1D002BCA31 /* Ball.hpp */,
 				F277115E155F10A700DEBAC1 /* Ball.cpp */,
 				F2771152155E9CE300DEBAC1 /* DashedLine.hpp */,
@@ -232,6 +237,7 @@
 				F2771154155EA2CB00DEBAC1 /* DashedLine.cpp in Sources */,
 				F277115F155F10A700DEBAC1 /* Ball.cpp in Sources */,
 				F2771161155F267300DEBAC1 /* Paddle.cpp in Sources */,
+				F2771164155F433600DEBAC1 /* ArcShape.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
