@@ -27,7 +27,7 @@ private:
     
     // Paddles
     std::vector<Paddle*> paddles;
-    Paddle *lastHitPaddle;
+    const Paddle *lastHitPaddle;
     // Ball(s?)
     Ball *ball;
     
@@ -44,6 +44,7 @@ private:
     void restart();
     
     int getPlayerForCoords(sf::Vector2f coords);
+    void doCollision(const Paddle& paddle);
     
 public:
     

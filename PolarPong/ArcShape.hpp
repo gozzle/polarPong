@@ -34,6 +34,8 @@ public:
     void setFillColor(const sf::Color& color);
     sf::Color getFillColor() {return this->fillColor;}
     
+    bool isWithin(const sf::Vector2f& polar);
+    
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     
     

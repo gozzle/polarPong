@@ -122,7 +122,7 @@ void Level::restart() {
         Paddle *paddle = new Paddle();
         paddle->setPlayer(i);
         paddle->setInitialPosition();
-        paddle->setSpeed(5);
+        paddle->setSpeed(2);
         
         paddles.push_back(paddle);
     }
@@ -130,6 +130,7 @@ void Level::restart() {
     // ball
     ball = new Ball();
     ball->setSpeed(5);
+    ball->setSkewFactor(10.0);
     
 }
 
@@ -169,6 +170,14 @@ int Level::getPlayerForCoords(sf::Vector2f coords) {
     }
     
     return player;
+}
+
+void Level::doCollision(const Paddle& paddle) {
+    // update 'last hit paddle'
+    this->lastHitPaddle = &paddle;
+    
+    // bounce ball
+    ball->bounce(paddle.getAngularOffset(ball->getPosition()));
 }
 
 // return false if game should exit
@@ -225,22 +234,27 @@ void Level::update() {
     updateScoreTexts();
     ball->updatePosition();
     
-    // update paddles
+    // update paddles & check collision
     std::vector<Paddle*>::iterator it;
     for (it = paddles.begin(); it < paddles.end(); it++) {
         (*it)->updatePosition();
+        
+        if (ball->isCollided(*(*it))) {
+            doCollision(*(*it));
+        }
     }
     
     // scoring
+    int losingPlayer = this->getPlayerForCoords(ball->getPosition());
     if (state == PLAYING && ball->hasScored()) {
         if (lastHitPaddle != NULL) {
-            // last hitter gets a point
+            // last hitter gets a point, as long as it's not gone
+            // out in their own zone
             int player = this->lastHitPaddle->getPlayer();
-            scores.at(player-1) += 1;
+            scores.at(player-1) += (player == losingPlayer) ? -1 : 1;
         } else {
             // person who missed loses a point
-            int player = this->getPlayerForCoords(ball->getBounds()->getPosition());
-            scores.at(player -1) -= 1;
+            scores.at(losingPlayer -1) -= 1;
         }
         
         // stop ball & paddles

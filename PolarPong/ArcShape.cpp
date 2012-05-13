@@ -54,6 +54,21 @@ void ArcShape::setFillColor(const sf::Color &color) {
     }
 }
 
+bool ArcShape::isWithin(const sf::Vector2f &polar) {
+    float rotation = getRotation();
+    
+    if (polar.x < (outerRadius-width) ||
+        polar.x > (outerRadius) ||
+        polar.y < (rotation) ||
+        polar.y > (rotation + angularLength)) {
+        
+        return false;
+    } else {
+        return true;
+    }
+    
+}
+
 void ArcShape::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     
     states.transform *= getTransform();

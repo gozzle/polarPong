@@ -23,14 +23,15 @@ public:
     Paddle(int player=1);
     ~Paddle();
     
-    sf::Transformable* getBounds() {return this->bounds;}
     void setSpeed(float speed) {this->speed = speed;}
     void setVelocity(int vel);
-    int getPlayer() {return this->player;}
+    int getPlayer() const {return this->player;}
     void setPlayer(int player) {this->player = player;}
     
     void setInitialPosition();
     void updatePosition();
+    bool isWithin(const sf::Vector2f& point) const;
+    float getAngularOffset(const sf::Vector2f& point) const;
     void draw(sf::RenderWindow *window) const;
 };
 

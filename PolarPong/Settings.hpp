@@ -29,6 +29,7 @@ private:
     
 public:    
     static sf::Vector2i getScreenResolution();
+    static sf::Vector2f getScreenCenter() {return sf::Vector2f(getScreenResolution()/2);}
     static void setScreenResolution(sf::Vector2i resolution);
     static Difficulty getDifficulty();
     static void changeDifficulty();

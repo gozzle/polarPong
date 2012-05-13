@@ -76,7 +76,7 @@ bool Engine::run() {
     
     sf::RectangleShape background;
     background.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
-    background.setFillColor(sf::Color(24,100,150));
+    background.setFillColor(sf::Color(200,100,150));
     background.setPosition(0, 0);
     
     // Start game loop

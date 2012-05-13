@@ -17,13 +17,15 @@ private:
     
 protected:
     PhysicalObject() {} // makes sure it can't be instantiated
-    sf::Transformable * bounds;
+    sf::Transformable * shape;
     
 public:
     virtual ~PhysicalObject() {};
     
-    virtual sf::Transformable * getBounds() =0;
-    bool isCollided(PhysicalObject *other);
+    sf::Transformable * getShape() const {return this->shape;}
+    
+    // Returns true if point is within object bounds
+    virtual bool isWithin(const sf::Vector2f& point) const = 0;
 };
 
 #endif
