@@ -10,10 +10,12 @@
 #define PolarPong_Viewable_hpp
 
 #include <SFML/Graphics.hpp>
+#include "WindowEventHandler.hpp"
+#include "EventDispatcher.hpp"
 
 class Engine;
 
-class Viewable {
+class Viewable : public WindowEventHandler {
 private:
     int opacity;
     bool hidden;
@@ -24,7 +26,9 @@ protected:
     Viewable() : opacity(100), hidden(true) {}
     
 public:
-    virtual ~Viewable() {};
+    virtual ~Viewable() {
+        EventDispatcher::unregisterWindowHandler(this);
+    };
     
     // Getters & setters
     int getOpacity() {return this->opacity;}
@@ -39,9 +43,6 @@ public:
     // virtual methods
     virtual void update() = 0;
     virtual void draw(sf::RenderWindow *window) =0;
-    
-    // return false if game should exit
-    virtual bool handleEvent(sf::Event *event) =0;
 };
 
 #endif

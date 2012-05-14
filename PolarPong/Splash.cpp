@@ -14,6 +14,8 @@
 Splash::Splash(Engine *controller) : Viewable(), MenuController() {
     this->controller = controller;
     
+    EventDispatcher::registerWindowHandler(this);
+    
     background.setOutlineThickness(2);
     background.setFillColor(sf::Color(0,0,0,127));
     
@@ -52,6 +54,8 @@ Splash::~Splash() {
     delete playersLabel;
     
     delete newItem;
+    
+    EventDispatcher::unregisterWindowHandler(this);
 }
 
 void Splash::setPositions() {
@@ -78,31 +82,24 @@ void Splash::setPositions() {
     newItem->setPosition(baseline.x, baseline.y +40*ky);
 }
 
-// return false if game should exit
-bool Splash::handleEvent(sf::Event *event) {
-    
-    static MenuItem *highlighted = NULL;
-    bool keepGoing = true;
+void Splash::handleWindowEvent(const sf::Event& event) {
     
     // mouseMoved for highlighting
-    if (event->type == sf::Event::MouseMoved) {
-        sf::Vector2i mousePos = sf::Vector2i(event->mouseMove.x, event->mouseMove.y);
+    if (event.type == sf::Event::MouseMoved) {
+        sf::Vector2i mousePos = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
         
         if (newGame->contains(mousePos.x, mousePos.y)) {
             newGame->setHighlighted(true);
-            highlighted = newGame;
             
             difficulty->setHighlighted(false);
             players->setHighlighted(false);
         } else if (difficulty->contains(mousePos.x, mousePos.y)) {
             difficulty->setHighlighted(true);
-            highlighted = difficulty;
             
             newGame->setHighlighted(false);
             players->setHighlighted(false);
         } else if (players->contains(mousePos.x, mousePos.y)) {
             players->setHighlighted(true);
-            highlighted = players;
             
             newGame->setHighlighted(false);
             difficulty->setHighlighted(false);
@@ -110,19 +107,14 @@ bool Splash::handleEvent(sf::Event *event) {
             newGame->setHighlighted(false);
             difficulty->setHighlighted(false);
             players->setHighlighted(false);
-            
-            highlighted = NULL;
         }
-    } else if (event->type == sf::Event::MouseButtonReleased &&
-               highlighted != NULL) {
-        keepGoing = highlighted->handleEvent(event);
-        
-    } else if (event->type == sf::Event::KeyReleased &&
-               event->key.code == sf::Keyboard::Escape) {
-        keepGoing = false;
+    } else if (event.type == sf::Event::KeyReleased &&
+               event.key.code == sf::Keyboard::Escape) {
+        sf::Event quitEvent;
+        quitEvent.type = sf::Event::Closed;
+        EventDispatcher::fireWindowEvent(quitEvent);
+
     }
-    
-    return keepGoing;
 }
 
 void Splash::update() {
@@ -155,10 +147,7 @@ void Splash::draw(sf::RenderWindow *window) {
     
 }
 
-// Return false if game should quit
-bool Splash::doSelectedItem(std::string id) {
-    bool keepGoing = true;
-    
+void Splash::doSelectedItem(std::string id) {
     if (id == "newGame") {
         // do new game
         this->controller->changeState();
@@ -171,9 +160,12 @@ bool Splash::doSelectedItem(std::string id) {
         // change number of players
         Settings::changePlayers();
         players->setText(getPlayersStr());
+    } else if (id == "quit") {
+        // not button does this yet...
+        sf::Event quitEvent;
+        quitEvent.type = sf::Event::Closed;
+        EventDispatcher::fireWindowEvent(quitEvent);
     }
-    
-    return keepGoing;
 }
 
 std::string Splash::getDifficultyStr() {

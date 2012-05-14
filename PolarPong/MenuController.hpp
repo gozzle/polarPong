@@ -15,7 +15,7 @@ protected:
     MenuController(){}
 public:
     virtual ~MenuController() {};
-    virtual bool doSelectedItem(std::string id) = 0;
+    virtual void doSelectedItem(std::string id) = 0;
 };
 
 #endif

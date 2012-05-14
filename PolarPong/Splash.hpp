@@ -40,12 +40,11 @@ public:
     
     // inherited methods
     
-    // return false if game should exit
-    bool handleEvent(sf::Event *event);
+    void handleWindowEvent(const sf::Event& event);
     void update();
     void draw(sf::RenderWindow *window); 
     
-    bool doSelectedItem(std::string id);
+    void doSelectedItem(std::string id);
     
 };
 

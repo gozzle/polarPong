@@ -10,17 +10,20 @@
 #define PolarPong_Engine_h
 
 #include "Viewable.hpp"
+#include "WindowEventHandler.hpp"
 
-class Engine {
+class Engine : public WindowEventHandler {
 private:
 
     enum GameState {
         SPLASH = 0,
-        GAME = 1
+        GAME = 1,
+        QUIT
     };
     
     GameState state;
     Viewable *activeView;
+    sf::RenderWindow *window;
     
     // Hide responder, change to new responder, and show the new one
     void setState(GameState);
@@ -34,6 +37,8 @@ public:
     
     // Call setState appropriately
     void changeState();
+    
+    void handleWindowEvent(const sf::Event& event);
     
 };
 

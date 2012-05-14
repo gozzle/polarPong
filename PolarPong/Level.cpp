@@ -12,8 +12,9 @@
 #include "utils.hpp"
 
 
-Level::Level(Engine *controller) : Viewable() {
+Level::Level(Engine *controller) {
     this->controller = controller;
+    EventDispatcher::registerWindowHandler(this);
     
     this->reset();
 }
@@ -21,6 +22,7 @@ Level::Level(Engine *controller) : Viewable() {
 Level::~Level() {
     delete ball;
     paddles.erase(paddles.begin(), paddles.end());
+    EventDispatcher::unregisterWindowHandler(this);
 }
 
 void Level::reset() {
@@ -180,12 +182,10 @@ void Level::doCollision(const Paddle& paddle) {
     ball->bounce(paddle.getAngularOffset(ball->getPosition()));
 }
 
-// return false if game should exit
-bool Level::handleEvent(sf::Event *event) {
-    bool keepGoing = true;
+void Level::handleWindowEvent(const sf::Event& event) {
     
-    if (event->type == sf::Event::KeyReleased) {
-        if (event->key.code == sf::Keyboard::Escape) {
+    if (event.type == sf::Event::KeyReleased) {
+        if (event.key.code == sf::Keyboard::Escape) {
             switch (this->state) {
                 case WAITING:
                     this->controller->changeState();
@@ -198,19 +198,19 @@ bool Level::handleEvent(sf::Event *event) {
                 default:
                     break;
             }
-        } else if (event->key.code == sf::Keyboard::Up ||
-                   event->key.code == sf::Keyboard::Down) {
+        } else if (event.key.code == sf::Keyboard::Up ||
+                   event.key.code == sf::Keyboard::Down) {
             paddles.at(0)->setVelocity(0);
         }
-    } else if (event->type == sf::Event::KeyPressed) {
-        if (event->key.code == sf::Keyboard::Up &&
+    } else if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::Up &&
             this->state == PLAYING) {
             paddles.at(0)->setVelocity(1);
-        } else if (event->key.code == sf::Keyboard::Down &&
+        } else if (event.key.code == sf::Keyboard::Down &&
                    this->state == PLAYING) {
             paddles.at(0)->setVelocity(-1);
         }
-    } else if (event->type == sf::Event::MouseButtonReleased) {
+    } else if (event.type == sf::Event::MouseButtonReleased) {
         switch (this->state) {
             case WAITING:
                 this->state = PLAYING;
@@ -225,8 +225,6 @@ bool Level::handleEvent(sf::Event *event) {
                 break;
         }
     }
-    
-    return keepGoing;
 }
 
 void Level::update() {

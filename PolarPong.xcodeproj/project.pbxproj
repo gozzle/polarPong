@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F20D250B1560350E008DD115 /* EventDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F20D250A1560350E008DD115 /* EventDispatcher.cpp */; };
 		F218F74A1555EE25007B3232 /* Settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F218F7491555EE25007B3232 /* Settings.cpp */; };
 		F236B52415558B0B002BCA31 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F236B52315558B0B002BCA31 /* Foundation.framework */; };
 		F236B52715558B0C002BCA31 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B52615558B0C002BCA31 /* main.cpp */; };
@@ -16,7 +17,6 @@
 		F236B57315559D6A002BCA31 /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B57215559D6A002BCA31 /* Level.cpp */; };
 		F236B57615559E3A002BCA31 /* Splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B57515559E3A002BCA31 /* Splash.cpp */; };
 		F236B5791555A625002BCA31 /* MenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B5781555A625002BCA31 /* MenuItem.cpp */; };
-		F236B5A41555B9AA002BCA31 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = F236B5A31555B9AA002BCA31 /* fonts */; };
 		F2771154155EA2CB00DEBAC1 /* DashedLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2771153155EA2CB00DEBAC1 /* DashedLine.cpp */; };
 		F277115F155F10A700DEBAC1 /* Ball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F277115E155F10A700DEBAC1 /* Ball.cpp */; };
 		F2771161155F267300DEBAC1 /* Paddle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2771160155F267300DEBAC1 /* Paddle.cpp */; };
@@ -24,6 +24,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F20D2508156032E7008DD115 /* MovementEvent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MovementEvent.hpp; sourceTree = "<group>"; };
+		F20D2509156033E7008DD115 /* EventDispatcher.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventDispatcher.hpp; sourceTree = "<group>"; };
+		F20D250A1560350E008DD115 /* EventDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventDispatcher.cpp; sourceTree = "<group>"; };
+		F20D251015604A2D008DD115 /* MovementEventHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MovementEventHandler.hpp; sourceTree = "<group>"; };
+		F20D251115604C12008DD115 /* WindowEventHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowEventHandler.hpp; sourceTree = "<group>"; };
 		F218F7491555EE25007B3232 /* Settings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Settings.cpp; sourceTree = "<group>"; };
 		F236B51F15558B0B002BCA31 /* PolarPong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PolarPong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F236B52315558B0B002BCA31 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -46,7 +51,6 @@
 		F236B5771555A293002BCA31 /* MenuItem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MenuItem.hpp; sourceTree = "<group>"; };
 		F236B5781555A625002BCA31 /* MenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuItem.cpp; sourceTree = "<group>"; };
 		F236B57B1555A69E002BCA31 /* MenuController.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MenuController.hpp; sourceTree = "<group>"; };
-		F236B5A31555B9AA002BCA31 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		F2771152155E9CE300DEBAC1 /* DashedLine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DashedLine.hpp; sourceTree = "<group>"; };
 		F2771153155EA2CB00DEBAC1 /* DashedLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DashedLine.cpp; sourceTree = "<group>"; };
 		F2771155155EDD5D00DEBAC1 /* utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = utils.hpp; sourceTree = "<group>"; };
@@ -68,6 +72,54 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F20D250515603215008DD115 /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				F236B53B15558B82002BCA31 /* Engine.hpp */,
+				F236B54515558F39002BCA31 /* Engine.cpp */,
+				F236B53D15558BB7002BCA31 /* Viewable.hpp */,
+				F236B57B1555A69E002BCA31 /* MenuController.hpp */,
+				F236B53F15558BF4002BCA31 /* Splash.hpp */,
+				F236B57515559E3A002BCA31 /* Splash.cpp */,
+				F236B53E15558BE4002BCA31 /* Level.hpp */,
+				F236B57215559D6A002BCA31 /* Level.cpp */,
+				F236B54015558C01002BCA31 /* Settings.hpp */,
+				F218F7491555EE25007B3232 /* Settings.cpp */,
+				F236B52615558B0C002BCA31 /* main.cpp */,
+			);
+			name = Engine;
+			sourceTree = "<group>";
+		};
+		F20D25061560323F008DD115 /* GameObjects */ = {
+			isa = PBXGroup;
+			children = (
+				F236B53C15558B9B002BCA31 /* PhysicalObject.hpp */,
+				F236B5771555A293002BCA31 /* MenuItem.hpp */,
+				F236B5781555A625002BCA31 /* MenuItem.cpp */,
+				F236B54115558C10002BCA31 /* Paddle.hpp */,
+				F2771160155F267300DEBAC1 /* Paddle.cpp */,
+				F2771162155F423400DEBAC1 /* ArcShape.hpp */,
+				F2771163155F433500DEBAC1 /* ArcShape.cpp */,
+				F236B54215558C1D002BCA31 /* Ball.hpp */,
+				F277115E155F10A700DEBAC1 /* Ball.cpp */,
+				F2771152155E9CE300DEBAC1 /* DashedLine.hpp */,
+				F2771153155EA2CB00DEBAC1 /* DashedLine.cpp */,
+			);
+			name = GameObjects;
+			sourceTree = "<group>";
+		};
+		F20D250715603265008DD115 /* MultiplayerControl */ = {
+			isa = PBXGroup;
+			children = (
+				F20D2508156032E7008DD115 /* MovementEvent.hpp */,
+				F20D2509156033E7008DD115 /* EventDispatcher.hpp */,
+				F20D250A1560350E008DD115 /* EventDispatcher.cpp */,
+				F20D251015604A2D008DD115 /* MovementEventHandler.hpp */,
+				F20D251115604C12008DD115 /* WindowEventHandler.hpp */,
+			);
+			name = MultiplayerControl;
+			sourceTree = "<group>";
+		};
 		F236B51315558B0B002BCA31 = {
 			isa = PBXGroup;
 			children = (
@@ -96,28 +148,9 @@
 		F236B52515558B0B002BCA31 /* PolarPong */ = {
 			isa = PBXGroup;
 			children = (
-				F236B53B15558B82002BCA31 /* Engine.hpp */,
-				F236B54515558F39002BCA31 /* Engine.cpp */,
-				F236B53C15558B9B002BCA31 /* PhysicalObject.hpp */,
-				F236B53D15558BB7002BCA31 /* Viewable.hpp */,
-				F236B57B1555A69E002BCA31 /* MenuController.hpp */,
-				F236B53E15558BE4002BCA31 /* Level.hpp */,
-				F236B57215559D6A002BCA31 /* Level.cpp */,
-				F236B53F15558BF4002BCA31 /* Splash.hpp */,
-				F236B57515559E3A002BCA31 /* Splash.cpp */,
-				F236B5771555A293002BCA31 /* MenuItem.hpp */,
-				F236B5781555A625002BCA31 /* MenuItem.cpp */,
-				F236B54115558C10002BCA31 /* Paddle.hpp */,
-				F2771160155F267300DEBAC1 /* Paddle.cpp */,
-				F2771162155F423400DEBAC1 /* ArcShape.hpp */,
-				F2771163155F433500DEBAC1 /* ArcShape.cpp */,
-				F236B54215558C1D002BCA31 /* Ball.hpp */,
-				F277115E155F10A700DEBAC1 /* Ball.cpp */,
-				F2771152155E9CE300DEBAC1 /* DashedLine.hpp */,
-				F2771153155EA2CB00DEBAC1 /* DashedLine.cpp */,
-				F236B54015558C01002BCA31 /* Settings.hpp */,
-				F218F7491555EE25007B3232 /* Settings.cpp */,
-				F236B52615558B0C002BCA31 /* main.cpp */,
+				F20D250515603215008DD115 /* Engine */,
+				F20D25061560323F008DD115 /* GameObjects */,
+				F20D250715603265008DD115 /* MultiplayerControl */,
 				F236B52815558B0C002BCA31 /* ResourcePath.mm */,
 				F236B52A15558B0C002BCA31 /* ResourcePath.hpp */,
 				F2771155155EDD5D00DEBAC1 /* utils.hpp */,
@@ -130,7 +163,6 @@
 		F236B52B15558B0C002BCA31 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F236B5A31555B9AA002BCA31 /* fonts */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -196,7 +228,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F236B53415558B0C002BCA31 /* InfoPlist.strings in Resources */,
-				F236B5A41555B9AA002BCA31 /* fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,6 +265,7 @@
 				F277115F155F10A700DEBAC1 /* Ball.cpp in Sources */,
 				F2771161155F267300DEBAC1 /* Paddle.cpp in Sources */,
 				F2771164155F433600DEBAC1 /* ArcShape.cpp in Sources */,
+				F20D250B1560350E008DD115 /* EventDispatcher.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

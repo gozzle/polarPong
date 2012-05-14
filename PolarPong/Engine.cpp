@@ -13,14 +13,18 @@
 #include "Splash.hpp"
 #include "Level.hpp"
 #include "Settings.hpp"
+#include "EventDispatcher.hpp"
 
 Engine::Engine() : activeView(NULL){
     srand((unsigned)time(0));
+    EventDispatcher::registerWindowHandler(this);
     setState(SPLASH);
 }
 
 Engine::~Engine() {
     delete this->activeView;
+    EventDispatcher::unregisterWindowHandler(this);
+    delete this->window;
 }
 
 // Hide activeView, change to new one, and show
@@ -66,42 +70,54 @@ void Engine::changeState() {
                             
 }
 
+void Engine::handleWindowEvent(const sf::Event &event) {
+    if (event.type == sf::Event::Closed) {
+        sf::Mutex mutex;
+        mutex.lock();
+        this->state = QUIT;
+        mutex.unlock();
+    }
+}
+
 bool Engine::run() {
     bool success = true;
     
     sf::Vector2i resolution = Settings::getScreenResolution();
-    sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y), "Polar Pong");
-    window.setActive();
-    window.setFramerateLimit(60);
+    window = new sf::RenderWindow(sf::VideoMode(resolution.x, resolution.y), "Polar Pong");
+    window->setActive();
+    window->setFramerateLimit(60);
     
     sf::RectangleShape background;
-    background.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
-    background.setFillColor(sf::Color(200,100,150));
+    background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
+    background.setFillColor(sf::Color(87,200,100));
     background.setPosition(0, 0);
     
+    // set up event handling
+    sf::Thread dispatchThread(&EventDispatcher::runDispatchThread);
+    dispatchThread.launch();
+    
     // Start game loop
-    while (window.isOpen()) {
+    while (this->state != QUIT) {
         
-        // Event handling
+        // Window event handling
         sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            } else if (!(this->activeView->handleEvent(&event))){
-                window.close();
-            }
+        while (window->pollEvent(event)) {
+            EventDispatcher::fireWindowEvent(event);
         }
         
         // Updating
         this->activeView->update();
         
         // Displaying
-        window.clear();
-        window.draw(background);
-        this->activeView->draw(&window);
-        window.display();
+        window->clear();
+        window->draw(background);
+        this->activeView->draw(window);
+        window->display();
         
-    }    
+    }
+    window->close();
+    EventDispatcher::stopDispachThread();
+    dispatchThread.wait();
     
     return success;
 }

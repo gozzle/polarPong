@@ -11,8 +11,6 @@
 #include "ResourcePath.hpp"
 #include "Settings.hpp"
 
-#include <iostream>
-
 MenuItem::MenuItem(MenuController *controller, std::string id)
 {
     this->controller = controller;
@@ -32,7 +30,7 @@ MenuItem::MenuItem(MenuController *controller, std::string id)
 }
 
 MenuItem::~MenuItem() {
-    
+    EventDispatcher::unregisterWindowHandler(this);
 }
 
 void MenuItem::setText(std::string text) {
@@ -67,6 +65,11 @@ bool MenuItem::contains(sf::Vector2f position) {
 void MenuItem::setHighlighted(bool highlighted) {
     if (highlightable) {
         this->highlighted = highlighted;
+        if (highlighted) {
+            EventDispatcher::registerWindowHandler(this);
+        } else {
+            EventDispatcher::unregisterWindowHandler(this);
+        }
     }
 }
 
@@ -74,8 +77,10 @@ void MenuItem::setHighlightable(bool highlightable) {
     this->highlightable = highlightable;
 }
 
-bool MenuItem::handleEvent(sf::Event *event) {
-    return controller->doSelectedItem(this->id);
+void MenuItem::handleWindowEvent(const sf::Event& event) {
+    if (event.type == sf::Event::MouseButtonReleased) {
+        controller->doSelectedItem(this->id);
+    }
 }
 
 void MenuItem::update() {

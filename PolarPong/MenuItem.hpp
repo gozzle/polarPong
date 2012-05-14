@@ -43,7 +43,7 @@ public:
     void setHighlightable(bool highlightable);
     
     // viewable methods
-    bool handleEvent(sf::Event *event);
+    void handleWindowEvent(const sf::Event& event);
     void update();
     void draw(sf::RenderWindow *window);
 };
