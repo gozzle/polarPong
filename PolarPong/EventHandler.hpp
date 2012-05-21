@@ -38,7 +38,7 @@ namespace std {
         class hash<EventHandler> {
             inline std::size_t operator() (EventHandler const &key) const {
                 // simply hash by object address!
-                return (long)&key;
+                return std::tr1::hash<long>()((long)&key);
             }
         };
     }

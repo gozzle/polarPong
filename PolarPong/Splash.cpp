@@ -84,7 +84,6 @@ void Splash::setPositions() {
 
 void Splash::handleWindowEvent(const sf::Event& event) {
     
-    bool tru = event.type == sf::Event::MouseButtonPressed;
     // mouseMoved for highlighting
     if (event.type == sf::Event::MouseMoved) {
         sf::Vector2i mousePos = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);

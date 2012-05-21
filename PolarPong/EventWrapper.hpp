@@ -17,8 +17,8 @@
 class EventWrapper {
 public:
     enum Type {
-        MOVEMENT=0,
-        WINDOW=1
+        MOVEMENT,
+        WINDOW
     };
     
 private:

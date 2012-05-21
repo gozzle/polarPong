@@ -10,6 +10,7 @@
 #include "Engine.hpp"
 #include "Settings.hpp"
 #include "utils.hpp"
+#include "HumanLocal.hpp"
 
 
 Level::Level(Engine *controller) {
