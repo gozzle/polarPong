@@ -60,10 +60,12 @@ void Paddle::updatePosition() {
     float newRotation = shape->getRotation() + velocity * speed;
     float paddlelength = ((ArcShape*)shape)->getAngularLength();
     
-    if (boundaries[0] >= (newRotation)) {
-        newRotation = boundaries[0];
-    } else if (boundaries[1] <= (newRotation+paddlelength)) {
-        newRotation = boundaries[1] - paddlelength;
+    if (boundaries != NULL) {
+        if (boundaries[0] >= (newRotation)) {
+            newRotation = boundaries[0];
+        } else if (boundaries[1] <= (newRotation+paddlelength)) {
+            newRotation = boundaries[1] - paddlelength;
+        }
     }
     shape->setRotation(newRotation);
 }

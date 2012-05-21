@@ -10,14 +10,26 @@
 #define PolarPong_MovementEventHandler_h
 
 #include "MovementEvent.hpp"
+#include "EventHandler.hpp"
 
 // interface for handling movement events
-class MovementEventHandler {
+class MovementEventHandler : public EventHandler {
     
 protected:
-    MovementEventHandler() {}
+    MovementEventHandler() :
+    EventHandler(EventWrapper::MOVEMENT) {
+        
+    }
 public:
     virtual ~MovementEventHandler() {}
+    
+    void handleEvent(const EventWrapper& event) {
+        if (event.getType() == EventWrapper::MOVEMENT) {
+            void* eventPtr = event.getEvent();
+            handleMovementEvent(*((MovementEvent*)eventPtr));
+        }
+    }
+    
     virtual void handleMovementEvent(const MovementEvent& event) = 0;
 };
 

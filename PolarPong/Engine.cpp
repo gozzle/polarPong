@@ -17,13 +17,13 @@
 
 Engine::Engine() : activeView(NULL){
     srand((unsigned)time(0));
-    EventDispatcher::registerWindowHandler(this);
+    EventDispatcher::registerHandler(this);
     setState(SPLASH);
 }
 
 Engine::~Engine() {
     delete this->activeView;
-    EventDispatcher::unregisterWindowHandler(this);
+    EventDispatcher::unregisterHandler(this);
     delete this->window;
 }
 
@@ -102,7 +102,7 @@ bool Engine::run() {
         // Window event handling
         sf::Event event;
         while (window->pollEvent(event)) {
-            EventDispatcher::fireWindowEvent(event);
+            EventDispatcher::fireEvent(EventWrapper(&event, EventWrapper::WINDOW));
         }
         
         // Updating

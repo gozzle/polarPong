@@ -25,8 +25,11 @@ private:
     
     MenuController *controller;
     std::string id;
+    
+    sf::Mutex textMutex;
     sf::Text text;
     
+    sf::Mutex highlightMutex;
     bool highlightable;
     bool highlighted;
     
@@ -37,8 +40,8 @@ public:
     void setText(std::string text);
     std::string getText();
     void setPosition(float x, float y);
-    bool contains(float x, float y);
-    bool contains(sf::Vector2f position);
+    bool contains(float x, float y) const;
+    bool contains(sf::Vector2f position) const;
     void setHighlighted(bool highlighted);
     void setHighlightable(bool highlightable);
     

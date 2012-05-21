@@ -30,6 +30,8 @@
 		F20D251015604A2D008DD115 /* MovementEventHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MovementEventHandler.hpp; sourceTree = "<group>"; };
 		F20D251115604C12008DD115 /* WindowEventHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowEventHandler.hpp; sourceTree = "<group>"; };
 		F218F7491555EE25007B3232 /* Settings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Settings.cpp; sourceTree = "<group>"; };
+		F23478B71562F53E00C5E50E /* EventWrapper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventWrapper.hpp; sourceTree = "<group>"; };
+		F23478B91562F71300C5E50E /* EventHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventHandler.hpp; sourceTree = "<group>"; };
 		F236B51F15558B0B002BCA31 /* PolarPong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PolarPong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F236B52315558B0B002BCA31 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F236B52615558B0C002BCA31 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -116,6 +118,8 @@
 				F20D250A1560350E008DD115 /* EventDispatcher.cpp */,
 				F20D251015604A2D008DD115 /* MovementEventHandler.hpp */,
 				F20D251115604C12008DD115 /* WindowEventHandler.hpp */,
+				F23478B71562F53E00C5E50E /* EventWrapper.hpp */,
+				F23478B91562F71300C5E50E /* EventHandler.hpp */,
 			);
 			name = MultiplayerControl;
 			sourceTree = "<group>";

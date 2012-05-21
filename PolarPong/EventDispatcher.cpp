@@ -12,72 +12,59 @@
 const int EventDispatcher::FPS = 60;
 
 bool EventDispatcher::keepGoing = true;
+
 sf::Mutex EventDispatcher::mutex;
-bool EventDispatcher::moveQueueHasChanged = false;
-bool EventDispatcher::windowQueueHasChanged = false;
 
-std::tr1::unordered_set<MovementEventHandler*> EventDispatcher::movementHandlers;
-std::deque<MovementEvent> EventDispatcher::movementEvents;
-
-std::tr1::unordered_set<WindowEventHandler*> EventDispatcher::windowHandlers;
-std::deque<sf::Event> EventDispatcher::windowEvents;
+EventDispatcher::EventMap EventDispatcher::eventInfo;
 
 
-void EventDispatcher::registerMovementHandler(MovementEventHandler *handler) {
-    // add to set of handlers
+void EventDispatcher::registerHandler(EventHandler *handler) {
+    // make sure this type of event exists in hash map
+    EventWrapper::Type type = handler->getType();
+    if (eventInfo.count(type) == 0) {
+        // add empty struct to map
+        eventInfo[type] = EventData();
+    }
+    // add handler to relevant set
+    EventData& data = eventInfo[type];
     mutex.lock();
-    EventDispatcher::movementHandlers.insert(handler);
-    moveQueueHasChanged = true;
+    data.handlers.insert(handler);
+    data.handlersHaveChanged = true;
     mutex.unlock();
 }
 
-void EventDispatcher::registerWindowHandler(WindowEventHandler *handler) {
-    // add to set of handlers
-    mutex.lock();
-    EventDispatcher::windowHandlers.insert(handler);
-    windowQueueHasChanged = true;
-    mutex.unlock();
-}
-
-void EventDispatcher::unregisterMovementHandler(MovementEventHandler *handler) {
+void EventDispatcher::unregisterHandler(EventHandler *handler) {
+    // make sure this type of event exists in hash map
+    EventWrapper::Type type = handler->getType();
+    if (eventInfo.count(type) == 0) {
+        // no handlers or queue for this type
+        return;
+    }
     // remove from set of handlers
-    std::tr1::unordered_set<MovementEventHandler*>::iterator it;
+    EventData& data = eventInfo[type];
+    HandlerSet::iterator it;
     mutex.lock();
-    it = EventDispatcher::movementHandlers.find(handler);
+    it = data.handlers.find(handler);
     
-    if (it != EventDispatcher::movementHandlers.end()) {
+    if (it != data.handlers.end()) {
         // it exists, so erase it
-        EventDispatcher::movementHandlers.erase(it);
-        moveQueueHasChanged = true;
+        data.handlers.erase(it);
+        data.handlersHaveChanged = true;
     }
     mutex.unlock();
 }
 
-void EventDispatcher::unregisterWindowHandler(WindowEventHandler *handler) {
-    // remove from set of handlers
-    std::tr1::unordered_set<WindowEventHandler*>::iterator it;
-    mutex.lock();
-    it = EventDispatcher::windowHandlers.find(handler);
-    
-    if (it != EventDispatcher::windowHandlers.end()) {
-        // it exists, so erase it
-        EventDispatcher::windowHandlers.erase(it);
-        windowQueueHasChanged = true;
+void EventDispatcher::fireEvent(const EventWrapper& event) {
+    // make sure this type of event exists in hash map
+    EventWrapper::Type type = event.getType();
+    if (eventInfo.count(type) == 0) {
+        // add empty struct to map
+        eventInfo[type] = EventData();
     }
-    mutex.unlock();
-}
-
-void EventDispatcher::fireMovementEvent(const MovementEvent event) {
     // add event to queue
+    EventData& data = eventInfo[type];
     mutex.lock();
-    movementEvents.push_back(event);
-    mutex.unlock();
-}
-
-void EventDispatcher::fireWindowEvent(const sf::Event event) {
-    // add event to queue
-    mutex.lock();
-    windowEvents.push_back(event);
+    data.eventQueue.push_back(event);
     mutex.unlock();
 }
 
@@ -89,45 +76,33 @@ void EventDispatcher::runDispatchThread() {
             clock.restart();
             
             // loop through event queues, dispatching to registered handlers
-            // movement
+            //std::tr1::unordered_map<EventWrapper::Type, EventData>::iterator blah;
             
+            std::tr1::unordered_map<EventWrapper::Type, EventData>::iterator it;
             
-            mutex.lock();
-            while (!movementEvents.empty()) {
-                MovementEvent& event = movementEvents.front();
-                movementEvents.pop_front();
+            for (it = eventInfo.begin(); it != eventInfo.end(); it++) {
                 
-                std::tr1::unordered_set<MovementEventHandler*>::iterator it;
-                moveQueueHasChanged = false;
-                for (it = movementHandlers.begin(); 
-                     it != movementHandlers.end(); it++) {
-                    
-                    // double check handler hasn't been unregistered
-                    if (moveQueueHasChanged) {
-                        break;
-                    }
-                    (*it)->handleMovementEvent(event);
-                }
-            }
-            
-            // window input
-            while (!windowEvents.empty()) {
-                sf::Event& event = windowEvents.front();
-                windowEvents.pop_front();
+                EventData& data = (*it).second;
                 
-                std::tr1::unordered_set<WindowEventHandler*>::iterator it;
-                windowQueueHasChanged = false;
-                for (it = windowHandlers.begin();
-                     it != windowHandlers.end(); it++) {
+                mutex.lock();
+                while (!data.eventQueue.empty()) {
+                    EventWrapper event = data.eventQueue.front();
+                    data.eventQueue.pop_front();
+                
+                    HandlerSet::iterator it;
+                    data.handlersHaveChanged = false;
+                    for (it = data.handlers.begin(); 
+                         it != data.handlers.end(); it++) {
                     
-                    // double check handler hasn't been unregistered
-                    if (windowQueueHasChanged) {
-                        break;
+                        // double check handler hasn't been unregistered
+                        if (data.handlersHaveChanged) {
+                            break;
+                        }
+                        (*it)->handleEvent(event);
                     }
-                    (*it)->handleWindowEvent(event);
                 }
+                mutex.unlock();
             }
-            mutex.unlock();
             
             //sleep a little
             sf::sleep(sf::seconds(1.0/FPS) - clock.getElapsedTime());
@@ -135,7 +110,5 @@ void EventDispatcher::runDispatchThread() {
 }
 
 void EventDispatcher::stopDispachThread() {
-    mutex.lock();
     EventDispatcher::keepGoing = false;
-    mutex.unlock();
 }

@@ -14,7 +14,7 @@
 
 Level::Level(Engine *controller) {
     this->controller = controller;
-    EventDispatcher::registerWindowHandler(this);
+    EventDispatcher::registerHandler(this);
     
     this->reset();
 }
@@ -22,7 +22,7 @@ Level::Level(Engine *controller) {
 Level::~Level() {
     delete ball;
     paddles.erase(paddles.begin(), paddles.end());
-    EventDispatcher::unregisterWindowHandler(this);
+    EventDispatcher::unregisterHandler(this);
 }
 
 void Level::reset() {

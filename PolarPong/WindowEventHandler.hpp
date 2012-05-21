@@ -10,14 +10,26 @@
 #define PolarPong_WindowEventHandler_hpp
 
 #include <SFML/Graphics.hpp>
+#include "EventHandler.hpp"
 
 // interface for handling sfml events
-class WindowEventHandler {
+class WindowEventHandler : public EventHandler {
     
 protected:
-    WindowEventHandler() {}
+    WindowEventHandler() :
+    EventHandler(EventWrapper::WINDOW) {
+        
+    }
 public:
     virtual ~WindowEventHandler() {}
+    
+    void handleEvent(const EventWrapper& event) {
+        if (event.getType() == EventWrapper::WINDOW) {
+            void* eventPtr = event.getEvent();
+            handleWindowEvent(*((sf::Event*)eventPtr));
+        }
+    }
+    
     virtual void handleWindowEvent(const sf::Event& event) = 0;
 };
 

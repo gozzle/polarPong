@@ -14,7 +14,7 @@
 Splash::Splash(Engine *controller) : Viewable(), MenuController() {
     this->controller = controller;
     
-    EventDispatcher::registerWindowHandler(this);
+    EventDispatcher::registerHandler(this);
     
     background.setOutlineThickness(2);
     background.setFillColor(sf::Color(0,0,0,127));
@@ -55,7 +55,7 @@ Splash::~Splash() {
     
     delete newItem;
     
-    EventDispatcher::unregisterWindowHandler(this);
+    EventDispatcher::unregisterHandler(this);
 }
 
 void Splash::setPositions() {
@@ -84,6 +84,7 @@ void Splash::setPositions() {
 
 void Splash::handleWindowEvent(const sf::Event& event) {
     
+    bool tru = event.type == sf::Event::MouseButtonPressed;
     // mouseMoved for highlighting
     if (event.type == sf::Event::MouseMoved) {
         sf::Vector2i mousePos = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
@@ -112,7 +113,7 @@ void Splash::handleWindowEvent(const sf::Event& event) {
                event.key.code == sf::Keyboard::Escape) {
         sf::Event quitEvent;
         quitEvent.type = sf::Event::Closed;
-        EventDispatcher::fireWindowEvent(quitEvent);
+        EventDispatcher::fireEvent(EventWrapper(&quitEvent,EventWrapper::WINDOW));
 
     }
 }
@@ -164,7 +165,7 @@ void Splash::doSelectedItem(std::string id) {
         // not button does this yet...
         sf::Event quitEvent;
         quitEvent.type = sf::Event::Closed;
-        EventDispatcher::fireWindowEvent(quitEvent);
+        EventDispatcher::fireEvent(EventWrapper(&quitEvent, EventWrapper::WINDOW));
     }
 }
 

@@ -27,8 +27,8 @@ protected:
     
 public:
     virtual ~Viewable() {
-        EventDispatcher::unregisterWindowHandler(this);
-    };
+        EventDispatcher::unregisterHandler(this);
+    }
     
     // Getters & setters
     int getOpacity() {return this->opacity;}

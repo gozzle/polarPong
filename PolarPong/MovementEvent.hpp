@@ -22,6 +22,10 @@ public:
         this->playerNumber = player;
         this->direction = direction;
     }
+    MovementEvent(const MovementEvent& event) {
+        this->playerNumber = event.playerNumber;
+        this->direction = event.direction;
+    }
     ~MovementEvent() {};
     
     Direction getDirection() const {return this->direction;}
