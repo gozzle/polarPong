@@ -10,10 +10,11 @@
 #define PolarPong_MenuItem_h
 
 #include "Viewable.hpp"
+#include "EventHandler.hpp"
 #include "MenuController.hpp"
 #include <SFML/Graphics.hpp>
 
-class MenuItem : public Viewable {
+class MenuItem : public Viewable, public EventHandler {
 private:
     
     struct TextProperties {

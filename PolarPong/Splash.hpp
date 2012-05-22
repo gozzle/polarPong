@@ -10,12 +10,13 @@
 #define PolarPong_Splash_hpp
 
 #include "Viewable.hpp"
+#include "MenuController.hpp"
+#include "EventHandler.hpp"
 
 #include "MenuItem.hpp"
-#include "MenuController.hpp"
 #include <SFML/Graphics.hpp>
 
-class Splash : public Viewable, public MenuController {
+class Splash : public Viewable, public MenuController, public EventHandler {
 private:
     
     sf::RectangleShape background;

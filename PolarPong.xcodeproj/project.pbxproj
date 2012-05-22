@@ -18,6 +18,7 @@
 		F236B57615559E3A002BCA31 /* Splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B57515559E3A002BCA31 /* Splash.cpp */; };
 		F236B5791555A625002BCA31 /* MenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B5781555A625002BCA31 /* MenuItem.cpp */; };
 		F24B5FAD156AED9E002D97A3 /* HumanLocal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F24B5FAC156AED9E002D97A3 /* HumanLocal.cpp */; };
+		F2732636156B0D0C00C8679A /* EventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2732635156B0D0C00C8679A /* EventHandler.cpp */; };
 		F2771154155EA2CB00DEBAC1 /* DashedLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2771153155EA2CB00DEBAC1 /* DashedLine.cpp */; };
 		F277115F155F10A700DEBAC1 /* Ball.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F277115E155F10A700DEBAC1 /* Ball.cpp */; };
 		F2771161155F267300DEBAC1 /* Paddle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2771160155F267300DEBAC1 /* Paddle.cpp */; };
@@ -28,8 +29,6 @@
 		F20D2508156032E7008DD115 /* MovementEvent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MovementEvent.hpp; sourceTree = "<group>"; };
 		F20D2509156033E7008DD115 /* EventDispatcher.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventDispatcher.hpp; sourceTree = "<group>"; };
 		F20D250A1560350E008DD115 /* EventDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventDispatcher.cpp; sourceTree = "<group>"; };
-		F20D251015604A2D008DD115 /* MovementEventHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MovementEventHandler.hpp; sourceTree = "<group>"; };
-		F20D251115604C12008DD115 /* WindowEventHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowEventHandler.hpp; sourceTree = "<group>"; };
 		F218F7491555EE25007B3232 /* Settings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Settings.cpp; sourceTree = "<group>"; };
 		F23478B71562F53E00C5E50E /* EventWrapper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventWrapper.hpp; sourceTree = "<group>"; };
 		F23478B91562F71300C5E50E /* EventHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventHandler.hpp; sourceTree = "<group>"; };
@@ -57,6 +56,7 @@
 		F24B5FA9156AEA72002D97A3 /* GameController.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameController.hpp; sourceTree = "<group>"; };
 		F24B5FAB156AEB67002D97A3 /* HumanLocal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HumanLocal.hpp; sourceTree = "<group>"; };
 		F24B5FAC156AED9E002D97A3 /* HumanLocal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HumanLocal.cpp; sourceTree = "<group>"; };
+		F2732635156B0D0C00C8679A /* EventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandler.cpp; sourceTree = "<group>"; };
 		F2771152155E9CE300DEBAC1 /* DashedLine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DashedLine.hpp; sourceTree = "<group>"; };
 		F2771153155EA2CB00DEBAC1 /* DashedLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DashedLine.cpp; sourceTree = "<group>"; };
 		F2771155155EDD5D00DEBAC1 /* utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = utils.hpp; sourceTree = "<group>"; };
@@ -120,10 +120,9 @@
 				F20D2508156032E7008DD115 /* MovementEvent.hpp */,
 				F20D2509156033E7008DD115 /* EventDispatcher.hpp */,
 				F20D250A1560350E008DD115 /* EventDispatcher.cpp */,
-				F20D251015604A2D008DD115 /* MovementEventHandler.hpp */,
-				F20D251115604C12008DD115 /* WindowEventHandler.hpp */,
 				F23478B71562F53E00C5E50E /* EventWrapper.hpp */,
 				F23478B91562F71300C5E50E /* EventHandler.hpp */,
+				F2732635156B0D0C00C8679A /* EventHandler.cpp */,
 				F24B5FA9156AEA72002D97A3 /* GameController.hpp */,
 				F24B5FAB156AEB67002D97A3 /* HumanLocal.hpp */,
 				F24B5FAC156AED9E002D97A3 /* HumanLocal.cpp */,
@@ -278,6 +277,7 @@
 				F2771164155F433600DEBAC1 /* ArcShape.cpp in Sources */,
 				F20D250B1560350E008DD115 /* EventDispatcher.cpp in Sources */,
 				F24B5FAD156AED9E002D97A3 /* HumanLocal.cpp in Sources */,
+				F2732636156B0D0C00C8679A /* EventHandler.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

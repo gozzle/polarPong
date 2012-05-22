@@ -15,7 +15,8 @@
 #include "Settings.hpp"
 #include "EventDispatcher.hpp"
 
-Engine::Engine() : activeView(NULL){
+Engine::Engine() : EventHandler(1, EventWrapper::WINDOW),
+                   activeView(NULL) {
     srand((unsigned)time(0));
     EventDispatcher::registerHandler(this);
     setState(SPLASH);
@@ -89,7 +90,7 @@ bool Engine::run() {
     
     sf::RectangleShape background;
     background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
-    background.setFillColor(sf::Color(87,200,100));
+    background.setFillColor(sf::Color(200,65,43));
     background.setPosition(0, 0);
     
     // set up event handling

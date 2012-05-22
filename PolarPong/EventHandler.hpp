@@ -11,24 +11,27 @@
 
 #include "EventWrapper.hpp"
 #include <tr1/unordered_set>
+#include <vector>
+#include <stdarg.h>
 
 class EventHandler {
     
 private:
-    EventWrapper::Type type;
+    std::vector<EventWrapper::Type> types;
     
 protected:
     // subclasses must define their type on construction
-    EventHandler(EventWrapper::Type type) {
-        this->type = type;
-    }
+    EventHandler(int typeNum, ...);
     
 public:
-    virtual ~EventHandler() {}
+    virtual ~EventHandler();
     
-    EventWrapper::Type getType() {return this->type;}
+    std::vector<EventWrapper::Type> getTypes() {return this->types;}
     
-    virtual void handleEvent(const EventWrapper& event) = 0;
+    void handleEvent(const EventWrapper& event);
+    
+    virtual void handleWindowEvent(const sf::Event& event) {};
+    virtual void handleMovementEvent(const MovementEvent& event) {};
 };
 
 // define hash method for EventHandler

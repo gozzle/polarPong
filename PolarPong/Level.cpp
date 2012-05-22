@@ -9,11 +9,13 @@
 #include "Level.hpp"
 #include "Engine.hpp"
 #include "Settings.hpp"
+#include "EventDispatcher.hpp"
 #include "utils.hpp"
 #include "HumanLocal.hpp"
 
 
-Level::Level(Engine *controller) {
+Level::Level(Engine *controller) : EventHandler(2, EventWrapper::WINDOW, EventWrapper::MOVEMENT) {
+    
     this->controller = controller;
     EventDispatcher::registerHandler(this);
     
@@ -22,16 +24,17 @@ Level::Level(Engine *controller) {
 
 Level::~Level() {
     delete ball;
-    paddles.erase(paddles.begin(), paddles.end());
+    paddles.clear();
+    gameControllers.clear();
     EventDispatcher::unregisterHandler(this);
 }
 
 void Level::reset() {
     
     // empty vectors
-    scores.erase(scores.begin(), scores.end());
-    scoreTexts.erase(scoreTexts.begin(), scoreTexts.end());
-    divisions.erase(divisions.begin(), divisions.end());
+    scores.clear();
+    scoreTexts.clear();
+    divisions.clear();
     
     const int numPlayers = Settings::getPlayers();
     
@@ -106,6 +109,12 @@ void Level::reset() {
         }
     }
     
+    // assign players to controllers
+    for (int player = 1; player<=numPlayers; player++) {
+        GameController* contrl = new HumanLocal();
+        contrl->setPlayer(player);
+        gameControllers.push_back(contrl);
+    }
     
     // balls and paddles
     restart();
@@ -199,11 +208,11 @@ void Level::handleWindowEvent(const sf::Event& event) {
                 default:
                     break;
             }
-        } else if (event.key.code == sf::Keyboard::Up ||
+        }/* else if (event.key.code == sf::Keyboard::Up ||
                    event.key.code == sf::Keyboard::Down) {
             paddles.at(0)->setVelocity(0);
-        }
-    } else if (event.type == sf::Event::KeyPressed) {
+        }*/
+    } /*else if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Up &&
             this->state == PLAYING) {
             paddles.at(0)->setVelocity(1);
@@ -211,7 +220,7 @@ void Level::handleWindowEvent(const sf::Event& event) {
                    this->state == PLAYING) {
             paddles.at(0)->setVelocity(-1);
         }
-    } else if (event.type == sf::Event::MouseButtonReleased) {
+    } */else if (event.type == sf::Event::MouseButtonReleased) {
         switch (this->state) {
             case WAITING:
                 this->state = PLAYING;
@@ -220,6 +229,28 @@ void Level::handleWindowEvent(const sf::Event& event) {
             case PLAYING:
             case PAUSED:
                 this->restart();
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+
+void Level::handleMovementEvent(const MovementEvent& event) {
+    if (this->state == PLAYING) {
+        // do movement
+        int player = event.getPlayer();
+        MovementEvent::Direction dir = event.getDirection();
+        switch (dir) {
+            case MovementEvent::CLOCKWISE:
+                paddles.at(player-1)->setVelocity(1);
+                break;
+            case MovementEvent::ANTI_CLOCKWISE:
+                paddles.at(player-1)->setVelocity(-1);
+                break;
+            case MovementEvent::STOP:
+                paddles.at(player-1)->setVelocity(0);                
                 break;
                 
             default:

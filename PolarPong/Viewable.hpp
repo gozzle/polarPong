@@ -10,12 +10,10 @@
 #define PolarPong_Viewable_hpp
 
 #include <SFML/Graphics.hpp>
-#include "WindowEventHandler.hpp"
-#include "EventDispatcher.hpp"
 
 class Engine;
 
-class Viewable : public WindowEventHandler {
+class Viewable {
 private:
     int opacity;
     bool hidden;
@@ -26,9 +24,7 @@ protected:
     Viewable() : opacity(100), hidden(true) {}
     
 public:
-    virtual ~Viewable() {
-        EventDispatcher::unregisterHandler(this);
-    }
+    virtual ~Viewable() {}
     
     // Getters & setters
     int getOpacity() {return this->opacity;}

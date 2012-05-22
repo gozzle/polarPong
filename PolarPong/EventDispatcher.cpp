@@ -19,39 +19,47 @@ EventDispatcher::EventMap EventDispatcher::eventInfo;
 
 
 void EventDispatcher::registerHandler(EventHandler *handler) {
-    // make sure this type of event exists in hash map
-    EventWrapper::Type type = handler->getType();
-    if (eventInfo.count(type) == 0) {
-        // add empty struct to map
-        eventInfo[type] = EventData();
+    // add handler to each relevant list
+    std::vector<EventWrapper::Type> types = handler->getTypes();
+    std::vector<EventWrapper::Type>::const_iterator it;
+    for (it = types.begin(); it < types.end(); it++) {
+        // make sure this type of event exists in hash map
+        if (eventInfo.count(*it) == 0) {
+            // add empty struct to map
+            eventInfo[*it] = EventData();
+        }
+        // add handler to relevant set
+        EventData& data = eventInfo[*it];
+        mutex.lock();
+        data.handlers.insert(handler);
+        data.handlersHaveChanged = true;
+        mutex.unlock();
     }
-    // add handler to relevant set
-    EventData& data = eventInfo[type];
-    mutex.lock();
-    data.handlers.insert(handler);
-    data.handlersHaveChanged = true;
-    mutex.unlock();
 }
 
 void EventDispatcher::unregisterHandler(EventHandler *handler) {
-    // make sure this type of event exists in hash map
-    EventWrapper::Type type = handler->getType();
-    if (eventInfo.count(type) == 0) {
-        // no handlers or queue for this type
-        return;
+    // remove handler from each relevant list
+    std::vector<EventWrapper::Type> types = handler->getTypes();
+    std::vector<EventWrapper::Type>::const_iterator it;
+    for (it = types.begin(); it < types.end(); it++) {
+        // make sure this type of event exists in hash map
+        if (eventInfo.count(*it) == 0) {
+            // no handlers or queue for this type
+            break;
+        }
+        // remove from set of handlers
+        EventData& data = eventInfo[*it];
+        HandlerSet::iterator iter;
+        mutex.lock();
+        iter = data.handlers.find(handler);
+        
+        if (iter != data.handlers.end()) {
+            // it exists, so erase it
+            data.handlers.erase(iter);
+            data.handlersHaveChanged = true;
+        }
+        mutex.unlock();
     }
-    // remove from set of handlers
-    EventData& data = eventInfo[type];
-    HandlerSet::iterator it;
-    mutex.lock();
-    it = data.handlers.find(handler);
-    
-    if (it != data.handlers.end()) {
-        // it exists, so erase it
-        data.handlers.erase(it);
-        data.handlersHaveChanged = true;
-    }
-    mutex.unlock();
 }
 
 void EventDispatcher::fireEvent(const EventWrapper& event) {
@@ -76,10 +84,8 @@ void EventDispatcher::runDispatchThread() {
             clock.restart();
             
             // loop through event queues, dispatching to registered handlers
-            //std::tr1::unordered_map<EventWrapper::Type, EventData>::iterator blah;
             
-            std::tr1::unordered_map<EventWrapper::Type, EventData>::iterator it;
-            
+            EventMap::iterator it;
             for (it = eventInfo.begin(); it != eventInfo.end(); it++) {
                 
                 EventData& data = (*it).second;

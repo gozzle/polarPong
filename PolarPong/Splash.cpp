@@ -10,8 +10,10 @@
 
 #include "Settings.hpp"
 #include "Engine.hpp"
+#include "EventDispatcher.hpp"
 
-Splash::Splash(Engine *controller) : Viewable(), MenuController() {
+Splash::Splash(Engine *controller) : Viewable(), MenuController(), EventHandler(1, EventWrapper::WINDOW) {
+    
     this->controller = controller;
     
     EventDispatcher::registerHandler(this);

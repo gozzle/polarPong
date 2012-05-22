@@ -10,12 +10,14 @@
 #define PolarPong_Level_hpp
 
 #include "Viewable.hpp"
+#include "EventHandler.hpp"
 #include <vector>
 #include "DashedLine.hpp"
+#include "GameController.hpp"
 #include "Paddle.hpp"
 #include "Ball.hpp"
 
-class Level : public Viewable {
+class Level : public Viewable, public EventHandler {
 private:
     // State (eg. in play, or countdown)
     enum State {
@@ -24,6 +26,9 @@ private:
         PLAYING,
         PAUSED
     } state;
+    
+    // Controllers
+    std::vector<GameController*> gameControllers;
     
     // Paddles
     std::vector<Paddle*> paddles;
@@ -54,6 +59,7 @@ public:
     // inherited methods
     
     void handleWindowEvent(const sf::Event& event);
+    void handleMovementEvent(const MovementEvent& event);
     void update();
     void draw(sf::RenderWindow *window);
     

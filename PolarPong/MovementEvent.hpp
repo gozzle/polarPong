@@ -15,7 +15,8 @@ class MovementEvent {
 public:
     enum Direction {
         CLOCKWISE,
-        ANTI_CLOCKWISE
+        ANTI_CLOCKWISE,
+        STOP        
     } direction;
     
 private:

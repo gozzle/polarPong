@@ -9,10 +9,10 @@
 #ifndef PolarPong_Engine_h
 #define PolarPong_Engine_h
 
+#include "EventHandler.hpp"
 #include "Viewable.hpp"
-#include "WindowEventHandler.hpp"
 
-class Engine : public WindowEventHandler {
+class Engine : public EventHandler {
 private:
 
     enum GameState {

@@ -10,8 +10,9 @@
 
 #include "ResourcePath.hpp"
 #include "Settings.hpp"
+#include "EventDispatcher.hpp"
 
-MenuItem::MenuItem(MenuController *controller, std::string id)
+MenuItem::MenuItem(MenuController *controller, std::string id) : EventHandler(1, EventWrapper::WINDOW)
 {
     this->controller = controller;
     this->id = id;

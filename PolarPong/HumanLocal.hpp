@@ -11,7 +11,7 @@
 
 #include "GameController.hpp"
 #include "MovementEvent.hpp"
-#include "WindowEventHandler.hpp"
+#include "EventHandler.hpp"
 #include <tr1/unordered_map>
 
 namespace std {
@@ -26,7 +26,7 @@ namespace std {
     }
 }
 
-class HumanLocal : public GameController, public WindowEventHandler {
+class HumanLocal : public GameController, public EventHandler {
     // key bindings <- make these variable at some point
     typedef std::tr1::unordered_map<sf::Keyboard::Key, MovementEvent::Direction> KeyBindings;
     
