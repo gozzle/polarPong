@@ -13,8 +13,8 @@ HumanLocal::HumanLocal() : EventHandler(1, EventWrapper::WINDOW) {
     EventDispatcher::registerHandler(this);
     
     // set up key bindings
-    addKeyBinding(sf::Keyboard::Up, MovementEvent::CLOCKWISE);
-    addKeyBinding(sf::Keyboard::Down, MovementEvent::ANTI_CLOCKWISE);
+    addKeyBinding(sf::Keyboard::F, MovementEvent::CLOCKWISE);
+    addKeyBinding(sf::Keyboard::J, MovementEvent::ANTI_CLOCKWISE);
     
 }
 
@@ -31,6 +31,10 @@ void HumanLocal::addKeyBinding(sf::Keyboard::Key key, MovementEvent::Direction d
 void HumanLocal::removeKeyBinding(const sf::Keyboard::Key &key) {
     
     bindings.erase(bindings.find(key));
+}
+
+void HumanLocal::clearKeyBindings() {
+    bindings.clear();
 }
 
 void HumanLocal::handleWindowEvent(const sf::Event &event) {

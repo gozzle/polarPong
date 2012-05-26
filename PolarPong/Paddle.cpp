@@ -50,7 +50,7 @@ void Paddle::setInitialPosition() {
         rotation = angles[0] + (angles[1] - angles[0])/2;
     }
     
-    rotation -= ((ArcShape*)shape)->getAngularLength()/2;
+    rotation -= getAngularLength()/2;
     shape->setRotation(rotation);
 }
 
@@ -58,7 +58,7 @@ void Paddle::updatePosition() {
     // check boundaries, and only move if it's within
     int *boundaries = Settings::getZoneBoundaries(this->player);
     float newRotation = shape->getRotation() + velocity * speed;
-    float paddlelength = ((ArcShape*)shape)->getAngularLength();
+    float paddlelength = getAngularLength();
     
     if (boundaries != NULL) {
         if (boundaries[0] >= (newRotation)) {
@@ -73,12 +73,25 @@ void Paddle::updatePosition() {
 float Paddle::getAngularOffset(const sf::Vector2f &point) const {
     sf::Vector2f polar = toPolar(point - Settings::getScreenCenter());
     
-    float paddleCenter = shape->getRotation() + ((ArcShape*)shape)->getAngularLength()/2;
+    float paddleCenter = getCenterAngle();
     
     return polar.y - paddleCenter;
 }
 
-bool Paddle::isWithin(const sf::Vector2f &point) const {
+float Paddle::getCenterAngle() const {
+    return shape->getRotation() + getAngularLength()/2;
+}
+
+float Paddle::getRadius() const {
+    ArcShape* arShape = (ArcShape*)shape;
+    return arShape->getOuterRadius() - arShape->getWidth();
+}
+
+float Paddle::getAngularLength() const {
+    return ((ArcShape*)shape)->getAngularLength();
+}
+
+bool Paddle::isWithin(const sf::Vector2f &point) {
     // make polar from screen center
     sf::Vector2f polar = toPolar(point - Settings::getScreenCenter());
     

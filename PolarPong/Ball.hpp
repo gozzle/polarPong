@@ -15,34 +15,44 @@
 
 class Ball : public PhysicalObject {
 private:
+    sf::Mutex mutex;
+    
     sf::Vector2f velocity;
     float speed;
     float skewFactor;
-    
-    bool collisionsOff;
-    int frameCountDown;
-    const int INITIAL_FRAME_COUNTDOWN;
     
 public:
     Ball();
     ~Ball();
     
     sf::Transformable* getShape() const {return this->shape;}
-    sf::Vector2f getPosition() const {return this->shape->getPosition();}
-    void setSpeed(float speed) {this->speed = speed;}
-    void setSkewFactor(float skew) {this->skewFactor = skew;}
+    sf::Vector2f getPosition() {
+        mutex.lock();
+        sf::Vector2f ret = shape->getPosition();
+        mutex.unlock();
+        return ret;}
+    void setSpeed(float speed) {
+        mutex.lock();
+        this->speed = speed;
+        mutex.unlock();
+    }
+    void setSkewFactor(float skew) {
+        mutex.lock();
+        this->skewFactor = skew;
+        mutex.unlock();
+    }
     
     // return true if ball has crossed the edge of the court
-    bool hasScored() const;
+    bool hasScored();
     // fire ball in (random?) direction
     void kickOff();
     // stop movement
     void stop();
     // do reflection
-    void bounce(float offset);
+    void bounce(float offset, sf::Vector2f polarCollisionPoint);
     
-    bool isWithin(const sf::Vector2f& point) const;
-    bool isCollided(const Paddle &paddle);
+    bool isWithin(const sf::Vector2f& point);
+    bool isCollided(Paddle &paddle);
     void updatePosition();
     void draw(sf::RenderWindow *window) const;
 };

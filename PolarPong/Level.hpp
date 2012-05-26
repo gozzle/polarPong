@@ -14,6 +14,7 @@
 #include <vector>
 #include "DashedLine.hpp"
 #include "GameController.hpp"
+#include "AI.hpp"
 #include "Paddle.hpp"
 #include "Ball.hpp"
 
@@ -27,8 +28,12 @@ private:
         PAUSED
     } state;
     
+    sf::Mutex mutex;
+    
     // Controllers
     std::vector<GameController*> gameControllers;
+    // AIs
+    std::vector<AI*> aiList;
     
     // Paddles
     std::vector<Paddle*> paddles;
@@ -46,6 +51,7 @@ private:
     
     void updateScoreTexts();
     void reset();
+    void deleteAll();
     void restart();
     
     int getPlayerForCoords(sf::Vector2f coords);

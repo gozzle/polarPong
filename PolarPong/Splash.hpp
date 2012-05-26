@@ -19,6 +19,8 @@
 class Splash : public Viewable, public MenuController, public EventHandler {
 private:
     
+    sf::Mutex mutex;
+    
     sf::RectangleShape background;
     
     MenuItem *difficultyLabel;

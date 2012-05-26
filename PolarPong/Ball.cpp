@@ -12,12 +12,8 @@
 #include <math.h>
 #include "utils.hpp"
 
-#include <iostream>
-
-Ball::Ball() : INITIAL_FRAME_COUNTDOWN(5){
-    // collision immunity
-    collisionsOff = false;
-    frameCountDown = INITIAL_FRAME_COUNTDOWN;
+Ball::Ball() {
+    mutex.lock();
     
     //velocity & speed
     this->speed = 0.0;
@@ -32,15 +28,20 @@ Ball::Ball() : INITIAL_FRAME_COUNTDOWN(5){
     shape->setOrigin(radius,radius);
     sf::Vector2i res = Settings::getScreenResolution();
     shape->setPosition(res.x/2, res.y/2);
+    mutex.unlock();
 }
 
 Ball::~Ball() {
+    mutex.lock();
     delete shape;
+    mutex.unlock();
 }
 
-bool Ball::hasScored() const {
+bool Ball::hasScored() {
     sf::Vector2i center (Settings::getScreenResolution()/2);
+    mutex.lock();
     sf::Vector2f pos = shape->getPosition();
+    mutex.unlock();
     int courtRadius = Settings::getZoneRadius();
     float ballRadius = toPolar(sf::Vector2f(pos.x - center.x,
                                             pos.y - center.y)).x;
@@ -51,75 +52,113 @@ bool Ball::hasScored() const {
 void Ball::kickOff() {
     float angle = (((float)rand())/RAND_MAX)* 2*M_PI;
     
+    mutex.lock();
     velocity.y = speed * cos(angle);
-    velocity.x = speed * sin(angle);
+    velocity.x = -speed * sin(angle);
+    mutex.unlock();
 }
 
 void Ball::stop() {
+    mutex.lock();
     this->velocity = sf::Vector2f(0,0);
+    mutex.unlock();
 }
 
-void Ball::bounce(float offset) {
+void Ball::bounce(float offset, sf::Vector2f polarCollisionPoint) {
+    // move ball outside paddle, to where it would be if
+    // bounce happened immediately
+    sf::Vector2f polarPos = toPolar(getPosition() - Settings::getScreenCenter());
+    const float ballRad = ((sf::CircleShape*)shape)->getRadius();
+    const float paddleRad = polarCollisionPoint.x;
+    
+    sf::Vector2f bouncedPos( 2*paddleRad - polarPos.x - 2 * ballRad,
+                            polarPos.y);
+    
+    shape->setPosition(toCartesian(bouncedPos) + Settings::getScreenCenter());
+    
+    
     // invert direction, then modify according to skew
     // factor and offset
     sf::Vector2f polarVel = toPolar(velocity);
-    sf::Vector2f polarPos = toPolar(getPosition() - Settings::getScreenCenter());
     
-    float angleOfIncidence = polarPos.y - polarVel.y;
+    float angleOfIncidence = polarCollisionPoint.y - polarVel.y;
     
-    float reflectedAngle = 180 - 2*angleOfIncidence;
-    float skewAngle = skewFactor*offset;
+    
+    if (angleOfIncidence > 90) {
+        angleOfIncidence = angleOfIncidence - 180;
+    } else if (angleOfIncidence < -90) {
+        angleOfIncidence = angleOfIncidence + 180;
+    }
+    
+    float reflectionAngle = 180 - 2*angleOfIncidence;
+    float skewReflectionAngle = reflectionAngle + skewFactor * offset;
+    
+    
+    if ((reflectionAngle <=180 &&skewReflectionAngle < reflectionAngle/2) || (reflectionAngle > 180 && (180 -skewReflectionAngle) > (180 -reflectionAngle/2)) ) {
+        skewReflectionAngle = reflectionAngle/2;
+    }
+    
+    
     
     // reflect and skew
-    polarVel.y -= (reflectedAngle + skewAngle);
+    polarVel.y -= skewReflectionAngle;
     
+    mutex.lock();
     velocity = toCartesian(polarVel);
+    mutex.unlock();
 }
 
 void Ball::updatePosition() {
-    if (collisionsOff) {
-        if (--frameCountDown < 0) {
-            collisionsOff = false;
-            frameCountDown = INITIAL_FRAME_COUNTDOWN;
-        }
-    }
+    mutex.lock();
     shape->move(velocity.x, velocity.y);
+    mutex.unlock();
 }
 
-bool Ball::isWithin(const sf::Vector2f &point) const {
+bool Ball::isWithin(const sf::Vector2f &point) {
+    mutex.lock();
     sf::Vector2f relativePos = point - shape->getPosition();
+    mutex.unlock();
     float distance = sqrtf(relativePos.x*relativePos.x +
                            relativePos.y*relativePos.y);
-    
+    mutex.lock();
     if (distance < ((sf::CircleShape*)shape)->getRadius()) {
+        mutex.unlock();
         return true;
     } else {
+        mutex.unlock();
         return false;
     }
 }
 
-bool Ball::isCollided(const Paddle &paddle) {
-    if (!collisionsOff) {
-        const sf::Vector2f polarPos = toPolar(shape->getPosition() -
-                                              Settings::getScreenCenter());
-        const float radius = ((sf::CircleShape*)shape)->getRadius();
-        const float radiusAngle = toPolar(sf::Vector2f(radius, polarPos.x)).y;
+bool Ball::isCollided(Paddle &paddle) {
+    
+    const sf::Vector2f polarPos = toPolar(getPosition() - Settings::getScreenCenter());
+    const float ballRad = ((sf::CircleShape*)shape)->getRadius();
+    
+    const float closeRad = 0.01 * Settings::getZoneRadius();
+    if ((polarPos.x + ballRad) > (paddle.getRadius() - closeRad)) {
+        const float ballRadAngle = toPolar(sf::Vector2f(-ballRad, polarPos.x)).y;
+        const float closeAngle = 1.0;
+        const float paddleCenter = paddle.getCenterAngle();
         
-        // check furthest point, and two highest-width points
-        const int NUM_POINTS = 3;
-        sf::Vector2f pointsToCheck[NUM_POINTS];
-        pointsToCheck[0] = sf::Vector2f(polarPos.x + radius, polarPos.y);
-        pointsToCheck[1] = sf::Vector2f(polarPos.x, polarPos.y + radiusAngle);
-        pointsToCheck[2] = sf::Vector2f(polarPos.x, polarPos.y - radiusAngle);
-        
-        for (int i=0; i<NUM_POINTS; i++) {
-            sf::Vector2f cartPointToCheck = toCartesian(pointsToCheck[i]) + Settings::getScreenCenter();
+        if ( ((polarPos.y + ballRadAngle) > (paddleCenter - paddle.getAngularLength() - closeAngle)) &&
+            ((polarPos.y - ballRadAngle) < (paddleCenter + paddle.getAngularLength() + closeAngle)) ) {
             
-            if (paddle.isWithin(cartPointToCheck)) {
-                this->collisionsOff = true;
-                return true;
-            } 
+            // ball is close to paddle, so bother to do checks
+            
+            const int NUM_POINTS = ((sf::CircleShape*)shape)->getPointCount();
+            for (int i = 0; i<NUM_POINTS; i++) {
+                // check for every point on the circle shape, in global coords
+                sf::Vector2f localPoint = ((sf::CircleShape*)shape)->getPoint(i);
+                sf::Transform transform = shape->getTransform();
+                sf::Vector2f globalPoint = transform.transformPoint(localPoint);
+                
+                if (paddle.isWithin(globalPoint)) {
+                    return true;
+                }
+            }
         }
+        
     }
     return false;
 }

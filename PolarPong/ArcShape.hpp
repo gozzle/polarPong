@@ -30,6 +30,8 @@ public:
     ~ArcShape();
     
     float getAngularLength() {return this->angularLength;}
+    float getOuterRadius() {return this->outerRadius;}
+    float getWidth() {return this->width;}
     
     void setFillColor(const sf::Color& color);
     sf::Color getFillColor() {return this->fillColor;}

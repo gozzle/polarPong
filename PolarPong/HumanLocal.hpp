@@ -38,6 +38,7 @@ public:
     
     void addKeyBinding(sf::Keyboard::Key key, MovementEvent::Direction direction);
     void removeKeyBinding(const sf::Keyboard::Key &key);
+    void clearKeyBindings();
     
     void handleWindowEvent(const sf::Event& event);
 };

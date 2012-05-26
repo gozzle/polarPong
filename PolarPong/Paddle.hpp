@@ -30,8 +30,11 @@ public:
     
     void setInitialPosition();
     void updatePosition();
-    bool isWithin(const sf::Vector2f& point) const;
+    bool isWithin(const sf::Vector2f& point);
     float getAngularOffset(const sf::Vector2f& point) const;
+    float getCenterAngle() const;
+    float getRadius() const;
+    float getAngularLength() const;
     void draw(sf::RenderWindow *window) const;
 };
 

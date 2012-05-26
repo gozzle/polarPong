@@ -12,7 +12,7 @@
 #include "EventDispatcher.hpp"
 #include "utils.hpp"
 #include "HumanLocal.hpp"
-
+#include "AI.hpp"
 
 Level::Level(Engine *controller) : EventHandler(2, EventWrapper::WINDOW, EventWrapper::MOVEMENT) {
     
@@ -23,25 +23,62 @@ Level::Level(Engine *controller) : EventHandler(2, EventWrapper::WINDOW, EventWr
 }
 
 Level::~Level() {
-    delete ball;
-    paddles.clear();
-    gameControllers.clear();
+    deleteAll();
+    
     EventDispatcher::unregisterHandler(this);
 }
 
-void Level::reset() {
+void Level::deleteAll() {
+    mutex.lock();
+    // controllers
+    {
+        std::vector<GameController*>::iterator it;
+        for (it=gameControllers.begin(); it<gameControllers.end(); it++) {
+            delete (*it);
+        }
+        gameControllers.clear();
+    }
     
-    // empty vectors
+    // aiList
+    aiList.clear();
+    
+    // ball
+    if (paddles.size() > 0) {
+        delete ball;
+    }
+    
+    // paddles
+    {
+        std::vector<Paddle*>::iterator it;
+        for (it=paddles.begin(); it<paddles.end(); it++) {
+            delete (*it);
+        }
+        paddles.clear();
+    }
+    
     scores.clear();
     scoreTexts.clear();
     divisions.clear();
     
+    mutex.unlock();
+    
+}
+void Level::reset() {
+    
+    // delete old objects
+    mutex.lock();
+    deleteAll();
+    
+    // set up again
+    
     const int numPlayers = Settings::getPlayers();
     
     // initialise scores
+    mutex.lock();
     for (int i = 0; i<numPlayers; i++) {
         scores.push_back(0);
     }
+    mutex.unlock();
     
     // Create background
     const int LINE_WIDTHS = 2;
@@ -60,12 +97,14 @@ void Level::reset() {
     const sf::Vector2f SCREEN_CENTER(Settings::getScreenResolution()/2);
     
     // court circle
+    mutex.lock();
     courtCircle.setOrigin(RADIUS, RADIUS);
     courtCircle.setPosition(SCREEN_CENTER);
     courtCircle.setRadius(RADIUS);
     courtCircle.setPointCount(CIRCLE_POINT_COUNT);
     courtCircle.setFillColor(CIRCLE_COLOR);
     courtCircle.setOutlineThickness(LINE_WIDTHS);
+    mutex.unlock();
     
     // score Texts
     for (int player = 1; player <= numPlayers; player++) {
@@ -88,8 +127,9 @@ void Level::reset() {
             
             scoreText.move(toCartesian(sf::Vector2f(RADIUS/2,rotation)));
         }
-        
+        mutex.lock();
         scoreTexts.push_back(scoreText);
+        mutex.unlock();
         
     }
     updateScoreTexts();
@@ -105,36 +145,55 @@ void Level::reset() {
             division.setRotation(lowerBoundAngle);
             division.setColor(DASH_COLOR);
             
+            mutex.lock();
             this->divisions.push_back(division);            
+            mutex.unlock();
         }
-    }
-    
-    // assign players to controllers
-    for (int player = 1; player<=numPlayers; player++) {
-        GameController* contrl = new HumanLocal();
-        contrl->setPlayer(player);
-        gameControllers.push_back(contrl);
     }
     
     // balls and paddles
     restart();
+    
+    
+    mutex.unlock();
 }
 
 void Level::restart() {
     // replace ball and paddles, and set state
     
+    mutex.lock();
+    
     // state
     state = WAITING;
     
     // paddles
-    paddles.erase(paddles.begin(), paddles.end());
+    if (paddles.size() > 0) {
+        delete ball;
+    }
+    {
+        std::vector<Paddle*>::iterator it;
+        for (it = paddles.begin(); it<paddles.end(); it++) {
+            delete *it;
+        }
+        paddles.clear();
+    }
+    {
+        std::vector<GameController*>::iterator it;
+        for (it = gameControllers.begin(); it<gameControllers.end(); it++) {
+            delete *it;
+        }
+        gameControllers.clear();
+    }
+    aiList.clear();
+    
     lastHitPaddle = NULL;
+    const float BASE_PADDLE_SPEED = 2.0;
     int numPlayers = Settings::getPlayers();
     for (int i = 1; i<=numPlayers; i++) {
         Paddle *paddle = new Paddle();
         paddle->setPlayer(i);
         paddle->setInitialPosition();
-        paddle->setSpeed(2);
+        paddle->setSpeed(BASE_PADDLE_SPEED);
         
         paddles.push_back(paddle);
     }
@@ -142,7 +201,36 @@ void Level::restart() {
     // ball
     ball = new Ball();
     ball->setSpeed(5);
-    ball->setSkewFactor(10.0);
+    ball->setSkewFactor(3.0);
+    
+    // assign players to controllers
+    for (int player = 1; player<=numPlayers; player++) {
+        GameController* contrl;
+        if (player == 1) {
+            contrl = new HumanLocal();
+        } else {
+            contrl = new AI(paddles.at(player-1), ball);
+            aiList.push_back((AI*)contrl);
+        }
+        contrl->setPlayer(player);
+        
+        mutex.lock();
+        gameControllers.push_back(contrl);
+        mutex.unlock();
+    }
+    
+    // give new ball and paddles to AIs
+    std::vector<AI*>::iterator aiIt;
+    for (aiIt = aiList.begin(); aiIt < aiList.end(); aiIt++) {
+        (*aiIt)->setBall(ball);
+        Paddle* paddle = paddles.at((*aiIt)->getPlayer() -1);
+        (*aiIt)->setPaddle(paddle);
+        
+        // adjust ai paddle speed according numPlayers
+        paddle->setSpeed(2* BASE_PADDLE_SPEED / (numPlayers));
+    }
+    
+    mutex.unlock();
     
 }
 
@@ -150,11 +238,14 @@ void Level::updateScoreTexts() {
     // text
     std::vector<sf::Text>::iterator txtsIt;
     std::vector<int>::const_iterator scoresIt;
+    
+    mutex.lock();
     for (txtsIt = scoreTexts.begin(), scoresIt = scores.begin();
          txtsIt<scoreTexts.end(); txtsIt++, scoresIt ++) {
         
         txtsIt->setString(toString(*scoresIt));
     }
+    mutex.unlock();
 }
 
 int Level::getPlayerForCoords(sf::Vector2f coords) {
@@ -186,10 +277,17 @@ int Level::getPlayerForCoords(sf::Vector2f coords) {
 
 void Level::doCollision(const Paddle& paddle) {
     // update 'last hit paddle'
+    mutex.lock();
     this->lastHitPaddle = &paddle;
+    mutex.unlock();
     
     // bounce ball
-    ball->bounce(paddle.getAngularOffset(ball->getPosition()));
+    sf::Vector2f ballPos = ball->getPosition();
+    float offset = paddle.getAngularOffset(ballPos);
+    sf::Vector2f polarCollisionPoint(paddle.getRadius(),
+                                     toPolar(ballPos - Settings::getScreenCenter()).y);
+    
+    ball->bounce(offset, polarCollisionPoint);
 }
 
 void Level::handleWindowEvent(const sf::Event& event) {
@@ -208,22 +306,13 @@ void Level::handleWindowEvent(const sf::Event& event) {
                 default:
                     break;
             }
-        }/* else if (event.key.code == sf::Keyboard::Up ||
-                   event.key.code == sf::Keyboard::Down) {
-            paddles.at(0)->setVelocity(0);
-        }*/
-    } /*else if (event.type == sf::Event::KeyPressed) {
-        if (event.key.code == sf::Keyboard::Up &&
-            this->state == PLAYING) {
-            paddles.at(0)->setVelocity(1);
-        } else if (event.key.code == sf::Keyboard::Down &&
-                   this->state == PLAYING) {
-            paddles.at(0)->setVelocity(-1);
         }
-    } */else if (event.type == sf::Event::MouseButtonReleased) {
+    } else if (event.type == sf::Event::MouseButtonReleased) {
         switch (this->state) {
             case WAITING:
+                mutex.lock();
                 this->state = PLAYING;
+                mutex.unlock();
                 ball->kickOff();
                 break;
             case PLAYING:
@@ -262,48 +351,69 @@ void Level::handleMovementEvent(const MovementEvent& event) {
 void Level::update() {
     
     updateScoreTexts();
-    ball->updatePosition();
     
-    // update paddles & check collision
-    std::vector<Paddle*>::iterator it;
-    for (it = paddles.begin(); it < paddles.end(); it++) {
-        (*it)->updatePosition();
+    if (state == PLAYING) {
         
-        if (ball->isCollided(*(*it))) {
-            doCollision(*(*it));
-        }
-    }
-    
-    // scoring
-    int losingPlayer = this->getPlayerForCoords(ball->getPosition());
-    if (state == PLAYING && ball->hasScored()) {
-        if (lastHitPaddle != NULL) {
-            // last hitter gets a point, as long as it's not gone
-            // out in their own zone
-            int player = this->lastHitPaddle->getPlayer();
-            scores.at(player-1) += (player == losingPlayer) ? -1 : 1;
-        } else {
-            // person who missed loses a point
-            scores.at(losingPlayer -1) -= 1;
+        ball->updatePosition();
+        
+        {
+            //let AIs update their paddles
+            std::vector<AI*>::iterator it;
+            for (it = aiList.begin(); it < aiList.end(); it++) {
+                (*it)->update();
+            }
         }
         
-        // stop ball & paddles
-        ball->stop();
-        std::vector<Paddle*>::iterator it;
-        for (it = paddles.begin(); it < paddles.end(); it++) {
-            (*it)->setVelocity(0);
+        {
+            // update paddles & check collision
+            std::vector<Paddle*>::iterator it;
+            for (it = paddles.begin(); it < paddles.end(); it++) {
+                (*it)->updatePosition();
+                
+                if (ball->isCollided(*(*it))) {
+                    doCollision(*(*it));
+                }
+            }
         }
         
-        
-        state = PAUSED;
+        // scoring
+        if (ball->hasScored()) {
+            int losingPlayer = this->getPlayerForCoords(ball->getPosition());
+            if (lastHitPaddle != NULL) {
+                // last hitter gets a point, as long as it's not gone
+                // out in their own zone
+                mutex.lock();
+                int player = this->lastHitPaddle->getPlayer();
+                scores.at(player-1) += (player == losingPlayer) ? -1 : 1;
+                mutex.unlock();
+            } else {
+                // person who missed loses a point
+                mutex.lock();
+                scores.at(losingPlayer -1) -= 1;
+                mutex.unlock();
+            }
+            
+            // stop ball & paddles
+            ball->stop();
+            std::vector<Paddle*>::iterator it;
+            for (it = paddles.begin(); it < paddles.end(); it++) {
+                (*it)->setVelocity(0);
+            }
+            
+            mutex.lock();
+            state = PAUSED;
+            mutex.unlock();
+        }
     }
 }
 
 void Level::draw(sf::RenderWindow *window) {
     //background
+    mutex.lock();
     window->draw(courtCircle);
     
     {
+        // score texts
         std::vector<sf::Text>::const_iterator it;
         for (it = scoreTexts.begin(); it < scoreTexts.end(); it++) {
             window->draw(*it);
@@ -311,6 +421,7 @@ void Level::draw(sf::RenderWindow *window) {
     }
     
     {
+        // divisions
         std::vector<DashedLine>::const_iterator it;
         for (it = divisions.begin(); it < divisions.end(); it++) {
             window->draw(*it);
@@ -319,10 +430,13 @@ void Level::draw(sf::RenderWindow *window) {
     
     // foreground
     {
+        // paddles
         std::vector<Paddle*>::const_iterator it;
         for (it = paddles.begin(); it < paddles.end(); it++) {
             (*it)->draw(window);
         }
     }
+    // ball
     ball->draw(window);
+    mutex.unlock();
 }

@@ -25,7 +25,7 @@ public:
     sf::Transformable * getShape() const {return this->shape;}
     
     // Returns true if point is within object bounds
-    virtual bool isWithin(const sf::Vector2f& point) const = 0;
+    virtual bool isWithin(const sf::Vector2f& point) = 0;
 };
 
 #endif

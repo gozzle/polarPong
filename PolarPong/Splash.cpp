@@ -14,13 +14,16 @@
 
 Splash::Splash(Engine *controller) : Viewable(), MenuController(), EventHandler(1, EventWrapper::WINDOW) {
     
+    mutex.lock();
     this->controller = controller;
+    mutex.unlock();
     
     EventDispatcher::registerHandler(this);
     
     background.setOutlineThickness(2);
     background.setFillColor(sf::Color(0,0,0,127));
     
+    mutex.lock();
     newGame = new MenuItem(this, "newGame");
     difficulty = new MenuItem(this, "difficulty");
     players = new MenuItem(this, "players");
@@ -28,8 +31,10 @@ Splash::Splash(Engine *controller) : Viewable(), MenuController(), EventHandler(
     playersLabel = new MenuItem(this, "playersLabel");
     
     newItem = new MenuItem(this, "newItem");
+    mutex.unlock();
     
     // text
+    mutex.lock();
     newGame->setText("New Game");
     difficulty->setText(getDifficultyStr());
     players->setText(getPlayersStr());
@@ -37,18 +42,22 @@ Splash::Splash(Engine *controller) : Viewable(), MenuController(), EventHandler(
     playersLabel->setText("No. Players:");
     
     newItem->setText(" "); //weird hacked workaround to bug
+    mutex.unlock();
     
     setPositions();
     
     // highlightable
+    mutex.lock();
     difficultyLabel->setHighlightable(false);
     playersLabel->setHighlightable(false);
     
     newItem->setHighlightable(false);
+    mutex.unlock();
     
 }
 
 Splash::~Splash() {
+    mutex.lock();
     delete newGame;
     delete difficulty;
     delete players;
@@ -56,6 +65,7 @@ Splash::~Splash() {
     delete playersLabel;
     
     delete newItem;
+    mutex.unlock();
     
     EventDispatcher::unregisterHandler(this);
 }
@@ -71,6 +81,7 @@ void Splash::setPositions() {
                                          center.y - 20*ky);
     
     // background box
+    mutex.lock();
     background.setPosition(baseline.x - 2*kx, baseline.y - 2*ky);
     background.setSize(sf::Vector2f((center.x - baseline.x + 2*kx)*2,
                        (center.y - baseline.y + 2*ky)*2));
@@ -82,6 +93,7 @@ void Splash::setPositions() {
     players->setPosition(baseline.x + 25*kx, baseline.y + 20*ky);
     
     newItem->setPosition(baseline.x, baseline.y +40*ky);
+    mutex.unlock();
 }
 
 void Splash::handleWindowEvent(const sf::Event& event) {
@@ -90,6 +102,7 @@ void Splash::handleWindowEvent(const sf::Event& event) {
     if (event.type == sf::Event::MouseMoved) {
         sf::Vector2i mousePos = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
         
+        mutex.lock();
         if (newGame->contains(mousePos.x, mousePos.y)) {
             newGame->setHighlighted(true);
             
@@ -110,6 +123,7 @@ void Splash::handleWindowEvent(const sf::Event& event) {
             difficulty->setHighlighted(false);
             players->setHighlighted(false);
         }
+        mutex.unlock();
     } else if (event.type == sf::Event::KeyReleased &&
                event.key.code == sf::Keyboard::Escape) {
         sf::Event quitEvent;
@@ -125,6 +139,7 @@ void Splash::update() {
     setPositions();
     
     // update children
+    mutex.lock();
     newGame->update();
     difficulty->update();
     players->update();
@@ -132,11 +147,13 @@ void Splash::update() {
     playersLabel->update();
     
     newItem->update();
+    mutex.unlock();
     
 }
 
 void Splash::draw(sf::RenderWindow *window) {
     
+    mutex.lock();
     window->draw(background);
     
     newGame->draw(window);
@@ -146,6 +163,7 @@ void Splash::draw(sf::RenderWindow *window) {
     playersLabel->draw(window);
     
     newItem->draw(window);
+    mutex.unlock();
     
 }
 
@@ -157,11 +175,15 @@ void Splash::doSelectedItem(std::string id) {
     } else if (id == "difficulty") {
         // change difficulty
         Settings::changeDifficulty();
+        mutex.lock();
         difficulty->setText(getDifficultyStr());
+        mutex.unlock();
     } else if (id == "players") {
         // change number of players
         Settings::changePlayers();
+        mutex.lock();
         players->setText(getPlayersStr());
+        mutex.unlock();
     } else if (id == "quit") {
         // not button does this yet...
         sf::Event quitEvent;
