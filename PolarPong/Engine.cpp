@@ -90,7 +90,7 @@ bool Engine::run() {
     
     sf::RectangleShape background;
     background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
-    background.setFillColor(sf::Color(200,65,43));
+    background.setFillColor(sf::Color(110,100,110));
     background.setPosition(0, 0);
     
     // set up event handling

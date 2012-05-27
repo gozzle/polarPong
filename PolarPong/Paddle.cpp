@@ -11,7 +11,8 @@
 #include "Settings.hpp"
 #include "utils.hpp"
 
-Paddle::Paddle(int player) {
+Paddle::Paddle(int player) : INERTIA_FACTOR(6.0) {
+    this->targetVel = 0;
     this->velocity = 0;
     this->speed = 0;
     this->player = player;
@@ -34,7 +35,7 @@ Paddle::~Paddle() {
 
 void Paddle::setVelocity(int vel) {
     vel = (vel > 1) ? 1 : (vel < -1) ? -1 : vel;
-    this->velocity = vel;
+    this->targetVel = vel;
 }
 
 
@@ -57,6 +58,19 @@ void Paddle::setInitialPosition() {
 void Paddle::updatePosition() {
     // check boundaries, and only move if it's within
     int *boundaries = Settings::getZoneBoundaries(this->player);
+    
+    // do paddle inertia (on stopping only)
+    if (targetVel == 0 && velocity != targetVel) {
+        int sign = (velocity > 0) ? -1 : 1;
+        velocity += sign / INERTIA_FACTOR * speed/1.0;
+        
+        if ((sign < 0 && velocity < 0) ||
+            (sign > 0 && velocity > 0) ) {
+            velocity = 0;
+        }
+    } else {
+        velocity = targetVel;
+    }
     float newRotation = shape->getRotation() + velocity * speed;
     float paddlelength = getAngularLength();
     

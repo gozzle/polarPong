@@ -14,7 +14,9 @@
 
 class Paddle : public PhysicalObject {
 private:
-    int velocity;
+    const float INERTIA_FACTOR;
+    int targetVel;
+    float velocity;
     float speed;
     
     int player;
