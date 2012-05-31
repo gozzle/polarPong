@@ -10,7 +10,7 @@
 #define PolarPong_Viewa_hpp
 
 #include <SFML/Graphics.hpp>
-#include <tr1/unordered_map>
+#include <map>
 
 class Engine;
 
@@ -21,8 +21,11 @@ namespace pp {
         int opacity;
         bool hidden;
         
+        typedef std::map<std::string, pp::View*> ViewMap;
         
-        std::tr1::unordered_map<std::string, pp::View*> children;
+        sf::Mutex mutex;
+        
+        ViewMap children;
         
     protected:
         // for subclass instantiation
@@ -37,8 +40,10 @@ namespace pp {
     public:
         virtual ~View() {
             // delete child views
+            mutex.lock();
             removeAllChildren();
             children.clear();
+            mutex.unlock();
         }
         
         // Getters & setters
@@ -50,17 +55,29 @@ namespace pp {
         void setVisible(bool visible) {visible ? this->hidden=false : this->hidden=true;}
         bool isVisible() {return !(this->hidden);}
         
-        pp::View* getChild(std::string name) {return children[name];}
-        void addChild(std::string name, pp::View* view) {this->children[name] = view;}
+        pp::View* getChild(std::string name) {
+            mutex.lock();
+            View* view = children[name];
+            mutex.unlock();
+            return view;
+        }
+        void addChild(std::string name, pp::View* view) {
+            mutex.lock();
+            this->children[name] = view;
+            mutex.unlock();
+        }
         void removeChild(std::string name) {
-            std::tr1::unordered_map<std::string, pp::View*>::iterator it;
+            ViewMap::iterator it;
+            mutex.lock();
             if ((it = children.find(name)) != children.end()) {
                 delete (*it).second;
                 children.erase(it);
             }
+            mutex.unlock();
         }
         void removeChildAt(int index) {
-            std::tr1::unordered_map<std::string, pp::View*>::iterator it;
+            ViewMap::iterator it;
+            mutex.lock();
             it = children.begin();
             int i = 0;
             while (i < index) {
@@ -70,36 +87,46 @@ namespace pp {
             if (it != children.end()) {
                 removeChild((*it).first);
             }
+            mutex.unlock();
         }
         void removeAllChildren() {
-            std::tr1::unordered_map<std::string, pp::View*>::iterator it;
+            ViewMap::iterator it;
+            mutex.lock();
             for (it=children.begin(); it != children.end(); it++) {
                 delete (*it).second;
             }
             children.clear();
+            mutex.unlock();
         }
         
         
         // draw this view and its children
         void doDraw(sf::RenderWindow *window) {
             if (isVisible()) {
+                mutex.lock();
                 this->draw(window);
                 
-                std::tr1::unordered_map<std::string, pp::View*>::iterator it;
+                ViewMap::iterator it;
                 for (it = children.begin(); it != children.end(); it++) {
                     (*it).second->doDraw(window);
                 }
+                
+                mutex.unlock();
             }
         }
         
         // update this view and its children
         void doUpdate() {
+            mutex.lock();
+            
             this->update();
             
-            std::tr1::unordered_map<std::string, pp::View*>::iterator it;
+            ViewMap::iterator it;
             for (it = children.begin(); it != children.end(); it++) {
                 (*it).second->doUpdate();
             }
+            
+            mutex.unlock();
         }
     };
     

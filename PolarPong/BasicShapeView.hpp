@@ -31,6 +31,8 @@ namespace pp {
         BasicShapeView(sf::Shape* shape) {this->shape = shape;}
         ~BasicShapeView() {delete shape;}
         
+        sf::Shape* getShape() {return this->shape;}
+        
     };
 }
 

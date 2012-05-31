@@ -90,13 +90,7 @@
 				F2691BD41577F61600331F44 /* Events */,
 				F236B53B15558B82002BCA31 /* Engine.hpp */,
 				F236B54515558F39002BCA31 /* Engine.cpp */,
-				F236B53D15558BB7002BCA31 /* View.hpp */,
-				F2791BAB15780BDF00FFFC19 /* BasicShapeView.hpp */,
 				F236B57B1555A69E002BCA31 /* MenuController.hpp */,
-				F236B53F15558BF4002BCA31 /* Splash.hpp */,
-				F236B57515559E3A002BCA31 /* Splash.cpp */,
-				F236B53E15558BE4002BCA31 /* Level.hpp */,
-				F236B57215559D6A002BCA31 /* Level.cpp */,
 				F236B54015558C01002BCA31 /* Settings.hpp */,
 				F218F7491555EE25007B3232 /* Settings.cpp */,
 				F236B52615558B0C002BCA31 /* main.cpp */,
@@ -108,8 +102,6 @@
 			isa = PBXGroup;
 			children = (
 				F236B53C15558B9B002BCA31 /* PhysicalObject.hpp */,
-				F236B5771555A293002BCA31 /* MenuItem.hpp */,
-				F236B5781555A625002BCA31 /* MenuItem.cpp */,
 				F236B54115558C10002BCA31 /* Paddle.hpp */,
 				F2771160155F267300DEBAC1 /* Paddle.cpp */,
 				F2771162155F423400DEBAC1 /* ArcShape.hpp */,
@@ -162,6 +154,7 @@
 		F236B52515558B0B002BCA31 /* PolarPong */ = {
 			isa = PBXGroup;
 			children = (
+				F2791BAC15782AC600FFFC19 /* Views */,
 				F20D250515603215008DD115 /* Engine */,
 				F20D25061560323F008DD115 /* GameObjects */,
 				F20D250715603265008DD115 /* MultiplayerControl */,
@@ -203,6 +196,21 @@
 				F2732635156B0D0C00C8679A /* EventHandler.cpp */,
 			);
 			name = Events;
+			sourceTree = "<group>";
+		};
+		F2791BAC15782AC600FFFC19 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F236B53D15558BB7002BCA31 /* View.hpp */,
+				F2791BAB15780BDF00FFFC19 /* BasicShapeView.hpp */,
+				F236B53F15558BF4002BCA31 /* Splash.hpp */,
+				F236B57515559E3A002BCA31 /* Splash.cpp */,
+				F236B5771555A293002BCA31 /* MenuItem.hpp */,
+				F236B5781555A625002BCA31 /* MenuItem.cpp */,
+				F236B53E15558BE4002BCA31 /* Level.hpp */,
+				F236B57215559D6A002BCA31 /* Level.cpp */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

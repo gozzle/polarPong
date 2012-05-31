@@ -23,15 +23,13 @@ namespace pp {
         
         sf::Mutex mutex;
         
-        sf::RectangleShape background;
+//        MenuItem *difficultyLabel;
+//        MenuItem *playersLabel;
         
-        MenuItem *difficultyLabel;
-        MenuItem *playersLabel;
-        
-        MenuItem *newGame;
-        MenuItem *difficulty;
-        MenuItem *players;
-        MenuItem *newItem;
+//        MenuItem *newGame;
+//        MenuItem *difficulty;
+//        MenuItem *players;
+//        MenuItem *newItem;
         
         void setPositions();
         
