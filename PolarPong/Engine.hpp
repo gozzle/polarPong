@@ -19,8 +19,6 @@ namespace pp {
         
         EngineStateEvent::State state;
         View* root;
-        View* activeView;
-        sf::RenderWindow *window;
         
         // Hide responder, change to new responder, and show the new one
         void setState(EngineStateEvent::State state);

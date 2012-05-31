@@ -16,7 +16,7 @@
 #include "Settings.hpp"
 #include "EventDispatcher.hpp"
 
-pp::Engine::Engine() : EventHandler(2, EventWrapper::WINDOW, EventWrapper::ENGINE_STATE), activeView(NULL) {
+pp::Engine::Engine() : EventHandler(2, EventWrapper::WINDOW, EventWrapper::ENGINE_STATE) {
     srand((unsigned)time(0));
     EventDispatcher::registerHandler(this);
                        
@@ -36,7 +36,6 @@ pp::Engine::Engine() : EventHandler(2, EventWrapper::WINDOW, EventWrapper::ENGIN
 pp::Engine::~Engine() {
     delete this->root;
     EventDispatcher::unregisterHandler(this);
-    delete this->window;
 }
 
 // Hide activeView, change to new one, and show
@@ -47,14 +46,10 @@ void pp::Engine::setState(EngineStateEvent::State state) {
         case EngineStateEvent::SPLASH:
             this->state = EngineStateEvent::SPLASH;
             root->addChild("splash", new Splash());
-            
-            activeView = root->getChild("splash");
             break;
         case EngineStateEvent::GAME:
             this->state = EngineStateEvent::GAME;
             root->addChild("game", new Level());
-            
-            activeView = root->getChild("game");
             break;
             
         default:
@@ -79,7 +74,7 @@ bool pp::Engine::run() {
     bool success = true;
     
     sf::Vector2i resolution = Settings::getScreenResolution();
-    window = new sf::RenderWindow(sf::VideoMode(resolution.x, resolution.y), "Polar Pong");
+    sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(resolution.x, resolution.y), "Polar Pong");
     window->setActive();
     window->setFramerateLimit(60);
     
@@ -99,7 +94,6 @@ bool pp::Engine::run() {
         
         // Updating
         root->doUpdate();
-//        this->activeView->update();
         
         // Displaying
         window->clear();
@@ -107,7 +101,10 @@ bool pp::Engine::run() {
         window->display();
         
     }
+    
     window->close();
+    delete window;
+    
     EventDispatcher::stopDispachThread();
     dispatchThread.wait();
     
