@@ -37,7 +37,7 @@ public:
     float getCenterAngle() const;
     float getRadius() const;
     float getAngularLength() const;
-    void draw(sf::RenderWindow *window) const;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 #endif

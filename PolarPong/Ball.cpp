@@ -163,6 +163,9 @@ bool Ball::isCollided(Paddle &paddle) {
     return false;
 }
 
-void Ball::draw(sf::RenderWindow *window) const {
-    window->draw(*((sf::CircleShape*)shape));
+
+void Ball::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+//    states.transform *= getTransform();
+    
+    target.draw(*((sf::CircleShape*)shape), states);
 }

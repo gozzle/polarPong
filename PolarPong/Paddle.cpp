@@ -112,6 +112,9 @@ bool Paddle::isWithin(const sf::Vector2f &point) {
     return ((ArcShape*)shape)->isWithin(polar);
 }
 
-void Paddle::draw(sf::RenderWindow *window) const{
-    window->draw(*((ArcShape*)shape));
+
+void Paddle::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+//    states.transform *= getTransform();
+    
+    target.draw(*((ArcShape*)shape), states);
 }

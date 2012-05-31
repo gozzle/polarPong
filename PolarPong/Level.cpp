@@ -433,10 +433,10 @@ void Level::draw(sf::RenderWindow *window) {
         // paddles
         std::vector<Paddle*>::const_iterator it;
         for (it = paddles.begin(); it < paddles.end(); it++) {
-            (*it)->draw(window);
+            window->draw(**it);
         }
     }
     // ball
-    ball->draw(window);
+    window->draw(*ball);
     mutex.unlock();
 }

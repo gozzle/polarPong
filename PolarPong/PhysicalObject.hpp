@@ -11,7 +11,7 @@
 
 #include <SFML/Graphics.hpp>
 
-class PhysicalObject  {
+class PhysicalObject : public sf::Drawable {
 private:
     
     

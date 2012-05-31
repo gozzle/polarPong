@@ -155,13 +155,13 @@ void Splash::draw(sf::RenderWindow *window) {
     mutex.lock();
     window->draw(background);
     
-    newGame->draw(window);
-    difficulty->draw(window);
-    players->draw(window);
-    difficultyLabel->draw(window);
-    playersLabel->draw(window);
+    newGame->doDraw(window);
+    difficulty->doDraw(window);
+    players->doDraw(window);
+    difficultyLabel->doDraw(window);
+    playersLabel->doDraw(window);
     
-    newItem->draw(window);
+    newItem->doDraw(window);
     mutex.unlock();
     
 }

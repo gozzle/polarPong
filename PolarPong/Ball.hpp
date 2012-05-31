@@ -54,7 +54,7 @@ public:
     bool isWithin(const sf::Vector2f& point);
     bool isCollided(Paddle &paddle);
     void updatePosition();
-    void draw(sf::RenderWindow *window) const;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 #endif

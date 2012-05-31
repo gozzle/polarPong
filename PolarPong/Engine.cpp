@@ -101,7 +101,7 @@ bool Engine::run() {
         // Displaying
         window->clear();
         window->draw(background);
-        this->activeView->draw(window);
+        this->activeView->doDraw(window);
         window->display();
         
     }
