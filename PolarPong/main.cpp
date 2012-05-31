@@ -5,7 +5,7 @@
 
 int main (int argc, const char * argv[]) {
     
-    Engine *engine = new Engine();
+    pp::Engine *engine = new pp::Engine();
     
     bool success = engine->run();
     

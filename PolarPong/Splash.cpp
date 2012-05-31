@@ -12,7 +12,7 @@
 #include "Engine.hpp"
 #include "EventDispatcher.hpp"
 
-Splash::Splash() : View(), MenuController(), EventHandler(1, EventWrapper::WINDOW) {
+pp::Splash::Splash() : View(), MenuController(), EventHandler(1, EventWrapper::WINDOW) {
     
     mutex.lock();
     mutex.unlock();
@@ -55,7 +55,7 @@ Splash::Splash() : View(), MenuController(), EventHandler(1, EventWrapper::WINDO
     
 }
 
-Splash::~Splash() {
+pp::Splash::~Splash() {
     mutex.lock();
     delete newGame;
     delete difficulty;
@@ -69,7 +69,7 @@ Splash::~Splash() {
     EventDispatcher::unregisterHandler(this);
 }
 
-void Splash::setPositions() {
+void pp::Splash::setPositions() {
     // position
     sf::Vector2i res = Settings::getScreenResolution();
     float kx = res.x / 100.f;
@@ -95,7 +95,7 @@ void Splash::setPositions() {
     mutex.unlock();
 }
 
-void Splash::handleWindowEvent(const sf::Event& event) {
+void pp::Splash::handleWindowEvent(const sf::Event& event) {
     
     // mouseMoved for highlighting
     if (event.type == sf::Event::MouseMoved) {
@@ -132,25 +132,25 @@ void Splash::handleWindowEvent(const sf::Event& event) {
     }
 }
 
-void Splash::update() {
+void pp::Splash::update() {
     
     // make sure things are in the right place
     setPositions();
     
     // update children
     mutex.lock();
-    newGame->update();
-    difficulty->update();
-    players->update();
-    difficultyLabel->update();
-    playersLabel->update();
+    newGame->doUpdate();
+    difficulty->doUpdate();
+    players->doUpdate();
+    difficultyLabel->doUpdate();
+    playersLabel->doUpdate();
     
-    newItem->update();
+    newItem->doUpdate();
     mutex.unlock();
     
 }
 
-void Splash::draw(sf::RenderWindow *window) {
+void pp::Splash::draw(sf::RenderWindow *window) {
     
     mutex.lock();
     window->draw(background);
@@ -166,7 +166,7 @@ void Splash::draw(sf::RenderWindow *window) {
     
 }
 
-void Splash::doSelectedItem(std::string id) {
+void pp::Splash::doSelectedItem(std::string id) {
     if (id == "newGame") {
         // do new game
         EngineStateEvent stateChangeEvt(EngineStateEvent::GAME);
@@ -191,7 +191,7 @@ void Splash::doSelectedItem(std::string id) {
     }
 }
 
-std::string Splash::getDifficultyStr() {
+std::string pp::Splash::getDifficultyStr() {
     std::string str;
     switch (Settings::getDifficulty()) {
         case Settings::EASY:
@@ -207,7 +207,7 @@ std::string Splash::getDifficultyStr() {
     return str;
 }
 
-std::string Splash::getPlayersStr() {
+std::string pp::Splash::getPlayersStr() {
     char str[2];
     std::sprintf(str, "%d", Settings::getPlayers());
     return str;

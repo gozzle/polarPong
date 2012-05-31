@@ -12,7 +12,7 @@
 #include "Settings.hpp"
 #include "EventDispatcher.hpp"
 
-MenuItem::MenuItem(MenuController *controller, std::string id) : EventHandler(1, EventWrapper::WINDOW)
+pp::MenuItem::MenuItem(MenuController *controller, std::string id) : EventHandler(1, EventWrapper::WINDOW)
 {
     this->controller = controller;
     this->id = id;
@@ -34,27 +34,27 @@ MenuItem::MenuItem(MenuController *controller, std::string id) : EventHandler(1,
     
 }
 
-MenuItem::~MenuItem() {
+pp::MenuItem::~MenuItem() {
     EventDispatcher::unregisterHandler(this);
 }
 
-void MenuItem::setText(std::string text) {
+void pp::MenuItem::setText(std::string text) {
     this->textMutex.lock();
     this->text.setString(text);
     this->textMutex.unlock();
 }
 
-std::string MenuItem::getText() {
+std::string pp::MenuItem::getText() {
     this->textMutex.lock();
     return this->text.getString();
     this->textMutex.unlock();
 }
 
-void MenuItem::setPosition(float x, float y) {
+void pp::MenuItem::setPosition(float x, float y) {
     this->text.setPosition(x,y);
 }
 
-bool MenuItem::contains(float x, float y) const {    
+bool pp::MenuItem::contains(float x, float y) const {    
     sf::FloatRect bounds = this->text.getGlobalBounds();
     
     sf::FloatRect old = bounds;
@@ -67,11 +67,11 @@ bool MenuItem::contains(float x, float y) const {
     return bounds.contains(x, y);
 }
 
-bool MenuItem::contains(sf::Vector2f position) const {
+bool pp::MenuItem::contains(sf::Vector2f position) const {
     return this->contains(position.x, position.y);
 }
 
-void MenuItem::setHighlighted(bool highlighted) {
+void pp::MenuItem::setHighlighted(bool highlighted) {
     if (highlightable) {
         highlightMutex.lock();
         this->highlighted = highlighted;
@@ -84,17 +84,17 @@ void MenuItem::setHighlighted(bool highlighted) {
     }
 }
 
-void MenuItem::setHighlightable(bool highlightable) {
+void pp::MenuItem::setHighlightable(bool highlightable) {
     this->highlightable = highlightable;
 }
 
-void MenuItem::handleWindowEvent(const sf::Event& event) {
+void pp::MenuItem::handleWindowEvent(const sf::Event& event) {
     if (event.type == sf::Event::MouseButtonReleased) {
         controller->doSelectedItem(this->id);
     }
 }
 
-void MenuItem::update() {
+void pp::MenuItem::update() {
     // set colour of text according to highlighted status
     highlightMutex.lock();
     textMutex.lock();
@@ -104,7 +104,7 @@ void MenuItem::update() {
     textMutex.unlock();
 }
 
-void MenuItem::draw(sf::RenderWindow *window) {
+void pp::MenuItem::draw(sf::RenderWindow *window) {
     textMutex.lock();
     window->draw(this->text);
     textMutex.unlock();

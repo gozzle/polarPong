@@ -10,53 +10,59 @@
 
 #include <SFML/Graphics.hpp>
 #include <ctime>
+#include "BasicShapeView.hpp"
 #include "Splash.hpp"
 #include "Level.hpp"
 #include "Settings.hpp"
 #include "EventDispatcher.hpp"
 
-Engine::Engine() : EventHandler(2, EventWrapper::WINDOW, EventWrapper::ENGINE_STATE),
-                    
-                   activeView(NULL) {
+pp::Engine::Engine() : EventHandler(2, EventWrapper::WINDOW, EventWrapper::ENGINE_STATE), activeView(NULL) {
     srand((unsigned)time(0));
     EventDispatcher::registerHandler(this);
+                       
+                       
+    // Create background View
+    sf::Vector2i res = Settings::getScreenResolution();
+    sf::RectangleShape bg;
+    bg.setSize(sf::Vector2f(res.x, res.y));
+    bg.setFillColor(sf::Color(110,100,110));
+    bg.setPosition(0, 0);
+    
+    this->root = new BasicShapeView(new sf::RectangleShape(bg));
+    
     setState(EngineStateEvent::SPLASH);
 }
 
-Engine::~Engine() {
-    delete this->activeView;
+pp::Engine::~Engine() {
+    delete this->root;
     EventDispatcher::unregisterHandler(this);
     delete this->window;
 }
 
 // Hide activeView, change to new one, and show
-void Engine::setState(EngineStateEvent::State state) {
+void pp::Engine::setState(EngineStateEvent::State state) {
     
-    View *newView;
+    root->removeChildAt(0);
     switch (state) {
         case EngineStateEvent::SPLASH:
             this->state = EngineStateEvent::SPLASH;
-            newView = new Splash();
+            root->addChild("splash", new Splash());
+            
+            activeView = root->getChild("splash");
             break;
         case EngineStateEvent::GAME:
             this->state = EngineStateEvent::GAME;
-            newView = new Level();
+            root->addChild("game", new Level());
+            
+            activeView = root->getChild("game");
             break;
             
         default:
             break;
-    }
-    if (this->activeView) {
-        this->activeView->setVisible(false);
-        delete this->activeView;
-    }
-    
-    this->activeView = newView;
-    this->activeView->setVisible(true);
-    
+    }    
 }
 
-void Engine::handleWindowEvent(const sf::Event &event) {
+void pp::Engine::handleWindowEvent(const sf::Event &event) {
     if (event.type == sf::Event::Closed) {
         sf::Mutex mutex;
         mutex.lock();
@@ -65,11 +71,11 @@ void Engine::handleWindowEvent(const sf::Event &event) {
     }
 }
 
-void Engine::handleEngineStateEvent(const EngineStateEvent &event) {
+void pp::Engine::handleEngineStateEvent(const EngineStateEvent &event) {
     setState(event.getState());
 }
 
-bool Engine::run() {
+bool pp::Engine::run() {
     bool success = true;
     
     sf::Vector2i resolution = Settings::getScreenResolution();
@@ -77,10 +83,6 @@ bool Engine::run() {
     window->setActive();
     window->setFramerateLimit(60);
     
-    sf::RectangleShape background;
-    background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
-    background.setFillColor(sf::Color(110,100,110));
-    background.setPosition(0, 0);
     
     // set up event handling
     sf::Thread dispatchThread(&EventDispatcher::runDispatchThread);
@@ -96,12 +98,12 @@ bool Engine::run() {
         }
         
         // Updating
-        this->activeView->update();
+        root->doUpdate();
+//        this->activeView->update();
         
         // Displaying
         window->clear();
-        window->draw(background);
-        this->activeView->doDraw(window);
+        root->doDraw(window);
         window->display();
         
     }

@@ -12,26 +12,31 @@
 #include "EventHandler.hpp"
 #include "View.hpp"
 
-class Engine : public EventHandler {
-private:
+namespace pp {
     
-    EngineStateEvent::State state;
-    View *activeView;
-    sf::RenderWindow *window;
+    class Engine : public EventHandler {
+    private:
+        
+        EngineStateEvent::State state;
+        View* root;
+        View* activeView;
+        sf::RenderWindow *window;
+        
+        // Hide responder, change to new responder, and show the new one
+        void setState(EngineStateEvent::State state);
+        
+    public:
+        Engine();
+        ~Engine();
+        
+        // set things going
+        bool run();
+        
+        void handleWindowEvent(const sf::Event& event);
+        void handleEngineStateEvent(const EngineStateEvent& event);
+        
+    };
     
-    // Hide responder, change to new responder, and show the new one
-    void setState(EngineStateEvent::State state);
-    
-public:
-    Engine();
-    ~Engine();
-    
-    // set things going
-    bool run();
-    
-    void handleWindowEvent(const sf::Event& event);
-    void handleEngineStateEvent(const EngineStateEvent& event);
-    
-};
+}
 
 #endif

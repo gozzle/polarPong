@@ -18,57 +18,63 @@
 #include "Paddle.hpp"
 #include "Ball.hpp"
 
-class Level : public View, public EventHandler {
-private:
-    // State (eg. in play, or countdown)
-    enum State {
-        WAITING,
-        COUNTDOWN,
-        PLAYING,
-        PAUSED
-    } state;
+
+namespace pp {
     
-    sf::Mutex mutex;
-    
-    // Controllers
-    std::vector<GameController*> gameControllers;
-    // AIs
-    std::vector<AI*> aiList;
-    
-    // Paddles
-    std::vector<Paddle*> paddles;
-    const Paddle *lastHitPaddle;
-    // Ball(s?)
-    Ball *ball;
-    
-    // Scores
-    std::vector<int> scores;
-    
-    // background: division lines and score text
-    sf::CircleShape courtCircle;
-    std::vector<sf::Text> scoreTexts;
-    std::vector<DashedLine> divisions;
-    
-    void updateScoreTexts();
-    void reset();
-    void deleteAll();
-    void restart();
-    
-    int getPlayerForCoords(sf::Vector2f coords);
-    void doCollision(const Paddle& paddle);
-    
-public:
-    
-    Level();
-    ~Level();
-    
-    // inherited methods
-    
-    void handleWindowEvent(const sf::Event& event);
-    void handleMovementEvent(const MovementEvent& event);
-    void update();
-    void draw(sf::RenderWindow *window);
-    
-};
+    class Level : public View, public EventHandler {
+    private:
+        // State (eg. in play, or countdown)
+        enum State {
+            WAITING,
+            COUNTDOWN,
+            PLAYING,
+            PAUSED
+        } state;
+        
+        sf::Mutex mutex;
+        
+        // Controllers
+        std::vector<GameController*> gameControllers;
+        // AIs
+        std::vector<AI*> aiList;
+        
+        // Paddles
+        std::vector<Paddle*> paddles;
+        const Paddle *lastHitPaddle;
+        // Ball(s?)
+        Ball *ball;
+        
+        // Scores
+        std::vector<int> scores;
+        
+        // background: division lines and score text
+        sf::CircleShape courtCircle;
+        std::vector<sf::Text> scoreTexts;
+        std::vector<DashedLine> divisions;
+        
+        void updateScoreTexts();
+        void reset();
+        void deleteAll();
+        void restart();
+        
+        int getPlayerForCoords(sf::Vector2f coords);
+        void doCollision(const Paddle& paddle);
+        
+    public:
+        
+        Level();
+        ~Level();
+        
+        // inherited methods
+        
+        void handleWindowEvent(const sf::Event& event);
+        void handleMovementEvent(const MovementEvent& event);
+        
+    protected:
+        void update();
+        void draw(sf::RenderWindow *window);
+        
+    };
+}
 
 #endif

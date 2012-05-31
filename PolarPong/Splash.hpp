@@ -16,39 +16,45 @@
 #include "MenuItem.hpp"
 #include <SFML/Graphics.hpp>
 
-class Splash : public View, public MenuController, public EventHandler {
-private:
+namespace pp {
     
-    sf::Mutex mutex;
-    
-    sf::RectangleShape background;
-    
-    MenuItem *difficultyLabel;
-    MenuItem *playersLabel;
-    
-    MenuItem *newGame;
-    MenuItem *difficulty;
-    MenuItem *players;
-    MenuItem *newItem;
-    
-    void setPositions();
-    
-    std::string getDifficultyStr();
-    std::string getPlayersStr();
-    
-public:
-    
-    Splash();
-    ~Splash();
-    
-    // inherited methods
-    
-    void handleWindowEvent(const sf::Event& event);
-    void update();
-    void draw(sf::RenderWindow *window); 
-    
-    void doSelectedItem(std::string id);
-    
-};
+    class Splash : public View, public MenuController, public EventHandler {
+    private:
+        
+        sf::Mutex mutex;
+        
+        sf::RectangleShape background;
+        
+        MenuItem *difficultyLabel;
+        MenuItem *playersLabel;
+        
+        MenuItem *newGame;
+        MenuItem *difficulty;
+        MenuItem *players;
+        MenuItem *newItem;
+        
+        void setPositions();
+        
+        std::string getDifficultyStr();
+        std::string getPlayersStr();
+        
+    protected:
+        
+        void update();
+        void draw(sf::RenderWindow *window); 
+        
+    public:
+        
+        Splash();
+        ~Splash();
+        
+        // inherited methods
+        
+        void handleWindowEvent(const sf::Event& event);
+        
+        void doSelectedItem(std::string id);
+        
+    };
+}
 
 #endif

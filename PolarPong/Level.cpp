@@ -14,20 +14,20 @@
 #include "HumanLocal.hpp"
 #include "AI.hpp"
 
-Level::Level() : EventHandler(2, EventWrapper::WINDOW, EventWrapper::MOVEMENT) {
+pp::Level::Level() : EventHandler(2, EventWrapper::WINDOW, EventWrapper::MOVEMENT) {
     
     EventDispatcher::registerHandler(this);
     
     this->reset();
 }
 
-Level::~Level() {
+pp::Level::~Level() {
     deleteAll();
     
     EventDispatcher::unregisterHandler(this);
 }
 
-void Level::deleteAll() {
+void pp::Level::deleteAll() {
     mutex.lock();
     // controllers
     {
@@ -62,7 +62,7 @@ void Level::deleteAll() {
     mutex.unlock();
     
 }
-void Level::reset() {
+void pp::Level::reset() {
     
     // delete old objects
     mutex.lock();
@@ -157,7 +157,7 @@ void Level::reset() {
     mutex.unlock();
 }
 
-void Level::restart() {
+void pp::Level::restart() {
     // replace ball and paddles, and set state
     
     mutex.lock();
@@ -233,7 +233,7 @@ void Level::restart() {
     
 }
 
-void Level::updateScoreTexts() {
+void pp::Level::updateScoreTexts() {
     // text
     std::vector<sf::Text>::iterator txtsIt;
     std::vector<int>::const_iterator scoresIt;
@@ -247,7 +247,7 @@ void Level::updateScoreTexts() {
     mutex.unlock();
 }
 
-int Level::getPlayerForCoords(sf::Vector2f coords) {
+int pp::Level::getPlayerForCoords(sf::Vector2f coords) {
     sf::Vector2i center = Settings::getScreenResolution()/2;
     coords.x -= center.x;
     coords.y -= center.y;
@@ -274,7 +274,7 @@ int Level::getPlayerForCoords(sf::Vector2f coords) {
     return player;
 }
 
-void Level::doCollision(const Paddle& paddle) {
+void pp::Level::doCollision(const Paddle& paddle) {
     // update 'last hit paddle'
     mutex.lock();
     this->lastHitPaddle = &paddle;
@@ -289,7 +289,7 @@ void Level::doCollision(const Paddle& paddle) {
     ball->bounce(offset, polarCollisionPoint);
 }
 
-void Level::handleWindowEvent(const sf::Event& event) {
+void pp::Level::handleWindowEvent(const sf::Event& event) {
     
     if (event.type == sf::Event::KeyReleased) {
         if (event.key.code == sf::Keyboard::Escape) {
@@ -326,7 +326,7 @@ void Level::handleWindowEvent(const sf::Event& event) {
     }
 }
 
-void Level::handleMovementEvent(const MovementEvent& event) {
+void pp::Level::handleMovementEvent(const MovementEvent& event) {
     if (this->state == PLAYING) {
         // do movement
         int player = event.getPlayer();
@@ -348,7 +348,7 @@ void Level::handleMovementEvent(const MovementEvent& event) {
     }
 }
 
-void Level::update() {
+void pp::Level::update() {
     
     updateScoreTexts();
     
@@ -407,7 +407,7 @@ void Level::update() {
     }
 }
 
-void Level::draw(sf::RenderWindow *window) {
+void pp::Level::draw(sf::RenderWindow *window) {
     //background
     mutex.lock();
     window->draw(courtCircle);
