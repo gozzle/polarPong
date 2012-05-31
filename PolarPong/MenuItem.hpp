@@ -9,12 +9,12 @@
 #ifndef PolarPong_MenuItem_h
 #define PolarPong_MenuItem_h
 
-#include "Viewable.hpp"
+#include "View.hpp"
 #include "EventHandler.hpp"
 #include "MenuController.hpp"
 #include <SFML/Graphics.hpp>
 
-class MenuItem : public Viewable, public EventHandler {
+class MenuItem : public View, public EventHandler {
 private:
     
     struct TextProperties {

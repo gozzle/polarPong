@@ -9,7 +9,7 @@
 #ifndef PolarPong_Level_hpp
 #define PolarPong_Level_hpp
 
-#include "Viewable.hpp"
+#include "View.hpp"
 #include "EventHandler.hpp"
 #include <vector>
 #include "DashedLine.hpp"
@@ -18,7 +18,7 @@
 #include "Paddle.hpp"
 #include "Ball.hpp"
 
-class Level : public Viewable, public EventHandler {
+class Level : public View, public EventHandler {
 private:
     // State (eg. in play, or countdown)
     enum State {

@@ -12,7 +12,7 @@
 #include "Engine.hpp"
 #include "EventDispatcher.hpp"
 
-Splash::Splash() : Viewable(), MenuController(), EventHandler(1, EventWrapper::WINDOW) {
+Splash::Splash() : View(), MenuController(), EventHandler(1, EventWrapper::WINDOW) {
     
     mutex.lock();
     mutex.unlock();

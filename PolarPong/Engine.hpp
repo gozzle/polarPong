@@ -10,13 +10,13 @@
 #define PolarPong_Engine_h
 
 #include "EventHandler.hpp"
-#include "Viewable.hpp"
+#include "View.hpp"
 
 class Engine : public EventHandler {
 private:
     
     EngineStateEvent::State state;
-    Viewable *activeView;
+    View *activeView;
     sf::RenderWindow *window;
     
     // Hide responder, change to new responder, and show the new one

@@ -9,14 +9,14 @@
 #ifndef PolarPong_Splash_hpp
 #define PolarPong_Splash_hpp
 
-#include "Viewable.hpp"
+#include "View.hpp"
 #include "MenuController.hpp"
 #include "EventHandler.hpp"
 
 #include "MenuItem.hpp"
 #include <SFML/Graphics.hpp>
 
-class Splash : public Viewable, public MenuController, public EventHandler {
+class Splash : public View, public MenuController, public EventHandler {
 private:
     
     sf::Mutex mutex;

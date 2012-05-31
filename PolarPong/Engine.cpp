@@ -32,7 +32,7 @@ Engine::~Engine() {
 // Hide activeView, change to new one, and show
 void Engine::setState(EngineStateEvent::State state) {
     
-    Viewable *newView;
+    View *newView;
     switch (state) {
         case EngineStateEvent::SPLASH:
             this->state = EngineStateEvent::SPLASH;
