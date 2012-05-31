@@ -32,6 +32,9 @@ void EventHandler::handleEvent(const EventWrapper &event) {
         case EventWrapper::MOVEMENT:
             handleMovementEvent(*((MovementEvent*)eventPtr));
             break;
+        case EventWrapper::ENGINE_STATE:
+            handleEngineStateEvent(*((EngineStateEvent*)eventPtr));
+            break;
         default:
             break;
     }

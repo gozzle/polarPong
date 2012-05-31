@@ -57,6 +57,8 @@
 		F24B5FA9156AEA72002D97A3 /* GameController.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameController.hpp; sourceTree = "<group>"; };
 		F24B5FAB156AEB67002D97A3 /* HumanLocal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HumanLocal.hpp; sourceTree = "<group>"; };
 		F24B5FAC156AED9E002D97A3 /* HumanLocal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HumanLocal.cpp; sourceTree = "<group>"; };
+		F2691BD11577F19700331F44 /* EngineStateEvent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EngineStateEvent.hpp; sourceTree = "<group>"; };
+		F2691BD31577F38700331F44 /* Event.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Event.hpp; sourceTree = "<group>"; };
 		F2732635156B0D0C00C8679A /* EventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandler.cpp; sourceTree = "<group>"; };
 		F2732645156BF81200C8679A /* AI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AI.hpp; sourceTree = "<group>"; };
 		F2732647156BF96100C8679A /* AI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AI.cpp; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 		F20D250515603215008DD115 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				F2691BD41577F61600331F44 /* Events */,
 				F236B53B15558B82002BCA31 /* Engine.hpp */,
 				F236B54515558F39002BCA31 /* Engine.cpp */,
 				F236B53D15558BB7002BCA31 /* Viewable.hpp */,
@@ -120,12 +123,6 @@
 		F20D250715603265008DD115 /* MultiplayerControl */ = {
 			isa = PBXGroup;
 			children = (
-				F20D2508156032E7008DD115 /* MovementEvent.hpp */,
-				F20D2509156033E7008DD115 /* EventDispatcher.hpp */,
-				F20D250A1560350E008DD115 /* EventDispatcher.cpp */,
-				F23478B71562F53E00C5E50E /* EventWrapper.hpp */,
-				F23478B91562F71300C5E50E /* EventHandler.hpp */,
-				F2732635156B0D0C00C8679A /* EventHandler.cpp */,
 				F24B5FA9156AEA72002D97A3 /* GameController.hpp */,
 				F2732645156BF81200C8679A /* AI.hpp */,
 				F2732647156BF96100C8679A /* AI.cpp */,
@@ -189,6 +186,21 @@
 				F236B53215558B0C002BCA31 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F2691BD41577F61600331F44 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				F23478B71562F53E00C5E50E /* EventWrapper.hpp */,
+				F2691BD31577F38700331F44 /* Event.hpp */,
+				F20D2508156032E7008DD115 /* MovementEvent.hpp */,
+				F2691BD11577F19700331F44 /* EngineStateEvent.hpp */,
+				F20D2509156033E7008DD115 /* EventDispatcher.hpp */,
+				F20D250A1560350E008DD115 /* EventDispatcher.cpp */,
+				F23478B91562F71300C5E50E /* EventHandler.hpp */,
+				F2732635156B0D0C00C8679A /* EventHandler.cpp */,
+			);
+			name = Events;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

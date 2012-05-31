@@ -59,7 +59,7 @@ private:
     
 public:
     
-    Level(Engine *controller);
+    Level();
     ~Level();
     
     // inherited methods

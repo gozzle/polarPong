@@ -9,9 +9,10 @@
 #ifndef PolarPong_MovementEvent_hpp
 #define PolarPong_MovementEvent_hpp
 
+#include "Event.hpp"
 #include <tr1/unordered_map>
 
-class MovementEvent {
+class MovementEvent : Event {
 public:
     enum Direction {
         CLOCKWISE,

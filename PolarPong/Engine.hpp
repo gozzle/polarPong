@@ -14,19 +14,13 @@
 
 class Engine : public EventHandler {
 private:
-
-    enum GameState {
-        SPLASH = 0,
-        GAME = 1,
-        QUIT
-    };
     
-    GameState state;
+    EngineStateEvent::State state;
     Viewable *activeView;
     sf::RenderWindow *window;
     
     // Hide responder, change to new responder, and show the new one
-    void setState(GameState);
+    void setState(EngineStateEvent::State state);
     
 public:
     Engine();
@@ -35,10 +29,8 @@ public:
     // set things going
     bool run();
     
-    // Call setState appropriately
-    void changeState();
-    
     void handleWindowEvent(const sf::Event& event);
+    void handleEngineStateEvent(const EngineStateEvent& event);
     
 };
 

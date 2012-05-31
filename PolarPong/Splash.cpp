@@ -12,10 +12,9 @@
 #include "Engine.hpp"
 #include "EventDispatcher.hpp"
 
-Splash::Splash(Engine *controller) : Viewable(), MenuController(), EventHandler(1, EventWrapper::WINDOW) {
+Splash::Splash() : Viewable(), MenuController(), EventHandler(1, EventWrapper::WINDOW) {
     
     mutex.lock();
-    this->controller = controller;
     mutex.unlock();
     
     EventDispatcher::registerHandler(this);
@@ -170,8 +169,8 @@ void Splash::draw(sf::RenderWindow *window) {
 void Splash::doSelectedItem(std::string id) {
     if (id == "newGame") {
         // do new game
-        this->controller->changeState();
-        
+        EngineStateEvent stateChangeEvt(EngineStateEvent::GAME);
+        EventDispatcher::fireEvent(EventWrapper(&stateChangeEvt, EventWrapper::ENGINE_STATE));
     } else if (id == "difficulty") {
         // change difficulty
         Settings::changeDifficulty();

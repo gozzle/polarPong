@@ -20,7 +20,6 @@ private:
     
 protected:
     // for subclass instantiation
-    Engine *controller;
     Viewable() : opacity(100), hidden(true) {}
     
 public:

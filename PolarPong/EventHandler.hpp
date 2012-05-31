@@ -32,6 +32,7 @@ public:
     
     virtual void handleWindowEvent(const sf::Event& event) {};
     virtual void handleMovementEvent(const MovementEvent& event) {};
+    virtual void handleEngineStateEvent(const EngineStateEvent& event) {};
 };
 
 // define hash method for EventHandler

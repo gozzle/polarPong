@@ -11,13 +11,16 @@
 
 #include <tr1/unordered_map>
 
+#include "Event.hpp"
 #include "MovementEvent.hpp"
+#include "EngineStateEvent.hpp"
 #include <SFML/Graphics.hpp>
 
 class EventWrapper {
 public:
     enum Type {
         MOVEMENT,
+        ENGINE_STATE,
         WINDOW
     };
     
@@ -26,7 +29,7 @@ private:
     Type type;
     
     sf::Event* sfmlEvent;
-    MovementEvent* event;
+    Event* event;
     
     void construct(void* event, Type type) {
         this->event =0;
@@ -35,7 +38,10 @@ private:
         
         switch (type) {
             case MOVEMENT:
-                this->event = new MovementEvent(*((MovementEvent*)event));
+                this->event = (Event*)new MovementEvent(*((MovementEvent*)event));
+                break;
+            case ENGINE_STATE:
+                this->event = (Event*)new EngineStateEvent(*((EngineStateEvent*)event));
                 break;
             case WINDOW:
                 this->sfmlEvent = new sf::Event(*((sf::Event*)event));
@@ -73,6 +79,9 @@ public:
     void* getEvent() const {
         switch (this->type) {
             case MOVEMENT:
+                return this->event;
+                break;
+            case ENGINE_STATE:
                 return this->event;
                 break;
             case WINDOW:

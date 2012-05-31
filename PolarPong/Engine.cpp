@@ -15,11 +15,12 @@
 #include "Settings.hpp"
 #include "EventDispatcher.hpp"
 
-Engine::Engine() : EventHandler(1, EventWrapper::WINDOW),
+Engine::Engine() : EventHandler(2, EventWrapper::WINDOW, EventWrapper::ENGINE_STATE),
+                    
                    activeView(NULL) {
     srand((unsigned)time(0));
     EventDispatcher::registerHandler(this);
-    setState(SPLASH);
+    setState(EngineStateEvent::SPLASH);
 }
 
 Engine::~Engine() {
@@ -29,17 +30,17 @@ Engine::~Engine() {
 }
 
 // Hide activeView, change to new one, and show
-void Engine::setState(Engine::GameState state) {
+void Engine::setState(EngineStateEvent::State state) {
     
     Viewable *newView;
     switch (state) {
-        case SPLASH:
-            this->state = SPLASH;
-            newView = new Splash(this);
+        case EngineStateEvent::SPLASH:
+            this->state = EngineStateEvent::SPLASH;
+            newView = new Splash();
             break;
-        case GAME:
-            this->state = GAME;
-            newView = new Level(this);
+        case EngineStateEvent::GAME:
+            this->state = EngineStateEvent::GAME;
+            newView = new Level();
             break;
             
         default:
@@ -55,29 +56,17 @@ void Engine::setState(Engine::GameState state) {
     
 }
 
-
-void Engine::changeState() {
-    switch (this->state) {
-        case SPLASH:
-            setState(GAME);
-            break;
-        case GAME:
-            setState(SPLASH);
-            break;
-            
-        default:
-            break;
-    }
-                            
-}
-
 void Engine::handleWindowEvent(const sf::Event &event) {
     if (event.type == sf::Event::Closed) {
         sf::Mutex mutex;
         mutex.lock();
-        this->state = QUIT;
+        this->state = EngineStateEvent::QUIT;
         mutex.unlock();
     }
+}
+
+void Engine::handleEngineStateEvent(const EngineStateEvent &event) {
+    setState(event.getState());
 }
 
 bool Engine::run() {
@@ -98,7 +87,7 @@ bool Engine::run() {
     dispatchThread.launch();
     
     // Start game loop
-    while (this->state != QUIT) {
+    while (this->state != EngineStateEvent::QUIT) {
         
         // Window event handling
         sf::Event event;

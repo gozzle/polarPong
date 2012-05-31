@@ -14,9 +14,8 @@
 #include "HumanLocal.hpp"
 #include "AI.hpp"
 
-Level::Level(Engine *controller) : EventHandler(2, EventWrapper::WINDOW, EventWrapper::MOVEMENT) {
+Level::Level() : EventHandler(2, EventWrapper::WINDOW, EventWrapper::MOVEMENT) {
     
-    this->controller = controller;
     EventDispatcher::registerHandler(this);
     
     this->reset();
@@ -296,7 +295,8 @@ void Level::handleWindowEvent(const sf::Event& event) {
         if (event.key.code == sf::Keyboard::Escape) {
             switch (this->state) {
                 case WAITING:
-                    this->controller->changeState();
+                    EngineStateEvent engEvt(EngineStateEvent::SPLASH);
+                    EventDispatcher::fireEvent(EventWrapper(&engEvt, EventWrapper::ENGINE_STATE));
                     break;
                 case PLAYING:
                 case PAUSED:

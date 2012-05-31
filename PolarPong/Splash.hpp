@@ -38,7 +38,7 @@ private:
     
 public:
     
-    Splash(Engine *controller);
+    Splash();
     ~Splash();
     
     // inherited methods
