@@ -1,4 +1,4 @@
 polarPong
 =========
 
-Circular Pong Game
+Circular Pong Game, written using SFML
