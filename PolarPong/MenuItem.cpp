@@ -108,6 +108,6 @@ void pp::MenuItem::update() {
 }
 
 void pp::MenuItem::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    target.draw(this->text);
+    target.draw(this->text, states);
 }
 

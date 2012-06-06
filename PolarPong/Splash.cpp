@@ -14,85 +14,69 @@
 
 #include "BasicShapeView.hpp"
 
-pp::Splash::Splash() : View(), MenuController(), EventHandler(1, EventWrapper::WINDOW) {
+pp::Splash::Splash() : EventHandler(1, EventWrapper::WINDOW) {
     
     this->setSize((sf::Vector2f)Settings::getScreenResolution());
     
     EventDispatcher::registerHandler(this);
     
-    sf::RectangleShape bg;
-    bg.setOutlineThickness(2);
-    bg.setFillColor(sf::Color(0,0,0,127));
-    addChild("background", new BasicShapeView(new sf::RectangleShape(bg)));
+    // add menu items
+    MenuItem* item = new MenuItem(this, "newGame");
+    item->setText("New Game");
+    addMenuItem("newGame", item);
     
-    mutex.lock();
-    addChild("newGame", new MenuItem(this, "newGame"));
-    addChild("difficulty", new MenuItem(this, "difficulty"));
-    addChild("players", new MenuItem(this, "players"));
-    addChild("difficultyLabel", new MenuItem(this, "diffLabel"));
-    addChild("playersLabel", new MenuItem(this, "playersLabel"));
+    item = new MenuItem(this, "difficulty");
+    item->setText(getDifficultyStr());
+    addMenuItem("difficulty", item);
     
-    //newItem = new MenuItem(this, "newItem");
-    mutex.unlock();
+    item = new MenuItem(this, "players");
+    item->setText(getPlayersStr());
+    addMenuItem("players", item);
     
-    // text
-    mutex.lock();
-    ((MenuItem*)getChild("newGame"))->setText("New Game");
-    ((MenuItem*)getChild("difficulty"))->setText(getDifficultyStr());
-    ((MenuItem*)getChild("players"))->setText(getPlayersStr());
-    ((MenuItem*)getChild("difficultyLabel"))->setText("Difficulty:");
-    ((MenuItem*)getChild("playersLabel"))->setText("No. Players:");
+    item = new MenuItem(this, "diffLabel");
+    item->setText("Difficulty:");
+    addMenuItem("diffLabel", item);
     
-    //newItem->setText(" "); //weird hacked workaround to bug
-    mutex.unlock();
-    
-    setPositions();
+    item = new MenuItem(this, "playersLabel");
+    item->setText("No. Players:");
+    addMenuItem("playersLabel", item);
     
     // highlightable
-    mutex.lock();
-    ((MenuItem*)getChild("difficultyLabel"))->setHighlightable(false);
-    ((MenuItem*)getChild("playersLabel"))->setHighlightable(false);
-    
-//    newItem->setHighlightable(false);
-    mutex.unlock();
+    ((MenuItem*)getMenuItem("diffLabel"))->setHighlightable(false);
+    ((MenuItem*)getMenuItem("playersLabel"))->setHighlightable(false);
     
 }
 
 pp::Splash::~Splash() {
-//    mutex.lock();
     
-//    delete newItem;
-//    mutex.unlock();
-    
-    EventDispatcher::unregisterHandler(this);
 }
 
-void pp::Splash::setPositions() {
-    // position
-    sf::Vector2i res = Settings::getScreenResolution();
-    float kx = res.x / 100.f;
-    float ky = res.y / 100.f;
-    
-    sf::Vector2i center = res/2;
-    sf::Vector2i baseline = sf::Vector2i(center.x - 18*kx,
-                                         center.y - 20*ky);
-    
-    // background box
-    mutex.lock();
-    sf::RectangleShape* bgShp = (sf::RectangleShape*)((BasicShapeView*)getChild("background"))->getShape();
-    bgShp->setPosition(baseline.x - 2*kx, baseline.y - 2*ky);
-    bgShp->setSize(sf::Vector2f((center.x - baseline.x + 2*kx)*2,
-                       (center.y - baseline.y + 2*ky)*2));
-    
-    ((MenuItem*)getChild("newGame"))->setPosition(baseline.x, baseline.y);
-    ((MenuItem*)getChild("difficultyLabel"))->setPosition(baseline.x, baseline.y + 10*ky);
-    ((MenuItem*)getChild("difficulty"))->setPosition(baseline.x + 25*kx, baseline.y + 10*ky);
-    ((MenuItem*)getChild("playersLabel"))->setPosition(baseline.x, baseline.y + 20*ky);
-    ((MenuItem*)getChild("players"))->setPosition(baseline.x + 25*kx, baseline.y + 20*ky);
-    
-//    newItem->setPosition(baseline.x, baseline.y +40*ky);
-    mutex.unlock();
-}
+//void pp::Splash::setPositions() {
+//    // position
+//    sf::Vector2i res = Settings::getScreenResolution();
+//    float kx = res.x / 100.f;
+//    float ky = res.y / 100.f;
+//    
+//    sf::Vector2i center = res/2;
+//    sf::Vector2i baseline = sf::Vector2i(center.x - 18*kx,
+//                                         center.y - 20*ky);
+//    
+//    // background box
+//    mutex.lock();
+//    sf::RectangleShape* bgShp = (sf::RectangleShape*)((BasicShapeView*)getChild("background"))->getShape();
+//    bgShp->setPosition(baseline.x - 2*kx, baseline.y - 2*ky);
+//    bgShp->setSize(sf::Vector2f((center.x - baseline.x + 2*kx)*2,
+//                       (center.y - baseline.y + 2*ky)*2));
+//    
+//    ((MenuItem*)getChild("newGame"))->setPosition(baseline.x, baseline.y);
+//    ((MenuItem*)getChild("difficultyLabel"))->setPosition(baseline.x, baseline.y + 10*ky);
+//    ((MenuItem*)getChild("difficulty"))->setPosition(baseline.x + 25*kx, baseline.y + 10*ky);
+//    ((MenuItem*)getChild("playersLabel"))->setPosition(baseline.x, baseline.y + 20*ky);
+//    ((MenuItem*)getChild("players"))->setPosition(baseline.x + 25*kx, baseline.y + 20*ky);
+//    
+////    newItem->setPosition(baseline.x, baseline.y +40*ky);
+//    mutex.unlock();
+//}
 
 void pp::Splash::handleWindowEvent(const sf::Event& event) {
     
@@ -101,25 +85,25 @@ void pp::Splash::handleWindowEvent(const sf::Event& event) {
         sf::Vector2i mousePos = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
         
         mutex.lock();
-        if (((MenuItem*)getChild("newGame"))->contains(mousePos.x, mousePos.y)) {
-            ((MenuItem*)getChild("newGame"))->setHighlighted(true);
+        if (((MenuItem*)getMenuItem("newGame"))->contains(mousePos.x, mousePos.y)) {
+            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(true);
             
-            ((MenuItem*)getChild("difficulty"))->setHighlighted(false);
-            ((MenuItem*)getChild("players"))->setHighlighted(false);
-        } else if (((MenuItem*)getChild("difficulty"))->contains(mousePos.x, mousePos.y)) {
-            ((MenuItem*)getChild("difficulty"))->setHighlighted(true);
+            ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(false);
+            ((MenuItem*)getMenuItem("players"))->setHighlighted(false);
+        } else if (((MenuItem*)getMenuItem("difficulty"))->contains(mousePos.x, mousePos.y)) {
+            ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(true);
             
-            ((MenuItem*)getChild("newGame"))->setHighlighted(false);
-            ((MenuItem*)getChild("players"))->setHighlighted(false);
-        } else if (((MenuItem*)getChild("players"))->contains(mousePos.x, mousePos.y)) {
-            ((MenuItem*)getChild("players"))->setHighlighted(true);
+            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
+            ((MenuItem*)getMenuItem("players"))->setHighlighted(false);
+        } else if (((MenuItem*)getMenuItem("players"))->contains(mousePos.x, mousePos.y)) {
+            ((MenuItem*)getMenuItem("players"))->setHighlighted(true);
             
-            ((MenuItem*)getChild("newGame"))->setHighlighted(false);
-            ((MenuItem*)getChild("difficulty"))->setHighlighted(false);
+            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
+            ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(false);
         } else {
-            ((MenuItem*)getChild("newGame"))->setHighlighted(false);
-            ((MenuItem*)getChild("difficulty"))->setHighlighted(false);
-            ((MenuItem*)getChild("players"))->setHighlighted(false);
+            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
+            ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(false);
+            ((MenuItem*)getMenuItem("players"))->setHighlighted(false);
         }
         mutex.unlock();
     } else if (event.type == sf::Event::KeyReleased &&
@@ -132,20 +116,11 @@ void pp::Splash::handleWindowEvent(const sf::Event& event) {
 }
 
 void pp::Splash::update() {
-    
-    mutex.lock();
-    // make sure things are in the right place
-    setPositions();
-    
-//    newItem->doUpdate();
-    mutex.unlock();
-    
+    // don't need to do anything
 }
 
 void pp::Splash::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    
-//    newItem->doDraw(window);
-    
+    // don't need to do anything
 }
 
 void pp::Splash::doSelectedItem(std::string id) {
@@ -157,13 +132,13 @@ void pp::Splash::doSelectedItem(std::string id) {
         // change difficulty
         Settings::changeDifficulty();
         mutex.lock();
-        ((MenuItem*)getChild("difficulty"))->setText(getDifficultyStr());
+        ((MenuItem*)getMenuItem("difficulty"))->setText(getDifficultyStr());
         mutex.unlock();
     } else if (id == "players") {
         // change number of players
         Settings::changePlayers();
         mutex.lock();
-        ((MenuItem*)getChild("players"))->setText(getPlayersStr());
+        ((MenuItem*)getMenuItem("players"))->setText(getPlayersStr());
         mutex.unlock();
     } else if (id == "quit") {
         // not button does this yet...

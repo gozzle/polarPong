@@ -9,8 +9,7 @@
 #ifndef PolarPong_Splash_hpp
 #define PolarPong_Splash_hpp
 
-#include "View.hpp"
-#include "MenuController.hpp"
+#include "MenuView.hpp"
 #include "EventHandler.hpp"
 
 #include "MenuItem.hpp"
@@ -18,7 +17,7 @@
 
 namespace pp {
     
-    class Splash : public View, public MenuController, public EventHandler {
+    class Splash : public MenuView, public MenuController, public EventHandler {
     private:
         
         sf::Mutex mutex;
@@ -31,7 +30,7 @@ namespace pp {
 //        MenuItem *players;
 //        MenuItem *newItem;
         
-        void setPositions();
+//        void setPositions();
         
         std::string getDifficultyStr();
         std::string getPlayersStr();

@@ -12,6 +12,8 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 
+#include <iostream>
+
 class Engine;
 
 namespace pp {
@@ -119,10 +121,11 @@ namespace pp {
                 mutex.lock();
                 states.transform *= this->getTransform();
                 
-                target.draw(*this);
+                target.draw(*this, states);
                 
                 ViewMap::iterator it;
                 for (it = children.begin(); it != children.end(); it++) {
+                    std::cout << "drawing " << (*it).first << std::endl;
                     (*it).second->doDraw(target, states);
                 }
                 

@@ -32,12 +32,13 @@ MenuView::MenuView() {
     sf::RectangleShape bg;
     bg.setOutlineThickness(2);
     bg.setFillColor(sf::Color(0,0,0,127));
-    bg.setPosition(DEFAULT_BOUNDS.left, DEFAULT_BOUNDS.top);
     bg.setSize(sf::Vector2f(DEFAULT_BOUNDS.width, DEFAULT_BOUNDS.height));
     
     // add it to lists
     bgId = bgIdSeed++;
     background = new BasicShapeView(new sf::RectangleShape(bg));
+    background->setPosition(DEFAULT_BOUNDS.left, DEFAULT_BOUNDS.top);
+    background->setSize(bg.getSize());
     this->addChild(("menuBG" + bgId), background);
 }
 
@@ -48,7 +49,7 @@ MenuView::~MenuView() {
 void MenuView::addMenuItem(std::string name, const View *item) {
     // if item doesn't exist in view list, add it.
     // NB. Assumes same name used here as in view list
-    if (background->getChild(name) != NULL) {
+    if (background->getChild(name) == NULL) {
         background->addChild(name, (View*)item);
     }
     // add its reference to the list of items

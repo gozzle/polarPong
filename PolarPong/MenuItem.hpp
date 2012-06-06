@@ -10,6 +10,7 @@
 #define PolarPong_MenuItem_h
 
 #include "View.hpp"
+#include "MenuView.hpp"
 #include "EventHandler.hpp"
 #include "MenuController.hpp"
 #include <SFML/Graphics.hpp>
