@@ -56,8 +56,11 @@ namespace pp {
         bool isVisible() {return !(this->hidden);}
         
         pp::View* getChild(std::string name) {
+            View* view = NULL;
             mutex.lock();
-            View* view = children[name];
+            if (children.count(name) > 0) {
+                view = children[name];
+            }
             mutex.unlock();
             return view;
         }
