@@ -28,7 +28,7 @@ pp::Engine::Engine() : EventHandler(2, EventWrapper::WINDOW, EventWrapper::ENGIN
     bg.setFillColor(sf::Color(110,100,110));
     bg.setPosition(0, 0);
     
-    this->root = new BasicShapeView(new sf::RectangleShape(bg));
+    this->root = new BasicShapeView(NULL, new sf::RectangleShape(bg));
     root->setSize(bg.getSize());
     
     setState(EngineStateEvent::SPLASH);
@@ -46,11 +46,11 @@ void pp::Engine::setState(EngineStateEvent::State state) {
     switch (state) {
         case EngineStateEvent::SPLASH:
             this->state = EngineStateEvent::SPLASH;
-            root->addChild("splash", new Splash());
+            root->addChild("splash", new Splash(root));
             break;
         case EngineStateEvent::GAME:
             this->state = EngineStateEvent::GAME;
-            root->addChild("game", new Level());
+            root->addChild("game", new Level(root));
             break;
             
         default:

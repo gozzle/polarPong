@@ -39,7 +39,7 @@ namespace pp {
         bool highlighted;
         
     public:
-        MenuItem(MenuController *controller, std::string id);
+        MenuItem(View* parent, MenuController *controller, std::string id);
         ~MenuItem();
         
         void setText(std::string text);

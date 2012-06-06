@@ -12,7 +12,7 @@
 #include "Settings.hpp"
 #include "EventDispatcher.hpp"
 
-pp::MenuItem::MenuItem(MenuController *controller, std::string id) : EventHandler(1, EventWrapper::WINDOW)
+pp::MenuItem::MenuItem(View* parent, MenuController *controller, std::string id) : View(parent), EventHandler(1, EventWrapper::WINDOW)
 {
     this->controller = controller;
     this->id = id;
@@ -67,6 +67,12 @@ bool pp::MenuItem::contains(float x, float y) const {
     // center new box
     bounds.left -= (bounds.width - old.width) / 2;
     bounds.top -= (bounds.height - old.height) / 2;
+    
+    // convert to true global coords
+    sf::Vector2f globalPos = getGlobalPosition();
+    bounds.left += globalPos.x;
+    bounds.top += globalPos.y;
+    
     return bounds.contains(x, y);
 }
 

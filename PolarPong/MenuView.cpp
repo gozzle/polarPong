@@ -17,7 +17,7 @@ int MenuView::DEFAULT_PADDING_PERCNT = 2;
 sf::Vector2f MenuView::k(0,0);
 int MenuView::bgIdSeed = 0;
 
-MenuView::MenuView() {
+MenuView::MenuView(View* parent) : View(parent) {
     this->setSize((sf::Vector2f)Settings::getScreenResolution());
     
     // set up default bounds, and percentage factor
@@ -36,7 +36,7 @@ MenuView::MenuView() {
     
     // add it to lists
     bgId = bgIdSeed++;
-    background = new BasicShapeView(new sf::RectangleShape(bg));
+    background = new BasicShapeView(this, new sf::RectangleShape(bg));
     background->setPosition(DEFAULT_BOUNDS.left, DEFAULT_BOUNDS.top);
     background->setSize(bg.getSize());
     this->addChild(("menuBG" + bgId), background);

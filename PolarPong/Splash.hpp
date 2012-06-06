@@ -42,7 +42,7 @@ namespace pp {
         
     public:
         
-        Splash();
+        Splash(View* parent);
         ~Splash();
         
         // inherited methods

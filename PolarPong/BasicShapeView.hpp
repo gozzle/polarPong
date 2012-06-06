@@ -28,7 +28,9 @@ namespace pp {
         
     public:
         // need to ensure that users dynamically assign shape, so that this object owns it
-        BasicShapeView(sf::Shape* shape) {this->shape = shape;}
+        BasicShapeView(View* parent, sf::Shape* shape) : View(parent){
+            this->shape = shape;
+        }
         ~BasicShapeView() {delete shape;}
         
         sf::Shape* getShape() {return this->shape;}

@@ -62,7 +62,7 @@ namespace pp {
         
     public:
         
-        Level();
+        Level(View* parent);
         ~Level();
         
         // inherited methods

@@ -12,8 +12,6 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 
-#include <iostream>
-
 class Engine;
 
 namespace pp {
@@ -28,11 +26,14 @@ namespace pp {
         
         sf::Mutex mutex;
         
+        View* parent;
         ViewMap children;
         
     protected:
         // for subclass instantiation
-        View() : opacity(100), hidden(false) {}
+        View(View* parent) : opacity(100), hidden(false) {
+            this->parent = parent;
+        }
         
         // update this view
         virtual void update() = 0;
@@ -65,7 +66,21 @@ namespace pp {
             return this->size;
         }
         
+        const sf::Vector2f getGlobalPosition() const {
+            // return position in global coordinates
+            sf::Transform transform = getTransform();
+            View* parent = getParent();
+            while (parent != NULL) {
+                transform *= parent->getTransform();
+                parent = parent->getParent();
+            }
+            
+            return transform.transformPoint(getPosition());
+        }
         
+        View* getParent() const {
+            return this->parent;
+        }
         
         pp::View* getChild(std::string name) {
             View* view = NULL;
@@ -125,7 +140,6 @@ namespace pp {
                 
                 ViewMap::iterator it;
                 for (it = children.begin(); it != children.end(); it++) {
-                    std::cout << "drawing " << (*it).first << std::endl;
                     (*it).second->doDraw(target, states);
                 }
                 
