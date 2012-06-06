@@ -17,6 +17,7 @@
 pp::Level::Level() : EventHandler(2, EventWrapper::WINDOW, EventWrapper::MOVEMENT) {
     
     EventDispatcher::registerHandler(this);
+    this->setSize((sf::Vector2f)Settings::getScreenResolution());
     
     this->reset();
 }
@@ -407,16 +408,15 @@ void pp::Level::update() {
     }
 }
 
-void pp::Level::draw(sf::RenderWindow *window) {
+void pp::Level::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     //background
-    mutex.lock();
-    window->draw(courtCircle);
+    target.draw(courtCircle);
     
     {
         // score texts
         std::vector<sf::Text>::const_iterator it;
         for (it = scoreTexts.begin(); it < scoreTexts.end(); it++) {
-            window->draw(*it);
+            target.draw(*it);
         }
     }
     
@@ -424,7 +424,7 @@ void pp::Level::draw(sf::RenderWindow *window) {
         // divisions
         std::vector<DashedLine>::const_iterator it;
         for (it = divisions.begin(); it < divisions.end(); it++) {
-            window->draw(*it);
+            target.draw(*it);
         }
     }
     
@@ -433,10 +433,9 @@ void pp::Level::draw(sf::RenderWindow *window) {
         // paddles
         std::vector<Paddle*>::const_iterator it;
         for (it = paddles.begin(); it < paddles.end(); it++) {
-            window->draw(**it);
+            target.draw(**it);
         }
     }
     // ball
-    window->draw(*ball);
-    mutex.unlock();
+    target.draw(*ball);
 }

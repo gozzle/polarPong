@@ -16,8 +16,7 @@
 
 pp::Splash::Splash() : View(), MenuController(), EventHandler(1, EventWrapper::WINDOW) {
     
-    mutex.lock();
-    mutex.unlock();
+    this->setSize((sf::Vector2f)Settings::getScreenResolution());
     
     EventDispatcher::registerHandler(this);
     
@@ -143,12 +142,9 @@ void pp::Splash::update() {
     
 }
 
-void pp::Splash::draw(sf::RenderWindow *window) {
-    
-    mutex.lock();
+void pp::Splash::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     
 //    newItem->doDraw(window);
-    mutex.unlock();
     
 }
 

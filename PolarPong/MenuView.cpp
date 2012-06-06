@@ -12,18 +12,21 @@
 using namespace pp;
 
 sf::FloatRect MenuView::DEFAULT_BOUNDS(0,0,0,0);
-int MenuView::DEFAULT_FONT_SIZE = 20;
-sf::Vector2f k(0,0);
+int MenuView::DEFAULT_SPACING = 2;
+int MenuView::DEFAULT_PADDING_PERCNT = 2;
+sf::Vector2f MenuView::k(0,0);
 int MenuView::bgIdSeed = 0;
 
 MenuView::MenuView() {
+    this->setSize((sf::Vector2f)Settings::getScreenResolution());
+    
     // set up default bounds, and percentage factor
     k = ((sf::Vector2f)Settings::getScreenResolution())/100.f;
     sf::Vector2f center = Settings::getScreenCenter();
-    DEFAULT_BOUNDS.left = center.x - 18*k.x;
-    DEFAULT_BOUNDS.top  = center.y - 20*k.y;
-    DEFAULT_BOUNDS.width= (center.x - DEFAULT_BOUNDS.left + 2*k.x)*2;
-    DEFAULT_BOUNDS.height=(center.y - DEFAULT_BOUNDS.top + 2*k.y)*2;
+    DEFAULT_BOUNDS.left = center.x - 20*k.x;
+    DEFAULT_BOUNDS.top  = center.y - 22*k.y;
+    DEFAULT_BOUNDS.width= (center.x - DEFAULT_BOUNDS.left + DEFAULT_PADDING_PERCNT*k.x)*2;
+    DEFAULT_BOUNDS.height=(center.y - DEFAULT_BOUNDS.top + DEFAULT_PADDING_PERCNT*k.y)*2;
     
     // set up background
     sf::RectangleShape bg;
@@ -42,15 +45,21 @@ MenuView::~MenuView() {
     
 }
 
-void MenuView::addMenuItem(std::string name, const pp::MenuItem *item) {
+void MenuView::addMenuItem(std::string name, const View *item) {
     // if item doesn't exist in view list, add it.
     // NB. Assumes same name used here as in view list
-    if (this->getChild(name) != NULL) {
-        this->addChild(name, (View*)item);
+    if (background->getChild(name) != NULL) {
+        background->addChild(name, (View*)item);
     }
     // add its reference to the list of items
-    MenuItem* newItem = (MenuItem*)getChild(name);
+    View* newItem = background->getChild(name);
     items[name] = newItem;
+    
+    // set the new item's position
+    setPosition(newItem);
+    
+    // readjust background size
+    readjust();
 }
 
 void MenuView::removeMenuItem(std::string name) {
@@ -58,14 +67,62 @@ void MenuView::removeMenuItem(std::string name) {
     if (items.count(name) > 0) {
         items.erase(name);
     }
-    this->removeChild(name);
+    background->removeChild(name);
+    
+    // readjust background size
+    readjust();
 }
 
-MenuItem* MenuView::getMenuItem(std::string name) {
+View* MenuView::getMenuItem(std::string name) {
     // return pointer to given menu item, or NULL if none.
     if (items.count(name) > 0) {
         return items[name];
     } else {
         return NULL;
+    }
+}
+
+void MenuView::setPosition(View* item) {
+    // position the (new) menu item
+    int numItems = items.size() - 1;
+    
+    float itemsHeight = 0.0;
+    ItemMap::iterator it;
+    for (it = items.begin(); it != items.end(); it++) {
+        itemsHeight += (*it).second->getSize().y;
+    }
+    itemsHeight -= item->getSize().y;
+    
+    item->setPosition(DEFAULT_PADDING_PERCNT*k.x,
+                      DEFAULT_PADDING_PERCNT*k.y + itemsHeight + (DEFAULT_SPACING)*numItems);
+}
+
+void MenuView::readjust() {
+    // resize background to fit new amount of items
+    sf::Vector2f itemsSize(0,0);
+    ItemMap::iterator it;
+    for (it = items.begin(); it != items.end(); it++) {
+        sf::Vector2f size = (*it).second->getSize();
+        itemsSize.y += size.y + DEFAULT_SPACING;
+        if (itemsSize.x < size.x) {
+            itemsSize.x = size.x;
+        }
+    }
+    
+    if (itemsSize.x > DEFAULT_BOUNDS.width + DEFAULT_PADDING_PERCNT*k.x) {
+        // re-center
+        float newWidth = itemsSize.x + 2*DEFAULT_PADDING_PERCNT*k.x;
+        float newX = Settings::getScreenCenter().x - newWidth/2;
+        
+        background->setPosition(newX, background->getPosition().y);
+        background->setSize(newWidth, background->getSize().y);
+        ((sf::RectangleShape*)background->getShape())->setSize(background->getSize());
+    }
+    if (itemsSize.y > DEFAULT_BOUNDS.height + DEFAULT_PADDING_PERCNT*k.y) {
+        // extend downwards
+        float newHeight = itemsSize.y + 2*DEFAULT_PADDING_PERCNT*k.y;
+        
+        background->setSize(background->getSize().x, newHeight);
+        ((sf::RectangleShape*)background->getShape())->setSize(background->getSize());
     }
 }

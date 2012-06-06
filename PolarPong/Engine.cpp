@@ -29,6 +29,7 @@ pp::Engine::Engine() : EventHandler(2, EventWrapper::WINDOW, EventWrapper::ENGIN
     bg.setPosition(0, 0);
     
     this->root = new BasicShapeView(new sf::RectangleShape(bg));
+    root->setSize(bg.getSize());
     
     setState(EngineStateEvent::SPLASH);
 }
@@ -97,7 +98,8 @@ bool pp::Engine::run() {
         
         // Displaying
         window->clear();
-        root->doDraw(window);
+        sf::RenderStates states = sf::RenderStates::Default;
+        root->doDraw(*window, states);
         window->display();
         
     }

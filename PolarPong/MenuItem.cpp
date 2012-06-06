@@ -32,6 +32,8 @@ pp::MenuItem::MenuItem(MenuController *controller, std::string id) : EventHandle
     highlightMutex.unlock();
     highlightable = true;
     
+    this->setSize(0, props.fontSize);
+    
 }
 
 pp::MenuItem::~MenuItem() {
@@ -41,6 +43,7 @@ pp::MenuItem::~MenuItem() {
 void pp::MenuItem::setText(std::string text) {
     this->textMutex.lock();
     this->text.setString(text);
+    this->setSize(this->text.getLocalBounds().width, this->text.getLocalBounds().height);
     this->textMutex.unlock();
 }
 
@@ -104,9 +107,7 @@ void pp::MenuItem::update() {
     textMutex.unlock();
 }
 
-void pp::MenuItem::draw(sf::RenderWindow *window) {
-    textMutex.lock();
-    window->draw(this->text);
-    textMutex.unlock();
+void pp::MenuItem::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+    target.draw(this->text);
 }
 

@@ -16,10 +16,11 @@ class Engine;
 
 namespace pp {
     
-    class View {
+    class View : public sf::Transformable, public sf::Drawable {
     private:
         int opacity;
         bool hidden;
+        sf::Vector2f size;
         
         typedef std::map<std::string, pp::View*> ViewMap;
         
@@ -30,9 +31,6 @@ namespace pp {
     protected:
         // for subclass instantiation
         View() : opacity(100), hidden(false) {}
-        
-        // draw this view
-        virtual void draw(sf::RenderWindow *window) =0;
         
         // update this view
         virtual void update() = 0;
@@ -54,6 +52,18 @@ namespace pp {
         
         void setVisible(bool visible) {visible ? this->hidden=false : this->hidden=true;}
         bool isVisible() {return !(this->hidden);}
+        
+        void setSize(float x, float y) {
+            setSize(sf::Vector2f(x,y));
+        }
+        void setSize(sf::Vector2f size) {
+            this->size = size;
+        }
+        sf::Vector2f getSize() {
+            return this->size;
+        }
+        
+        
         
         pp::View* getChild(std::string name) {
             View* view = NULL;
@@ -104,14 +114,16 @@ namespace pp {
         
         
         // draw this view and its children
-        void doDraw(sf::RenderWindow *window) {
+        void doDraw(sf::RenderTarget &target, sf::RenderStates states) {
             if (isVisible()) {
                 mutex.lock();
-                this->draw(window);
+                states.transform *= this->getTransform();
+                
+                target.draw(*this);
                 
                 ViewMap::iterator it;
                 for (it = children.begin(); it != children.end(); it++) {
-                    (*it).second->doDraw(window);
+                    (*it).second->doDraw(target, states);
                 }
                 
                 mutex.unlock();

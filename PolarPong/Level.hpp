@@ -72,7 +72,7 @@ namespace pp {
         
     protected:
         void update();
-        void draw(sf::RenderWindow *window);
+        void draw(sf::RenderTarget &target, sf::RenderStates states) const;
         
     };
 }

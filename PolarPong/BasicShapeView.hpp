@@ -22,8 +22,8 @@ namespace pp {
         // don't bother updating (can override in subclasses, eg if shape moves)
         virtual void update() {}
         
-        void draw(sf::RenderWindow *window) {
-            window->draw(*shape);
+        void draw(sf::RenderTarget& target, sf::RenderStates states) const {
+            target.draw(*shape, states);
         }
         
     public:
