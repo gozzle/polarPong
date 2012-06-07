@@ -10,7 +10,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <ctime>
-#include "BasicShapeView.hpp"
+#include "RectangleShapeView.hpp"
 #include "Splash.hpp"
 #include "Level.hpp"
 #include "Settings.hpp"
@@ -28,8 +28,7 @@ pp::Engine::Engine() : EventHandler(2, EventWrapper::WINDOW, EventWrapper::ENGIN
     bg.setFillColor(sf::Color(110,100,110));
     bg.setPosition(0, 0);
     
-    this->root = new BasicShapeView(new sf::RectangleShape(bg));
-    root->setSize(bg.getSize());
+    this->root = new RectangleShapeView(new sf::RectangleShape(bg));
     
     setState(EngineStateEvent::SPLASH);
 }

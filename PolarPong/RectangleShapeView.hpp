@@ -1,22 +1,22 @@
 //
-//  BasicShapeView.hpp
+//  RectangleShapeView.hpp
 //  PolarPong
 //
 //  Created by Callum Chalk on 31/05/2012.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#ifndef PolarPong_BasicShapeView_hpp
-#define PolarPong_BasicShapeView_hpp
+#ifndef PolarPong_RectangleShapeView_hpp
+#define PolarPong_RectangleShapeView_hpp
 
 #include "View.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace pp {
     
-    class BasicShapeView : public View {
+    class RectangleShapeView : public View {
     private:
-        sf::Shape* shape;
+        sf::RectangleShape* shape;
         
     protected:
         // don't bother updating (can override in subclasses, eg if shape moves)
@@ -28,12 +28,22 @@ namespace pp {
         
     public:
         // need to ensure that users dynamically assign shape, so that this object owns it
-        BasicShapeView(sf::Shape* shape) : View(){
+        RectangleShapeView(sf::RectangleShape* shape) : View(){
             this->shape = shape;
+            this->setSize(shape->getSize());
         }
-        ~BasicShapeView() {delete shape;}
+        ~RectangleShapeView() {delete shape;}
         
-        sf::Shape* getShape() {return this->shape;}
+        sf::RectangleShape* getShape() {return this->shape;}
+        
+        void setSize(float x, float y) {
+            setSize(sf::Vector2f(x,y));
+        }
+        
+        void setSize(const sf::Vector2f& size) {
+            View::setSize(size);
+            this->shape->setSize(size);
+        }
         
     };
 }

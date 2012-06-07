@@ -12,8 +12,6 @@
 #include "Engine.hpp"
 #include "EventDispatcher.hpp"
 
-#include "BasicShapeView.hpp"
-
 pp::Splash::Splash() : MenuView(), EventHandler(1, EventWrapper::WINDOW) {
     
     this->setSize((sf::Vector2f)Settings::getScreenResolution());

@@ -37,9 +37,8 @@ MenuView::MenuView() : View() {
     // add it to lists
     bgId = bgIdSeed++;
     mutex.lock();
-    background = new BasicShapeView(new sf::RectangleShape(bg));
+    background = new RectangleShapeView(new sf::RectangleShape(bg));
     background->setPosition(DEFAULT_BOUNDS.left, DEFAULT_BOUNDS.top);
-    background->setSize(bg.getSize());
     this->addChild(("menuBG" + bgId), background);
     mutex.unlock();
 }

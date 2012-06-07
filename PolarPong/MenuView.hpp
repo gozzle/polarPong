@@ -10,7 +10,7 @@
 #define PolarPong_MenuView_hpp
 
 #include "View.hpp"
-#include "BasicShapeView.hpp"
+#include "RectangleShapeView.hpp"
 
 namespace pp {
     
@@ -22,7 +22,7 @@ namespace pp {
         typedef std::map<std::string, View*> ItemMap;
         
         ItemMap items;
-        BasicShapeView* background;
+        RectangleShapeView* background;
         int bgId;
         
         static sf::FloatRect DEFAULT_BOUNDS;
