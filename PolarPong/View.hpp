@@ -24,19 +24,17 @@ namespace pp {
         
         typedef std::map<std::string, pp::View*> ViewMap;
         
-        sf::Mutex mutex;
-        
         View* parent;
         ViewMap children;
         
     protected:
         // for subclass instantiation
-        View(View* parent) : opacity(100), hidden(false) {
-            this->parent = parent;
-        }
+        View() : parent(NULL), opacity(100), hidden(false) {}
         
         // update this view
         virtual void update() = 0;
+        
+        sf::Mutex mutex;
         
     public:
         virtual ~View() {
@@ -82,6 +80,13 @@ namespace pp {
             return this->parent;
         }
         
+    private:
+        void setParent(View* parent) {
+            this->parent = parent;
+        }
+        
+    public:
+        
         pp::View* getChild(std::string name) {
             View* view = NULL;
             mutex.lock();
@@ -94,6 +99,7 @@ namespace pp {
         void addChild(std::string name, pp::View* view) {
             mutex.lock();
             this->children[name] = view;
+            children[name]->setParent(this);
             mutex.unlock();
         }
         void removeChild(std::string name) {

@@ -31,8 +31,6 @@ namespace pp {
             PAUSED
         } state;
         
-        sf::Mutex mutex;
-        
         // Controllers
         std::vector<GameController*> gameControllers;
         // AIs
@@ -62,7 +60,7 @@ namespace pp {
         
     public:
         
-        Level(View* parent);
+        Level();
         ~Level();
         
         // inherited methods

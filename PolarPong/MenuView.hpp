@@ -36,7 +36,7 @@ namespace pp {
         
     public:
         // create background
-        MenuView(View* parent);
+        MenuView();
         virtual ~MenuView();
         
         // add item to list, and to view list, if it doesn't already

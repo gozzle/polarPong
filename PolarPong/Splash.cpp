@@ -14,36 +14,38 @@
 
 #include "BasicShapeView.hpp"
 
-pp::Splash::Splash(View* parent) : MenuView(parent), EventHandler(1, EventWrapper::WINDOW) {
+pp::Splash::Splash() : MenuView(), EventHandler(1, EventWrapper::WINDOW) {
     
     this->setSize((sf::Vector2f)Settings::getScreenResolution());
     
     EventDispatcher::registerHandler(this);
     
     // add menu items
-    MenuItem* item = new MenuItem(this, this, "newGame");
+    mutex.lock();
+    MenuItem* item = new MenuItem(this, "newGame");
     item->setText("New Game");
     addMenuItem("newGame", item);
     
-    item = new MenuItem(this, this, "difficulty");
+    item = new MenuItem(this, "difficulty");
     item->setText(getDifficultyStr());
     addMenuItem("difficulty", item);
     
-    item = new MenuItem(this, this, "players");
+    item = new MenuItem(this, "players");
     item->setText(getPlayersStr());
     addMenuItem("players", item);
     
-    item = new MenuItem(this, this, "diffLabel");
+    item = new MenuItem(this, "diffLabel");
     item->setText("Difficulty:");
     addMenuItem("diffLabel", item);
     
-    item = new MenuItem(this, this, "playersLabel");
+    item = new MenuItem(this, "playersLabel");
     item->setText("No. Players:");
     addMenuItem("playersLabel", item);
     
     // highlightable
     ((MenuItem*)getMenuItem("diffLabel"))->setHighlightable(false);
     ((MenuItem*)getMenuItem("playersLabel"))->setHighlightable(false);
+    mutex.unlock();
     
 }
 

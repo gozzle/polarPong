@@ -20,8 +20,6 @@ namespace pp {
     class Splash : public MenuView, public MenuController, public EventHandler {
     private:
         
-        sf::Mutex mutex;
-        
 //        MenuItem *difficultyLabel;
 //        MenuItem *playersLabel;
         
@@ -42,7 +40,7 @@ namespace pp {
         
     public:
         
-        Splash(View* parent);
+        Splash();
         ~Splash();
         
         // inherited methods

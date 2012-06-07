@@ -14,7 +14,7 @@
 #include "HumanLocal.hpp"
 #include "AI.hpp"
 
-pp::Level::Level(View* parent) : View(parent), EventHandler(2, EventWrapper::WINDOW, EventWrapper::MOVEMENT) {
+pp::Level::Level() : View(), EventHandler(2, EventWrapper::WINDOW, EventWrapper::MOVEMENT) {
     
     EventDispatcher::registerHandler(this);
     this->setSize((sf::Vector2f)Settings::getScreenResolution());

@@ -31,7 +31,6 @@ namespace pp {
         MenuController *controller;
         std::string id;
         
-        sf::Mutex textMutex;
         sf::Text text;
         
         sf::Mutex highlightMutex;
@@ -39,7 +38,7 @@ namespace pp {
         bool highlighted;
         
     public:
-        MenuItem(View* parent, MenuController *controller, std::string id);
+        MenuItem(MenuController *controller, std::string id);
         ~MenuItem();
         
         void setText(std::string text);

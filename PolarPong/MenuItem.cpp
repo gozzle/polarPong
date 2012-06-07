@@ -12,7 +12,7 @@
 #include "Settings.hpp"
 #include "EventDispatcher.hpp"
 
-pp::MenuItem::MenuItem(View* parent, MenuController *controller, std::string id) : View(parent), EventHandler(1, EventWrapper::WINDOW)
+pp::MenuItem::MenuItem(MenuController *controller, std::string id) : View(), EventHandler(1, EventWrapper::WINDOW)
 {
     this->controller = controller;
     this->id = id;
@@ -22,10 +22,10 @@ pp::MenuItem::MenuItem(View* parent, MenuController *controller, std::string id)
     props.highlightColor = sf::Color::Red;
     props.fontSize = 30;
     
-    textMutex.lock();
+    mutex.lock();
     this->text.setFont(props.font);
     this->text.setCharacterSize(props.fontSize);
-    textMutex.unlock();
+    mutex.unlock();
     
     highlightMutex.lock();
     highlighted = false;
@@ -41,16 +41,16 @@ pp::MenuItem::~MenuItem() {
 }
 
 void pp::MenuItem::setText(std::string text) {
-    this->textMutex.lock();
+    this->mutex.lock();
     this->text.setString(text);
     this->setSize(this->text.getLocalBounds().width, this->text.getLocalBounds().height);
-    this->textMutex.unlock();
+    this->mutex.unlock();
 }
 
 std::string pp::MenuItem::getText() {
-    this->textMutex.lock();
+    this->mutex.lock();
     return this->text.getString();
-    this->textMutex.unlock();
+    this->mutex.unlock();
 }
 
 void pp::MenuItem::setPosition(float x, float y) {
@@ -69,9 +69,10 @@ bool pp::MenuItem::contains(float x, float y) const {
     bounds.top -= (bounds.height - old.height) / 2;
     
     // convert to true global coords
+    sf::Vector2f localPos = getPosition();
     sf::Vector2f globalPos = getGlobalPosition();
-    bounds.left += globalPos.x;
-    bounds.top += globalPos.y;
+    bounds.left += globalPos.x-localPos.x;
+    bounds.top += globalPos.y-localPos.y;
     
     return bounds.contains(x, y);
 }
@@ -106,11 +107,11 @@ void pp::MenuItem::handleWindowEvent(const sf::Event& event) {
 void pp::MenuItem::update() {
     // set colour of text according to highlighted status
     highlightMutex.lock();
-    textMutex.lock();
+    mutex.lock();
     sf::Color color = highlighted ? props.highlightColor : props.normalColor;
     this->text.setColor(color);
     highlightMutex.unlock();
-    textMutex.unlock();
+    mutex.unlock();
 }
 
 void pp::MenuItem::draw(sf::RenderTarget& target, sf::RenderStates states) const {
