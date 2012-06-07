@@ -9,12 +9,12 @@
 #ifndef PolarPong_MovementEventQueue_hpp
 #define PolarPong_MovementEventQueue_hpp
 
-#import <SFML/System.hpp>
-#import "EventWrapper.hpp"
-#import "EventHandler.hpp"
-#import <tr1/unordered_map>
-#import <tr1/unordered_set>
-#import <deque>
+#include <SFML/System.hpp>
+#include "EventWrapper.hpp"
+#include "EventHandler.hpp"
+#include <tr1/unordered_map>
+#include <tr1/unordered_set>
+#include <deque>
 
 class EventDispatcher {
 private:
