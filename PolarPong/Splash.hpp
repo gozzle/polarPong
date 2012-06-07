@@ -18,18 +18,7 @@
 namespace pp {
     
     class Splash : public MenuView, public MenuController, public EventHandler {
-    private:
-        
-//        MenuItem *difficultyLabel;
-//        MenuItem *playersLabel;
-        
-//        MenuItem *newGame;
-//        MenuItem *difficulty;
-//        MenuItem *players;
-//        MenuItem *newItem;
-        
-//        void setPositions();
-        
+    private:        
         std::string getDifficultyStr();
         std::string getPlayersStr();
         

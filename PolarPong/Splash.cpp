@@ -9,8 +9,9 @@
 #include "Splash.hpp"
 
 #include "Settings.hpp"
-#include "Engine.hpp"
 #include "EventDispatcher.hpp"
+
+#include "TextView.hpp"
 
 pp::Splash::Splash() : MenuView(), EventHandler(1, EventWrapper::WINDOW) {
     

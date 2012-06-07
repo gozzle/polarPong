@@ -59,6 +59,7 @@
 		F24B5FAB156AEB67002D97A3 /* HumanLocal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HumanLocal.hpp; sourceTree = "<group>"; };
 		F24B5FAC156AED9E002D97A3 /* HumanLocal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HumanLocal.cpp; sourceTree = "<group>"; };
 		F2583623157FE95000A0D6C9 /* MenuView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuView.cpp; sourceTree = "<group>"; };
+		F25E8A96158138DC00587BCB /* TextView.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextView.hpp; sourceTree = "<group>"; };
 		F2691BD11577F19700331F44 /* EngineStateEvent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EngineStateEvent.hpp; sourceTree = "<group>"; };
 		F2691BD31577F38700331F44 /* Event.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Event.hpp; sourceTree = "<group>"; };
 		F2732635156B0D0C00C8679A /* EventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandler.cpp; sourceTree = "<group>"; };
@@ -71,7 +72,7 @@
 		F2771160155F267300DEBAC1 /* Paddle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Paddle.cpp; sourceTree = "<group>"; };
 		F2771162155F423400DEBAC1 /* ArcShape.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ArcShape.hpp; sourceTree = "<group>"; };
 		F2771163155F433500DEBAC1 /* ArcShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArcShape.cpp; sourceTree = "<group>"; };
-		F2791BAB15780BDF00FFFC19 /* RectangleShapeView.hpp */ = {isa = PBXFileReference; fileEncoding = 4; path = RectangleShapeView.hpp; sourceTree = "<group>"; };
+		F2791BAB15780BDF00FFFC19 /* RectangleShapeView.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RectangleShapeView.hpp; sourceTree = "<group>"; };
 		F283254A1579301400280AC8 /* MenuView.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MenuView.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -214,6 +215,7 @@
 				F236B5781555A625002BCA31 /* MenuItem.cpp */,
 				F236B53E15558BE4002BCA31 /* Level.hpp */,
 				F236B57215559D6A002BCA31 /* Level.cpp */,
+				F25E8A96158138DC00587BCB /* TextView.hpp */,
 			);
 			name = Views;
 			sourceTree = "<group>";
