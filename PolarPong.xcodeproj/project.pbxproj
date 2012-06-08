@@ -19,6 +19,7 @@
 		F236B5791555A625002BCA31 /* MenuItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F236B5781555A625002BCA31 /* MenuItem.cpp */; };
 		F24B5FAD156AED9E002D97A3 /* HumanLocal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F24B5FAC156AED9E002D97A3 /* HumanLocal.cpp */; };
 		F2583624157FE95000A0D6C9 /* MenuView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2583623157FE95000A0D6C9 /* MenuView.cpp */; };
+		F25E8A9915817BFF00587BCB /* TextView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F25E8A9815817BFF00587BCB /* TextView.cpp */; };
 		F2732636156B0D0C00C8679A /* EventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2732635156B0D0C00C8679A /* EventHandler.cpp */; };
 		F2732648156BF96100C8679A /* AI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2732647156BF96100C8679A /* AI.cpp */; };
 		F2771154155EA2CB00DEBAC1 /* DashedLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F2771153155EA2CB00DEBAC1 /* DashedLine.cpp */; };
@@ -60,6 +61,8 @@
 		F24B5FAC156AED9E002D97A3 /* HumanLocal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HumanLocal.cpp; sourceTree = "<group>"; };
 		F2583623157FE95000A0D6C9 /* MenuView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuView.cpp; sourceTree = "<group>"; };
 		F25E8A96158138DC00587BCB /* TextView.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextView.hpp; sourceTree = "<group>"; };
+		F25E8A971581695500587BCB /* TextButton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextButton.hpp; sourceTree = "<group>"; };
+		F25E8A9815817BFF00587BCB /* TextView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextView.cpp; sourceTree = "<group>"; };
 		F2691BD11577F19700331F44 /* EngineStateEvent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EngineStateEvent.hpp; sourceTree = "<group>"; };
 		F2691BD31577F38700331F44 /* Event.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Event.hpp; sourceTree = "<group>"; };
 		F2732635156B0D0C00C8679A /* EventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandler.cpp; sourceTree = "<group>"; };
@@ -207,6 +210,9 @@
 			children = (
 				F236B53D15558BB7002BCA31 /* View.hpp */,
 				F2791BAB15780BDF00FFFC19 /* RectangleShapeView.hpp */,
+				F25E8A96158138DC00587BCB /* TextView.hpp */,
+				F25E8A9815817BFF00587BCB /* TextView.cpp */,
+				F25E8A971581695500587BCB /* TextButton.hpp */,
 				F283254A1579301400280AC8 /* MenuView.hpp */,
 				F2583623157FE95000A0D6C9 /* MenuView.cpp */,
 				F236B53F15558BF4002BCA31 /* Splash.hpp */,
@@ -215,7 +221,6 @@
 				F236B5781555A625002BCA31 /* MenuItem.cpp */,
 				F236B53E15558BE4002BCA31 /* Level.hpp */,
 				F236B57215559D6A002BCA31 /* Level.cpp */,
-				F25E8A96158138DC00587BCB /* TextView.hpp */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -314,6 +319,7 @@
 				F2732636156B0D0C00C8679A /* EventHandler.cpp in Sources */,
 				F2732648156BF96100C8679A /* AI.cpp in Sources */,
 				F2583624157FE95000A0D6C9 /* MenuView.cpp in Sources */,
+				F25E8A9915817BFF00587BCB /* TextView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

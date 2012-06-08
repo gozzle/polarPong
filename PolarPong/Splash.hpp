@@ -36,6 +36,7 @@ namespace pp {
         
         void handleWindowEvent(const sf::Event& event);
         
+        void doNewGame();
         void doSelectedItem(std::string id);
         
     };

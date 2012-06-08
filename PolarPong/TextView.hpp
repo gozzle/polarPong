@@ -20,10 +20,15 @@ namespace pp {
         
     public:
         TextView() {
-            
+            this->text.setColor(DEFAULT_COLOR);
+            this->text.setFont(DEFAULT_FONT);
+            this->text.setCharacterSize(DEFAULT_CHARACTER_SIZE);
         }
         TextView(const std::string &text) {
             this->setText(text);
+            this->text.setColor(DEFAULT_COLOR);
+            this->text.setFont(DEFAULT_FONT);
+            this->text.setCharacterSize(DEFAULT_CHARACTER_SIZE);
         }
         ~TextView() {
             
@@ -66,6 +71,15 @@ namespace pp {
         void update() {
             // do nothing
         }
+        
+        void draw(sf::RenderTarget& target, sf::RenderStates states) const {
+            target.draw(text, states);
+        }
+        
+    public:
+        static const sf::Color DEFAULT_COLOR;
+        static const sf::Font DEFAULT_FONT;
+        static const int DEFAULT_CHARACTER_SIZE;
     };
 }
 

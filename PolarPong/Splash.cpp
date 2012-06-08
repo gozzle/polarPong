@@ -12,6 +12,7 @@
 #include "EventDispatcher.hpp"
 
 #include "TextView.hpp"
+#include "TextButton.hpp"
 
 pp::Splash::Splash() : MenuView(), EventHandler(1, EventWrapper::WINDOW) {
     
@@ -21,11 +22,13 @@ pp::Splash::Splash() : MenuView(), EventHandler(1, EventWrapper::WINDOW) {
     
     // add menu items
     mutex.lock();
-    MenuItem* item = new MenuItem(this, "newGame");
-    item->setText("New Game");
-    addMenuItem("newGame", item);
+    TextButton<Splash>* button = new TextButton<Splash>("New Game", &Splash::doNewGame, this);
+    addMenuItem("newGame", button);
+//    MenuItem* item = new MenuItem(this, "newGame");
+//    item->setText("New Game");
+//    addMenuItem("newGame", item);
     
-    item = new MenuItem(this, "difficulty");
+    MenuItem* item = new MenuItem(this, "difficulty");
     item->setText(getDifficultyStr());
     addMenuItem("difficulty", item);
     
@@ -86,23 +89,24 @@ void pp::Splash::handleWindowEvent(const sf::Event& event) {
         sf::Vector2i mousePos = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
         
         mutex.lock();
-        if (((MenuItem*)getMenuItem("newGame"))->contains(mousePos.x, mousePos.y)) {
-            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(true);
-            
-            ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(false);
-            ((MenuItem*)getMenuItem("players"))->setHighlighted(false);
-        } else if (((MenuItem*)getMenuItem("difficulty"))->contains(mousePos.x, mousePos.y)) {
+//        if (((MenuItem*)getMenuItem("newGame"))->contains(mousePos.x, mousePos.y)) {
+//            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(true);
+//            
+//            ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(false);
+//            ((MenuItem*)getMenuItem("players"))->setHighlighted(false);
+//        } else 
+            if (((MenuItem*)getMenuItem("difficulty"))->contains(mousePos.x, mousePos.y)) {
             ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(true);
             
-            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
+//            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
             ((MenuItem*)getMenuItem("players"))->setHighlighted(false);
         } else if (((MenuItem*)getMenuItem("players"))->contains(mousePos.x, mousePos.y)) {
             ((MenuItem*)getMenuItem("players"))->setHighlighted(true);
             
-            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
+//            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
             ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(false);
         } else {
-            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
+//            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
             ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(false);
             ((MenuItem*)getMenuItem("players"))->setHighlighted(false);
         }
@@ -122,6 +126,11 @@ void pp::Splash::update() {
 
 void pp::Splash::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     // don't need to do anything
+}
+
+void pp::Splash::doNewGame() {
+    EngineStateEvent stateChangeEvt(EngineStateEvent::GAME);
+    EventDispatcher::fireEvent(EventWrapper(&stateChangeEvt, EventWrapper::ENGINE_STATE));
 }
 
 void pp::Splash::doSelectedItem(std::string id) {
