@@ -39,7 +39,10 @@ namespace pp {
         void doNewGame();
         void doChangePlayers();
         void doChangeDifficulty();
+        void doQuit();
         
+        int i;
+        void doAddButton();
         void doRemoveMe();
         
         void doSelectedItem(std::string id);

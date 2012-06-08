@@ -12,7 +12,7 @@
 using namespace pp;
 
 sf::FloatRect MenuView::DEFAULT_BOUNDS(0,0,0,0);
-int MenuView::DEFAULT_SPACING = 5;
+int MenuView::DEFAULT_SPACING = 15;
 int MenuView::DEFAULT_PADDING_PERCNT = 2;
 sf::Vector2f MenuView::k(0,0);
 int MenuView::bgIdSeed = 0;
@@ -56,11 +56,10 @@ void MenuView::addMenuItem(std::string name, const View *item) {
     }
     // add its reference to the list of items
     View* newItem = background->getChild(name);
-    items[name] = newItem;
-    mutex.unlock();
     
-    // set the new item's position
-    setPosition(newItem);
+    list.push_back(newItem);
+    map[name] = newItem;
+    mutex.unlock();
     
     // readjust background size
     readjust();
@@ -69,8 +68,9 @@ void MenuView::addMenuItem(std::string name, const View *item) {
 void MenuView::removeMenuItem(std::string name) {
     // remove reference to menu item and deletes it from view list, if it exists
     mutex.lock();
-    if (items.count(name) > 0) {
-        items.erase(name);
+    if (map.count(name) > 0) {
+        list.remove(map[name]);
+        map.erase(name);
     }
     background->removeChild(name);
     mutex.unlock();
@@ -81,37 +81,41 @@ void MenuView::removeMenuItem(std::string name) {
 
 View* MenuView::getMenuItem(std::string name) {
     // return pointer to given menu item, or NULL if none.
-    if (items.count(name) > 0) {
-        return items[name];
+    if (map.count(name) > 0) {
+        return map[name];
     } else {
         return NULL;
     }
 }
 
-void MenuView::setPosition(View* item) {
-    // position the (new) menu item
+void MenuView::resetPositions() {
     mutex.lock();
-    int numItems = items.size() - 1;
+    ItemList::iterator it;
+    int i;
     
     float itemsHeight = 0.0;
-    ItemMap::iterator it;
-    for (it = items.begin(); it != items.end(); it++) {
-        itemsHeight += (*it).second->getSize().y;
+    for (it = list.begin(), i = 0; it != list.end(); it++, i++) {
+        (*it)->setPosition(DEFAULT_PADDING_PERCNT*k.x,
+                                  DEFAULT_PADDING_PERCNT*k.y + itemsHeight +
+                                  (DEFAULT_SPACING)*i);
+        itemsHeight += (*it)->getSize().y;
     }
-    itemsHeight -= item->getSize().y;
     
-    item->setPosition(DEFAULT_PADDING_PERCNT*k.x,
-                      DEFAULT_PADDING_PERCNT*k.y + itemsHeight + (DEFAULT_SPACING)*numItems);
     mutex.unlock();
 }
 
 void MenuView::readjust() {
+    // reposition items
+    resetPositions();
+    
     // resize background to fit new amount of items
+    
+    // get items' size
     sf::Vector2f itemsSize(0,0);
-    ItemMap::iterator it;
+    ItemList::iterator it;
     mutex.lock();
-    for (it = items.begin(); it != items.end(); it++) {
-        sf::Vector2f size = (*it).second->getSize();
+    for (it = list.begin(); it != list.end(); it++) {
+        sf::Vector2f size = (*it)->getSize();
         itemsSize.y += size.y + DEFAULT_SPACING;
         if (itemsSize.x < size.x) {
             itemsSize.x = size.x;
@@ -119,6 +123,7 @@ void MenuView::readjust() {
     }
     mutex.unlock();
     
+    // resize width
     if (itemsSize.x > DEFAULT_BOUNDS.width + DEFAULT_PADDING_PERCNT*k.x) {
         // re-center
         float newWidth = itemsSize.x + 2*DEFAULT_PADDING_PERCNT*k.x;
@@ -130,7 +135,8 @@ void MenuView::readjust() {
         ((sf::RectangleShape*)background->getShape())->setSize(background->getSize());
         mutex.unlock();
     }
-    if (itemsSize.y > DEFAULT_BOUNDS.height + DEFAULT_PADDING_PERCNT*k.y) {
+    // resize height
+    if (itemsSize.y > DEFAULT_BOUNDS.height - 2*DEFAULT_PADDING_PERCNT*k.y) {
         // extend downwards
         float newHeight = itemsSize.y + 2*DEFAULT_PADDING_PERCNT*k.y;
         
@@ -139,4 +145,13 @@ void MenuView::readjust() {
         ((sf::RectangleShape*)background->getShape())->setSize(background->getSize());
         mutex.unlock();
     }
+}
+
+sf::Vector2f MenuView::getMenuArea() {
+    sf::Vector2f bgBounds = background->getSize();
+    
+    float x = bgBounds.x - 2*DEFAULT_PADDING_PERCNT*k.x;
+    float y = bgBounds.y - 2*DEFAULT_PADDING_PERCNT*k.y;
+    
+    return sf::Vector2f(x,y);
 }

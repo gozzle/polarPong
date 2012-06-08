@@ -11,6 +11,7 @@
 
 #include "View.hpp"
 #include "RectangleShapeView.hpp"
+#include <list>
 
 namespace pp {
     
@@ -19,9 +20,11 @@ namespace pp {
     private:
         // map containing pointers to views, to be able to
         // handle them as a group, and position them automatically
+        typedef std::list<View*> ItemList;
         typedef std::map<std::string, View*> ItemMap;
         
-        ItemMap items;
+        ItemList list;
+        ItemMap map;
         RectangleShapeView* background;
         int bgId;
         
@@ -32,7 +35,7 @@ namespace pp {
         static int bgIdSeed;
         
         void readjust();
-        void setPosition(View* item);
+        void resetPositions();
         
     public:
         // create background
@@ -46,6 +49,8 @@ namespace pp {
         
         void removeMenuItem(std::string name);
         View* getMenuItem(std::string name);
+        
+        sf::Vector2f getMenuArea();
     };
     
 }

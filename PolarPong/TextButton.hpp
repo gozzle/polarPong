@@ -33,7 +33,7 @@ namespace pp {
             sf::FloatRect old = bounds;
             // make minimum buffer to bounds
             bounds.width += Settings::getScreenResolution().x / 20;
-            bounds.height += Settings::getScreenResolution().y / 50;
+            bounds.height += Settings::getScreenResolution().y * 0.01;
             // center new box
             bounds.left -= (bounds.width - old.width) / 2;
             bounds.top -= (bounds.height - old.height) / 2;
