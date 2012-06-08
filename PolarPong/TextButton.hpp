@@ -79,17 +79,19 @@ namespace pp {
         }
         
         void handleWindowEvent(const sf::Event& event) {
-            if (this->contains((sf::Vector2f)sf::Mouse::getPosition())) {
-                // do highlighting or action according to event
-                if (event.type == sf::Event::MouseMoved) {
+            if (highlighted && event.type == sf::Event::MouseButtonReleased) {
+                // action fired
+                doAction();
+            }
+            if (event.type == sf::Event::MouseMoved) {
+                sf::Vector2i mousePos = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
+                if (this->contains((sf::Vector2f)mousePos)) {
+                    // highlight
                     highlighted = true;
-                } else if (event.type == sf::Event::MouseButtonReleased) {
-                    doAction();
+                } else {
+                    // unhighlight
+                    highlighted = false;
                 }
-                
-            } else {
-                // unhighlight, since mouse is out of button whatever the event was
-                highlighted = false;
             }
         }
         
@@ -101,8 +103,6 @@ namespace pp {
                 this->getText().setColor(TextView::DEFAULT_COLOR);
             }
         }
-        
-        // don't need to override 'draw'
     };
 }
 

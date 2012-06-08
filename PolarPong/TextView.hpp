@@ -38,7 +38,7 @@ namespace pp {
             return this->text.getString();
         }
         
-        sf::Text getText() {
+        sf::Text& getText() {
             return this->text;
         }
         
@@ -68,7 +68,7 @@ namespace pp {
         }
         
     protected:
-        void update() {
+         virtual void update() {
             // do nothing
         }
         

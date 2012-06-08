@@ -37,6 +37,11 @@ namespace pp {
         void handleWindowEvent(const sf::Event& event);
         
         void doNewGame();
+        void doChangePlayers();
+        void doChangeDifficulty();
+        
+        void doRemoveMe();
+        
         void doSelectedItem(std::string id);
         
     };

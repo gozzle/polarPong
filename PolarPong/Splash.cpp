@@ -24,29 +24,59 @@ pp::Splash::Splash() : MenuView(), EventHandler(1, EventWrapper::WINDOW) {
     mutex.lock();
     TextButton<Splash>* button = new TextButton<Splash>("New Game", &Splash::doNewGame, this);
     addMenuItem("newGame", button);
+    
+    TextView* view = new TextView("Label!");
+    addMenuItem("label", view);
+    view = new TextView("Label2!");
+    addMenuItem("label2", view);
+    view = new TextView("Label3!");
+    addMenuItem("label3", view);
+    view = new TextView("Label4!");
+    addMenuItem("label4", view);
+    view = new TextView("Label5!");
+    addMenuItem("label5", view);
+    view = new TextView("Label6!");
+    addMenuItem("label6", view);
+    view = new TextView("Label7!");
+    addMenuItem("label7", view);
 //    MenuItem* item = new MenuItem(this, "newGame");
 //    item->setText("New Game");
 //    addMenuItem("newGame", item);
+
+    button = new TextButton<Splash>(getDifficultyStr(), &Splash::doChangeDifficulty, this);
+    addMenuItem("difficulty", button);
     
-    MenuItem* item = new MenuItem(this, "difficulty");
-    item->setText(getDifficultyStr());
-    addMenuItem("difficulty", item);
+//    MenuItem* item = new MenuItem(this, "difficulty")
+//    item->setText(getDifficultyStr());
+//    addMenuItem("difficulty", item);
+
+    button = new TextButton<Splash>(getPlayersStr(), &Splash::doChangePlayers, this);
+    addMenuItem("players", button);
     
-    item = new MenuItem(this, "players");
-    item->setText(getPlayersStr());
-    addMenuItem("players", item);
+//    item = new MenuItem(this, "players");
+//    item->setText(getPlayersStr());
+//    addMenuItem("players", item);
     
-    item = new MenuItem(this, "diffLabel");
-    item->setText("Difficulty:");
-    addMenuItem("diffLabel", item);
+    button = new TextButton<Splash>("Remove Me!", &Splash::doRemoveMe, this);
+    addMenuItem("remove", button);
     
-    item = new MenuItem(this, "playersLabel");
-    item->setText("No. Players:");
-    addMenuItem("playersLabel", item);
+    view = new TextView("Difficulty:");
+    addMenuItem("diffLabel", view);
     
-    // highlightable
-    ((MenuItem*)getMenuItem("diffLabel"))->setHighlightable(false);
-    ((MenuItem*)getMenuItem("playersLabel"))->setHighlightable(false);
+//    MenuItem* item = new MenuItem(this, "diffLabel");
+//    item->setText("Difficulty:");
+//    addMenuItem("diffLabel", item);
+
+    view = new TextView("No. Players:");
+    addMenuItem("playersLabel", view);
+    
+    MenuItem* item = new MenuItem(this, "playersLabel2");
+    item->setText("");
+    addMenuItem("playersLabel2", item);
+//    
+//    // highlightable
+//    ((MenuItem*)getMenuItem("diffLabel"))->setHighlightable(false);
+    ((MenuItem*)getMenuItem("playersLabel2"))->setHighlightable(false);
     mutex.unlock();
     
 }
@@ -85,33 +115,34 @@ pp::Splash::~Splash() {
 void pp::Splash::handleWindowEvent(const sf::Event& event) {
     
     // mouseMoved for highlighting
-    if (event.type == sf::Event::MouseMoved) {
-        sf::Vector2i mousePos = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
-        
-        mutex.lock();
-//        if (((MenuItem*)getMenuItem("newGame"))->contains(mousePos.x, mousePos.y)) {
-//            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(true);
+//    if (event.type == sf::Event::MouseMoved) {
+//        sf::Vector2i mousePos = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
+//        
+//        mutex.lock();
+//        //        if (((MenuItem*)getMenuItem("newGame"))->contains(mousePos.x, mousePos.y)) {
+//        //            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(true);
+//        //            
+//        //            ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(false);
+//        //            ((MenuItem*)getMenuItem("players"))->setHighlighted(false);
+//        //        } else 
+//        if (((MenuItem*)getMenuItem("difficulty"))->contains(mousePos.x, mousePos.y)) {
+//            ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(true);
 //            
+//            //            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
+//            ((MenuItem*)getMenuItem("players"))->setHighlighted(false);
+//        } else if (((MenuItem*)getMenuItem("players"))->contains(mousePos.x, mousePos.y)) {
+//            ((MenuItem*)getMenuItem("players"))->setHighlighted(true);
+//            
+//            //            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
+//            ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(false);
+//        } else {
+//            //            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
 //            ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(false);
 //            ((MenuItem*)getMenuItem("players"))->setHighlighted(false);
-//        } else 
-            if (((MenuItem*)getMenuItem("difficulty"))->contains(mousePos.x, mousePos.y)) {
-            ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(true);
-            
-//            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
-            ((MenuItem*)getMenuItem("players"))->setHighlighted(false);
-        } else if (((MenuItem*)getMenuItem("players"))->contains(mousePos.x, mousePos.y)) {
-            ((MenuItem*)getMenuItem("players"))->setHighlighted(true);
-            
-//            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
-            ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(false);
-        } else {
-//            ((MenuItem*)getMenuItem("newGame"))->setHighlighted(false);
-            ((MenuItem*)getMenuItem("difficulty"))->setHighlighted(false);
-            ((MenuItem*)getMenuItem("players"))->setHighlighted(false);
-        }
-        mutex.unlock();
-    } else if (event.type == sf::Event::KeyReleased &&
+//        }
+//        mutex.unlock();
+//    } else 
+    if (event.type == sf::Event::KeyReleased &&
                event.key.code == sf::Keyboard::Escape) {
         sf::Event quitEvent;
         quitEvent.type = sf::Event::Closed;
@@ -133,29 +164,43 @@ void pp::Splash::doNewGame() {
     EventDispatcher::fireEvent(EventWrapper(&stateChangeEvt, EventWrapper::ENGINE_STATE));
 }
 
+void pp::Splash::doChangePlayers() {
+    Settings::changePlayers();
+    ((TextView*)getMenuItem("players"))->setText(getPlayersStr());
+}
+
+void pp::Splash::doChangeDifficulty() {
+    Settings::changeDifficulty();
+    ((TextView*)getMenuItem("difficulty"))->setText(getDifficultyStr());
+}
+
+void pp::Splash::doRemoveMe() {
+    removeMenuItem("remove");
+}
+
 void pp::Splash::doSelectedItem(std::string id) {
-    if (id == "newGame") {
-        // do new game
-        EngineStateEvent stateChangeEvt(EngineStateEvent::GAME);
-        EventDispatcher::fireEvent(EventWrapper(&stateChangeEvt, EventWrapper::ENGINE_STATE));
-    } else if (id == "difficulty") {
-        // change difficulty
-        Settings::changeDifficulty();
-        mutex.lock();
-        ((MenuItem*)getMenuItem("difficulty"))->setText(getDifficultyStr());
-        mutex.unlock();
-    } else if (id == "players") {
-        // change number of players
-        Settings::changePlayers();
-        mutex.lock();
-        ((MenuItem*)getMenuItem("players"))->setText(getPlayersStr());
-        mutex.unlock();
-    } else if (id == "quit") {
-        // not button does this yet...
-        sf::Event quitEvent;
-        quitEvent.type = sf::Event::Closed;
-        EventDispatcher::fireEvent(EventWrapper(&quitEvent, EventWrapper::WINDOW));
-    }
+//    if (id == "newGame") {
+//        // do new game
+//        EngineStateEvent stateChangeEvt(EngineStateEvent::GAME);
+//        EventDispatcher::fireEvent(EventWrapper(&stateChangeEvt, EventWrapper::ENGINE_STATE));
+//    } else if (id == "difficulty") {
+//        // change difficulty
+//        Settings::changeDifficulty();
+//        mutex.lock();
+//        ((MenuItem*)getMenuItem("difficulty"))->setText(getDifficultyStr());
+//        mutex.unlock();
+//    } else if (id == "players") {
+//        // change number of players
+//        Settings::changePlayers();
+//        mutex.lock();
+//        ((MenuItem*)getMenuItem("players"))->setText(getPlayersStr());
+//        mutex.unlock();
+//    } else if (id == "quit") {
+//        // not button does this yet...
+//        sf::Event quitEvent;
+//        quitEvent.type = sf::Event::Closed;
+//        EventDispatcher::fireEvent(EventWrapper(&quitEvent, EventWrapper::WINDOW));
+//    }
 }
 
 std::string pp::Splash::getDifficultyStr() {
