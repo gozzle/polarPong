@@ -95,11 +95,11 @@ namespace pp {
         
         void update() {
             // make highlighted or not
-//            if (highlighted) {
-//                this->getText().setColor(DEFAULT_HIGHLIGHT_COLOR);
-//            } else {
-//                this->getText().setColor(TextView::DEFAULT_COLOR);
-//            }
+            if (highlighted) {
+                this->getText().setColor(DEFAULT_HIGHLIGHT_COLOR);
+            } else {
+                this->getText().setColor(TextView::DEFAULT_COLOR);
+            }
         }
         
         // don't need to override 'draw'
